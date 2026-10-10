@@ -70,7 +70,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
+    <div className="min-h-screen bg-gradient-to-b from-[#2e2608] via-[#1f1905] to-[#141003] text-slate-100 flex flex-col font-sans selection:bg-amber-400 selection:text-slate-950">
       {/* Top Navbar */}
       <Navbar
         activeTab={activeTab}
@@ -143,7 +143,7 @@ export function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-900 bg-slate-950/80 py-8 px-4 text-center text-xs text-slate-500">
+      <footer className="border-t border-amber-950/80 bg-[#141003]/95 py-8 px-4 text-center text-xs text-slate-400">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <span className="font-bold text-slate-300">ParlezApp for french learning</span>
