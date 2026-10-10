@@ -269,7 +269,7 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
 
           {/* Live speech transcription display */}
           {(liveTranscript || micState === 'listening') && (
-            <div className="w-full max-w-lg p-3 rounded-2xl bg-slate-950/80 border border-slate-800 text-center text-sm font-medium text-slate-200">
+            <div className="w-full max-w-lg p-3 rounded-2xl bg-blue-950/80 border border-slate-800 text-center text-sm font-medium text-slate-200">
               <span className="text-[10px] uppercase font-bold text-slate-500 block mb-1">
                 Transcription vocale en direct
               </span>
@@ -314,7 +314,7 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
           </div>
 
           {isSimulateMode && (
-            <div className="mt-3 p-4 rounded-2xl bg-slate-950/60 border border-slate-800 space-y-3">
+            <div className="mt-3 p-4 rounded-2xl bg-blue-950/60 border border-slate-800 space-y-3">
               <div className="text-xs text-slate-300">
                 Tapez ce que vous souhaitez simuler comme prononciation (ex: testez des fautes d'accents ou des oublis de mots pour observer le diagnostic) :
               </div>
@@ -394,7 +394,7 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
               </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 flex flex-wrap gap-2 items-center">
+            <div className="p-4 rounded-2xl bg-blue-950/80 border border-slate-800 flex flex-wrap gap-2 items-center">
               {comparisonResult.wordAnalysis.map((item, idx) => {
                 let badgeClass = '';
                 if (item.status === 'correct') {

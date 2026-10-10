@@ -195,7 +195,7 @@ export const MistakeVaultView: React.FC<MistakeVaultViewProps> = ({
             </button>
           </div>
 
-          <div className="p-6 rounded-2xl bg-slate-950/70 border border-slate-800 space-y-4 text-center">
+          <div className="p-6 rounded-2xl bg-blue-950/70 border border-slate-800 space-y-4 text-center">
             <div className="flex items-center justify-center gap-2">
               <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-slate-800 text-slate-300">
                 {currentCleansingItem.type === 'vocab' ? 'Vocabulaire' : currentCleansingItem.type === 'pronunciation' ? 'Prononciation' : 'Grammaire'}
@@ -246,7 +246,7 @@ export const MistakeVaultView: React.FC<MistakeVaultViewProps> = ({
                 }
               }}
               placeholder="Saisissez la réponse correcte..."
-              className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-2xl text-white text-base focus:outline-none focus:border-indigo-500"
+              className="w-full px-4 py-3 bg-blue-950 border border-slate-800 rounded-2xl text-white text-base focus:outline-none focus:border-indigo-500"
               autoFocus
             />
 
@@ -321,7 +321,7 @@ export const MistakeVaultView: React.FC<MistakeVaultViewProps> = ({
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
                   filterType === cat
                     ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 shadow-sm'
-                    : 'text-slate-400 hover:text-white bg-slate-950/60 border border-slate-800'
+                    : 'text-slate-400 hover:text-white bg-blue-950/60 border border-slate-800'
                 }`}
               >
                 {cat === 'ALL' ? 'Toutes' : cat === 'vocab' ? 'Vocabulaire' : cat === 'pronunciation' ? 'Prononciation' : 'Grammaire'}
@@ -387,7 +387,7 @@ export const MistakeVaultView: React.FC<MistakeVaultViewProps> = ({
                   className={`p-4 rounded-2xl border transition-all space-y-3 flex flex-col justify-between ${
                     isMastered
                       ? 'bg-emerald-950/10 border-emerald-500/20 opacity-70'
-                      : 'bg-slate-950/70 border-slate-800 hover:border-slate-700'
+                      : 'bg-blue-950/70 border-slate-800 hover:border-slate-700'
                   }`}
                 >
                   <div>

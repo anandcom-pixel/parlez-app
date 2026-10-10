@@ -207,7 +207,7 @@ export const SpeedDrillView: React.FC<SpeedDrillViewProps> = ({
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
-            <div className="p-3 rounded-2xl bg-slate-950/80 border border-slate-800 text-right">
+            <div className="p-3 rounded-2xl bg-blue-950/80 border border-slate-800 text-right">
               <div className="text-[10px] uppercase font-bold text-slate-400 flex items-center justify-end gap-1">
                 <Trophy className="w-3.5 h-3.5 text-amber-400" />
                 Record
@@ -223,7 +223,7 @@ export const SpeedDrillView: React.FC<SpeedDrillViewProps> = ({
         <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl space-y-6 text-center">
           <div className="max-w-md mx-auto space-y-3">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-500 to-rose-600 p-0.5 shadow-xl shadow-amber-500/20">
-              <div className="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">
+              <div className="w-full h-full bg-blue-950 rounded-[14px] flex items-center justify-center">
                 <Timer className="w-8 h-8 text-amber-400 animate-pulse" />
               </div>
             </div>
@@ -248,7 +248,7 @@ export const SpeedDrillView: React.FC<SpeedDrillViewProps> = ({
                 className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all border ${
                   levelFilter === lvl
                     ? 'bg-amber-500/20 text-amber-300 border-amber-500/60 shadow-md ring-1 ring-amber-500/40'
-                    : 'bg-slate-950/60 text-slate-400 border-slate-800 hover:text-white'
+                    : 'bg-blue-950/60 text-slate-400 border-slate-800 hover:text-white'
                 }`}
               >
                 {lvl === 'ALL' ? 'Tous Niveaux' : lvl}
@@ -279,7 +279,7 @@ export const SpeedDrillView: React.FC<SpeedDrillViewProps> = ({
               <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-mono text-sm font-black border ${
                 timeLeft <= 5
                   ? 'bg-rose-950/60 text-rose-300 border-rose-500 animate-pulse'
-                  : 'bg-slate-950 text-amber-400 border-slate-800'
+                  : 'bg-blue-950 text-amber-400 border-slate-800'
               }`}>
                 <Timer className="w-4 h-4" />
                 <span>{timeLeft}s</span>
@@ -304,7 +304,7 @@ export const SpeedDrillView: React.FC<SpeedDrillViewProps> = ({
           </div>
 
           {/* Time Progress Bar */}
-          <div className="w-full h-2 rounded-full bg-slate-950 overflow-hidden">
+          <div className="w-full h-2 rounded-full bg-blue-950 overflow-hidden">
             <div
               className={`h-full transition-all duration-1000 ${
                 timeLeft <= 5 ? 'bg-rose-500' : 'bg-gradient-to-r from-amber-500 to-rose-500'
@@ -314,7 +314,7 @@ export const SpeedDrillView: React.FC<SpeedDrillViewProps> = ({
           </div>
 
           {/* Flashcard Word Showcase */}
-          <div className="p-8 rounded-3xl bg-slate-950/80 border border-slate-800 text-center space-y-3">
+          <div className="p-8 rounded-3xl bg-blue-950/80 border border-slate-800 text-center space-y-3">
             <div className="flex items-center justify-center gap-2 text-xs text-indigo-400 font-bold">
               <span>Niveau {currentQuestion.vocab.level}</span>
               <span>•</span>
@@ -346,7 +346,7 @@ export const SpeedDrillView: React.FC<SpeedDrillViewProps> = ({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {currentQuestion.options.map((option, idx) => {
               const isSelected = selectedAnswer === option;
-              let btnClass = 'bg-slate-950/60 border-slate-800 text-slate-200 hover:bg-slate-800 hover:border-slate-700';
+              let btnClass = 'bg-blue-950/60 border-slate-800 text-slate-200 hover:bg-slate-800 hover:border-slate-700';
 
               if (answeredState !== null) {
                 if (option === currentQuestion.correctAnswer) {
@@ -378,7 +378,7 @@ export const SpeedDrillView: React.FC<SpeedDrillViewProps> = ({
         <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 shadow-2xl space-y-6 animate-in zoom-in-95">
           <div className="text-center space-y-2">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-500 to-rose-600 p-0.5 shadow-xl shadow-amber-500/20">
-              <div className="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">
+              <div className="w-full h-full bg-blue-950 rounded-[14px] flex items-center justify-center">
                 <Trophy className="w-8 h-8 text-amber-400" />
               </div>
             </div>
@@ -395,7 +395,7 @@ export const SpeedDrillView: React.FC<SpeedDrillViewProps> = ({
           </div>
 
           {/* Stats Breakdown */}
-          <div className="grid grid-cols-3 gap-3 p-4 rounded-2xl bg-slate-950/70 border border-slate-800 text-center">
+          <div className="grid grid-cols-3 gap-3 p-4 rounded-2xl bg-blue-950/70 border border-slate-800 text-center">
             <div>
               <div className="text-2xl font-black text-amber-400">{score}</div>
               <div className="text-[11px] text-slate-400 font-medium">Points Finaux</div>

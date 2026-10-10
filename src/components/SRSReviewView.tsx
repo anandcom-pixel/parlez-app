@@ -180,7 +180,7 @@ export const SRSReviewView: React.FC<SRSReviewViewProps> = ({ speechRate }) => {
           {/* Interactive Flip Card */}
           <div
             onClick={() => setIsCardFlipped(!isCardFlipped)}
-            className="cursor-pointer min-h-[220px] sm:min-h-[260px] p-8 rounded-3xl bg-slate-950 border border-slate-800 hover:border-indigo-500/50 transition-all flex flex-col items-center justify-center text-center space-y-4 group relative"
+            className="cursor-pointer min-h-[220px] sm:min-h-[260px] p-8 rounded-3xl bg-blue-950 border border-slate-800 hover:border-indigo-500/50 transition-all flex flex-col items-center justify-center text-center space-y-4 group relative"
           >
             <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-slate-900 text-slate-400">
               {isCardFlipped ? '🇬🇧 Traduction & Sens' : '🇫🇷 Mot Français (Cliquez pour retourner)'}
@@ -263,7 +263,7 @@ export const SRSReviewView: React.FC<SRSReviewViewProps> = ({ speechRate }) => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Filtrer un mot..."
-                className="pl-8 pr-3 py-1.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                className="pl-8 pr-3 py-1.5 rounded-xl bg-blue-950 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
               />
             </div>
 
@@ -296,7 +296,7 @@ export const SRSReviewView: React.FC<SRSReviewViewProps> = ({ speechRate }) => {
               {filteredCards.map(card => {
                 const boxMeta = BOX_INFO[card.box - 1];
                 return (
-                  <tr key={card.vocabId} className="hover:bg-slate-950/40 transition-colors">
+                  <tr key={card.vocabId} className="hover:bg-blue-950/40 transition-colors">
                     <td className="py-2.5 px-3 font-semibold text-white">
                       {card.french}
                     </td>

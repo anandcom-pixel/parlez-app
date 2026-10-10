@@ -202,7 +202,7 @@ export const SentenceBuilderView: React.FC<SentenceBuilderViewProps> = ({
           </div>
 
           {/* Level Filter */}
-          <div className="flex flex-wrap items-center gap-1.5 bg-slate-950/80 p-1.5 rounded-2xl border border-slate-800 shrink-0">
+          <div className="flex flex-wrap items-center gap-1.5 bg-blue-950/80 p-1.5 rounded-2xl border border-slate-800 shrink-0">
             {(['ALL', 'A1', 'A2', 'B1', 'B2', 'C1'] as const).map(lvl => (
               <button
                 key={lvl}
@@ -290,12 +290,12 @@ export const SentenceBuilderView: React.FC<SentenceBuilderViewProps> = ({
             onDrop={(e) => handleDropOnAssembled(e)}
             className={`min-h-[100px] p-4 sm:p-6 rounded-2xl border-2 border-dashed transition-all flex flex-wrap gap-2.5 items-center content-center ${
               assembledWords.length === 0
-                ? 'border-slate-800 bg-slate-950/40 justify-center'
+                ? 'border-slate-800 bg-blue-950/40 justify-center'
                 : validationState === 'correct'
                 ? 'border-emerald-500/80 bg-emerald-950/20'
                 : validationState === 'incorrect'
                 ? 'border-rose-500/80 bg-rose-950/20'
-                : 'border-indigo-500/40 bg-slate-950/80'
+                : 'border-indigo-500/40 bg-blue-950/80'
             }`}
           >
             {assembledWords.length === 0 ? (
@@ -337,7 +337,7 @@ export const SentenceBuilderView: React.FC<SentenceBuilderViewProps> = ({
             Banque de mots disponibles :
           </span>
 
-          <div className="p-4 sm:p-5 rounded-2xl bg-slate-950/50 border border-slate-800 flex flex-wrap gap-2.5 items-center min-h-[70px]">
+          <div className="p-4 sm:p-5 rounded-2xl bg-blue-950/50 border border-slate-800 flex flex-wrap gap-2.5 items-center min-h-[70px]">
             {availableWords.length === 0 ? (
               <span className="text-xs text-slate-500 italic select-none">
                 Tous les blocs ont été placés dans la zone de construction !

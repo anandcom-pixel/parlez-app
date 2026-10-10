@@ -83,7 +83,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             className="flex items-center gap-3 cursor-pointer group select-none shrink-0"
           >
             <div className="relative w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-rose-600 p-0.5 shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform">
-              <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center overflow-hidden">
+              <div className="w-full h-full bg-blue-950 rounded-[10px] flex items-center justify-center overflow-hidden">
                 <span className="text-xl font-bold bg-gradient-to-r from-blue-400 via-slate-100 to-rose-400 bg-clip-text text-transparent">
                   PA
                 </span>
@@ -186,7 +186,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 }}
                 className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 select-none transform hover:-translate-y-0.5 ${
                   isActive
-                    ? 'bg-slate-900 text-amber-300 border border-slate-800 shadow-md font-bold'
+                    ? 'bg-slate-900 text-amber-300 border border-blue-900 shadow-md font-bold'
                     : 'text-slate-800 hover:text-slate-950 hover:bg-amber-200/80'
                 }`}
               >
@@ -200,19 +200,19 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Voice Selection Modal */}
       {showVoiceModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/75 backdrop-blur-sm animate-in fade-in">
+          <div className="bg-slate-900 border border-blue-800/60 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-base font-bold text-white flex items-center gap-2">
                   <span>🇫🇷</span> French Pronunciation Voice
                 </h3>
-                <p className="text-xs text-slate-400">Select the speech synthesis voice for native playback</p>
+                <p className="text-xs text-slate-300">Select the speech synthesis voice for native playback</p>
               </div>
               <button
                 type="button"
                 onClick={() => setShowVoiceModal(false)}
-                className="text-slate-400 hover:text-white p-1 rounded-lg"
+                className="text-slate-300 hover:text-white p-1 rounded-lg"
               >
                 ✕
               </button>
@@ -220,7 +220,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             <div className="max-h-60 overflow-y-auto space-y-2 pr-1">
               {frenchVoices.length === 0 ? (
-                <div className="p-4 bg-slate-950/60 rounded-xl text-xs text-slate-400 text-center">
+                <div className="p-4 bg-blue-950/60 rounded-xl text-xs text-slate-300 text-center">
                   Standard browser default French voice will be used automatically.
                 </div>
               ) : (
@@ -236,12 +236,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                     className={`w-full text-left p-3 rounded-xl border text-xs transition-all flex items-center justify-between ${
                       selectedVoiceName === v.name
                         ? 'bg-indigo-600/20 border-indigo-500/50 text-indigo-200'
-                        : 'bg-slate-950/50 border-slate-800/80 text-slate-300 hover:bg-slate-800'
+                        : 'bg-blue-950/60 border-blue-900/60 text-slate-200 hover:bg-slate-800'
                     }`}
                   >
                     <div>
                       <div className="font-semibold text-white">{v.name}</div>
-                      <div className="text-[11px] text-slate-500">{v.lang} {v.isPreferred ? '• Recommandée' : ''}</div>
+                      <div className="text-[11px] text-slate-400">{v.lang} {v.isPreferred ? '• Recommandée' : ''}</div>
                     </div>
                     {selectedVoiceName === v.name && (
                       <span className="text-indigo-400 text-xs font-bold">Actif ✓</span>
