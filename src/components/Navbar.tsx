@@ -125,7 +125,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Audio & Settings Controls */}
           <div className="flex items-center gap-2">
             {/* Speed Selector */}
-            <div className="flex items-center bg-white/90 border border-amber-200 rounded-xl p-1 text-xs font-medium shadow-sm">
+            <div className="flex items-center bg-white/95 border border-amber-300 rounded-xl p-1 text-xs font-semibold shadow-sm">
               <button
                 type="button"
                 onClick={() => {
@@ -133,11 +133,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                   onSetSpeechRate(nextRate);
                   soundEffects.playTap();
                 }}
-                className="flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-amber-100 text-slate-700 hover:text-slate-950 transition-colors"
-                title="Audio playback speed"
+                className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg hover:bg-amber-100 text-slate-800 hover:text-slate-950 transition-all duration-200"
+                title="Change audio playback speed"
               >
                 <Gauge className="w-3.5 h-3.5 text-indigo-600" />
-                <span>{speechRate}x</span>
+                <span>Speed: {speechRate}x</span>
               </button>
             </div>
 
@@ -145,12 +145,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               type="button"
               onClick={() => setShowVoiceModal(true)}
-              className="px-2.5 py-1.5 rounded-xl bg-white/90 hover:bg-amber-100 border border-amber-200 text-xs font-medium text-slate-700 hover:text-slate-950 flex items-center gap-1.5 transition-colors shadow-sm"
+              className="px-3 py-1.5 rounded-xl bg-white/95 hover:bg-amber-100 border border-amber-300 text-xs font-semibold text-slate-800 hover:text-slate-950 flex items-center gap-1.5 transition-all duration-200 shadow-sm hover:shadow"
               title="Select French Native TTS Voice"
             >
               <span className="text-sm">🗣️</span>
-              <span className="hidden lg:inline max-w-[100px] truncate">
-                {selectedVoiceName ? selectedVoiceName.replace(/Google|Microsoft/gi, '').trim() : 'Voix FR'}
+              <span className="hidden lg:inline max-w-[110px] truncate">
+                {selectedVoiceName ? selectedVoiceName.replace(/Google|Microsoft/gi, '').trim() : 'French Voice'}
               </span>
             </button>
 
@@ -158,20 +158,21 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               type="button"
               onClick={handleToggleSound}
-              className={`p-2 rounded-xl border transition-all shadow-sm ${
+              className={`px-2.5 py-1.5 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition-all duration-200 shadow-sm ${
                 soundEnabled
-                  ? 'bg-white/90 border-amber-200 text-slate-700 hover:text-slate-950 hover:bg-amber-100'
-                  : 'bg-red-50 border-red-200 text-red-600'
+                  ? 'bg-white/95 border-amber-300 text-slate-800 hover:text-slate-950 hover:bg-amber-100'
+                  : 'bg-red-50 border-red-200 text-red-700 hover:bg-red-100'
               }`}
               title={soundEnabled ? 'Mute sound effects' : 'Unmute sound effects'}
             >
-              {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+              {soundEnabled ? <Volume2 className="w-4 h-4 text-indigo-600" /> : <VolumeX className="w-4 h-4" />}
+              <span className="hidden sm:inline">{soundEnabled ? 'SFX On' : 'Muted'}</span>
             </button>
           </div>
         </div>
 
         {/* Tab Navigation Bar */}
-        <nav className="flex items-center space-x-1 overflow-x-auto py-2 no-scrollbar border-t border-amber-200/60">
+        <nav className="flex items-center space-x-1.5 overflow-x-auto py-2 no-scrollbar border-t border-amber-300/70">
           {navItems.map(item => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
@@ -183,13 +184,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                   soundEffects.playTap();
                   onSelectTab(item.id);
                 }}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all select-none ${
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 select-none transform hover:-translate-y-0.5 ${
                   isActive
-                    ? 'bg-amber-200/90 text-amber-950 border border-amber-400/80 shadow-sm font-bold'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-amber-100/70'
+                    ? 'bg-slate-900 text-amber-300 border border-slate-800 shadow-md font-bold'
+                    : 'text-slate-800 hover:text-slate-950 hover:bg-amber-200/80'
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-amber-800' : 'text-slate-500'}`} />
+                <Icon className={`w-4 h-4 ${isActive ? 'text-amber-300' : 'text-indigo-700'}`} />
                 <span>{item.label}</span>
               </button>
             );
