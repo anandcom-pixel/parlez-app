@@ -70,7 +70,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fefce8] bg-gradient-to-b from-[#fefce8] via-[#fffdf0] to-[#fef9c3]/30 text-slate-900 flex flex-col font-sans selection:bg-amber-300 selection:text-amber-950">
+    <div className="min-h-screen bg-[#fef08a] bg-gradient-to-b from-[#fef08a] via-[#fef9c3] to-[#fef08a] text-slate-900 flex flex-col font-sans selection:bg-amber-400 selection:text-amber-950">
       {/* Top Navbar */}
       <Navbar
         activeTab={activeTab}
@@ -143,20 +143,27 @@ export function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-amber-200/80 bg-amber-100/60 py-8 px-4 text-center text-xs text-slate-600">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-800">ParlezApp for french learning</span>
-            <span>•</span>
-            <span className="text-slate-600">Plateforme Autonome d'Apprentissage & Voix</span>
+      <footer className="border-t border-amber-300/80 bg-amber-200/80 py-8 px-4 text-center text-xs text-slate-700">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
+            <span className="font-bold text-slate-900 text-sm">ParlezApp for french learning</span>
+            <span className="hidden sm:inline text-amber-800">•</span>
+            <span className="text-slate-700 font-medium">Plateforme Autonome d'Apprentissage & Voix</span>
           </div>
 
-          <div className="flex items-center gap-4 text-slate-600">
+          {/* Professional Creator & Tester Credits */}
+          <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/90 border border-amber-300 shadow-sm text-slate-800 font-semibold tracking-wide text-xs">
+            <span>Created by <strong className="text-slate-950 font-black">ANAND MOHANDAS</strong></span>
+            <span className="text-amber-500 font-bold">|</span>
+            <span>Tester: <strong className="text-slate-950 font-black">Sreegovind</strong></span>
+          </div>
+
+          <div className="flex items-center gap-3 text-slate-600 text-xs">
             <span>CEFR A1 – C1</span>
             <span>•</span>
-            <span>Web Speech API (TTS & STT fr-FR)</span>
+            <span>Web Speech API</span>
             <span>•</span>
-            <span>Système Leitner SRS & Coffre-Fort</span>
+            <span>Système Leitner SRS</span>
           </div>
         </div>
       </footer>
