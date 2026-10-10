@@ -171,8 +171,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
         </div>
 
-        {/* Tab Navigation Bar */}
-        <nav className="flex items-center space-x-1.5 overflow-x-auto py-2 no-scrollbar border-t border-amber-300/70">
+        {/* Tab Navigation Bar — Responsive Multi-Row Grid / Flex Wrap (No Horizontal Scroll) */}
+        <nav className="grid grid-cols-2 sm:grid-cols-4 lg:flex lg:flex-wrap lg:items-center gap-1.5 sm:gap-2 py-2.5 border-t border-amber-300/70">
           {navItems.map(item => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
@@ -184,14 +184,14 @@ export const Navbar: React.FC<NavbarProps> = ({
                   soundEffects.playTap();
                   onSelectTab(item.id);
                 }}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 select-none transform hover:-translate-y-0.5 ${
+                className={`flex items-center justify-center sm:justify-start gap-2 px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 select-none transform hover:-translate-y-0.5 ${
                   isActive
-                    ? 'bg-slate-900 text-amber-300 border border-blue-900 shadow-md font-bold'
-                    : 'text-slate-800 hover:text-slate-950 hover:bg-amber-200/80'
+                    ? 'bg-slate-900 text-amber-300 border border-blue-800 shadow-md font-bold'
+                    : 'bg-amber-100/70 text-slate-800 border border-amber-300/60 hover:text-slate-950 hover:bg-amber-200/90 hover:border-amber-400'
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-amber-300' : 'text-indigo-700'}`} />
-                <span>{item.label}</span>
+                <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-amber-300' : 'text-indigo-700'}`} />
+                <span className="truncate">{item.label}</span>
               </button>
             );
           })}
