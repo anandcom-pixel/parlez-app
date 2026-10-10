@@ -135,7 +135,7 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
   return (
     <div className="space-y-8 animate-in fade-in pb-16 max-w-4xl mx-auto">
       {/* Studio Banner */}
-      <div className="relative rounded-3xl bg-gradient-to-r from-slate-900 via-rose-950/40 to-slate-900 border border-rose-900/40 p-6 sm:p-8 shadow-2xl">
+      <div className="relative rounded-3xl bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 border border-slate-700/80 p-6 sm:p-8 shadow-2xl">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1 max-w-xl">
             <div className="flex items-center gap-2">
@@ -156,7 +156,7 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
           <button
             type="button"
             onClick={handleSelectRandomPhrase}
-            className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-2 transition-colors shrink-0"
+            className="px-4 py-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-200 text-xs font-semibold flex items-center gap-2 transition-colors shrink-0"
           >
             <RefreshCw className="w-3.5 h-3.5" />
             <span>Expression Aléatoire</span>
@@ -181,7 +181,7 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
             <button
               type="button"
               onClick={() => handlePlayTargetAudio(speechRate)}
-              className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium flex items-center gap-1.5 transition-colors"
+              className="px-3 py-1.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-200 text-xs font-medium flex items-center gap-1.5 transition-colors"
               title="Écouter à vitesse normale"
             >
               <Volume2 className="w-3.5 h-3.5 text-indigo-400" />
@@ -190,7 +190,7 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
             <button
               type="button"
               onClick={() => handlePlayTargetAudio(0.7)}
-              className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium flex items-center gap-1.5 transition-colors"
+              className="px-3 py-1.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-200 text-xs font-medium flex items-center gap-1.5 transition-colors"
               title="Écouter au ralenti pour bien décomposer chaque syllabe"
             >
               <Sliders className="w-3.5 h-3.5 text-amber-400" />
@@ -214,7 +214,7 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
           </div>
 
           {selectedVocab.pronunciationTip && (
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs text-amber-300">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-950 border border-amber-500/40 text-xs text-amber-300">
               <Sparkles className="w-3.5 h-3.5 shrink-0" />
               <span>Conseil : {selectedVocab.pronunciationTip}</span>
             </div>
@@ -269,8 +269,8 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
 
           {/* Live speech transcription display */}
           {(liveTranscript || micState === 'listening') && (
-            <div className="w-full max-w-lg p-3 rounded-2xl bg-blue-950/80 border border-slate-800 text-center text-sm font-medium text-slate-200">
-              <span className="text-[10px] uppercase font-bold text-slate-500 block mb-1">
+            <div className="w-full max-w-lg p-3 rounded-2xl bg-slate-950 border border-slate-800 text-center text-sm font-medium text-slate-200">
+              <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
                 Transcription vocale en direct
               </span>
               <span>« {liveTranscript || '...'} »</span>
@@ -280,7 +280,7 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
 
         {/* Error Notification */}
         {errorMessage && (
-          <div className="p-4 rounded-2xl bg-rose-950/30 border border-rose-900/50 text-xs text-rose-300 space-y-2">
+          <div className="p-4 rounded-2xl bg-slate-950 border border-rose-500/50 text-xs text-rose-300 space-y-2">
             <div className="flex items-center gap-2 font-bold">
               <AlertTriangle className="w-4 h-4 text-rose-400" />
               <span>Avis Microphone</span>
@@ -308,13 +308,13 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
             >
               <span>⌨️ Mode Saisie / Test sans microphone</span>
             </button>
-            <span className="text-[11px] text-slate-500">
+            <span className="text-[11px] text-slate-400">
               {voiceRecognitionService.checkSupport() ? 'SpeechRecognition Détecté' : 'SpeechRecognition non disponible (Firefox/Edge sans flag)'}
             </span>
           </div>
 
           {isSimulateMode && (
-            <div className="mt-3 p-4 rounded-2xl bg-blue-950/60 border border-slate-800 space-y-3">
+            <div className="mt-3 p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
               <div className="text-xs text-slate-300">
                 Tapez ce que vous souhaitez simuler comme prononciation (ex: testez des fautes d'accents ou des oublis de mots pour observer le diagnostic) :
               </div>
@@ -394,15 +394,15 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
               </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-blue-950/80 border border-slate-800 flex flex-wrap gap-2 items-center">
+            <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 flex flex-wrap gap-2 items-center">
               {comparisonResult.wordAnalysis.map((item, idx) => {
                 let badgeClass = '';
                 if (item.status === 'correct') {
-                  badgeClass = 'bg-emerald-950/60 text-emerald-300 border-emerald-500/40';
+                  badgeClass = 'bg-slate-900 text-emerald-300 border-emerald-500/40';
                 } else if (item.status === 'partial') {
-                  badgeClass = 'bg-amber-950/60 text-amber-300 border-amber-500/40';
+                  badgeClass = 'bg-slate-900 text-amber-300 border-amber-500/40';
                 } else {
-                  badgeClass = 'bg-rose-950/60 text-rose-300 border-rose-500/40 line-through';
+                  badgeClass = 'bg-slate-900 text-rose-300 border-rose-500/40 line-through';
                 }
 
                 return (
@@ -424,7 +424,7 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
 
           {/* Feedback Notes & Pronunciation Guidance Tips */}
           {comparisonResult.feedbackNotes.length > 0 && (
-            <div className="p-4 rounded-2xl bg-indigo-950/20 border border-indigo-900/40 space-y-2">
+            <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
               <span className="text-xs font-bold uppercase tracking-wider text-indigo-300 flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
                 Conseils du Maître Linguiste :

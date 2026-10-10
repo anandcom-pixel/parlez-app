@@ -88,7 +88,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
   return (
     <div className="space-y-8 animate-in fade-in pb-16">
       {/* Hero Intro Section */}
-      <div className="relative rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950/90 to-slate-900 border border-indigo-800/60 p-6 sm:p-8 overflow-hidden shadow-2xl">
+      <div className="relative rounded-3xl bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 border border-slate-700/80 p-6 sm:p-8 overflow-hidden shadow-2xl">
         <div className="absolute top-0 right-0 -mt-8 -mr-8 w-64 h-64 rounded-full bg-indigo-500/15 blur-3xl pointer-events-none" />
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-3 max-w-2xl">
@@ -118,7 +118,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
                 className={`px-5 py-3 rounded-2xl text-sm font-bold flex items-center gap-2 transition-all duration-200 transform hover:-translate-y-0.5 active:scale-95 border ${
                   currentlyPlayingWord === `hero-${firstVocab.id}`
                     ? 'bg-emerald-600 text-white border-emerald-400 shadow-lg shadow-emerald-600/30'
-                    : 'bg-slate-800/90 hover:bg-slate-800 text-amber-300 border-amber-400/40 hover:border-amber-300 shadow-md'
+                    : 'bg-slate-950 hover:bg-slate-800 text-amber-300 border-amber-400/40 hover:border-amber-300 shadow-md'
                 }`}
               >
                 <Volume2 className={`w-4 h-4 ${currentlyPlayingWord === `hero-${firstVocab.id}` ? 'animate-bounce' : ''}`} />
@@ -174,7 +174,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
                 className={`p-3.5 sm:p-4 rounded-2xl border text-left transition-all duration-200 relative overflow-hidden transform hover:-translate-y-0.5 ${
                   isSelected
                     ? 'bg-slate-900 border-indigo-500 shadow-xl shadow-indigo-500/15 ring-2 ring-indigo-500/60'
-                    : 'bg-slate-900/75 border-slate-800 hover:bg-slate-900 hover:border-slate-600 text-slate-300 hover:shadow-md'
+                    : 'bg-slate-950 border-slate-800 hover:bg-slate-900 hover:border-slate-700 text-slate-300 hover:shadow-md'
                 }`}
               >
                 <div className="flex items-center justify-between gap-1 mb-1.5">
@@ -232,7 +232,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
                   className={`p-4 rounded-2xl border cursor-pointer transition-all duration-200 transform hover:-translate-y-0.5 ${
                     isSelected
                       ? 'bg-slate-900 border-indigo-500 shadow-lg ring-2 ring-indigo-500/40'
-                      : 'bg-slate-900/70 border-slate-800 hover:bg-slate-900 hover:border-slate-600 hover:shadow-md'
+                      : 'bg-slate-950 border-slate-800 hover:bg-slate-900 hover:border-slate-700 hover:shadow-md'
                   }`}
                 >
                   <div className="flex items-center justify-between gap-2">
@@ -281,7 +281,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
           </div>
 
           {/* Quick Level Summary Box */}
-          <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-xs text-indigo-200 space-y-2 shadow-md">
+          <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-xs text-indigo-200 space-y-2 shadow-md">
             <div className="flex items-center gap-2 font-bold text-white">
               <Info className="w-4 h-4 text-indigo-400 shrink-0" />
               <span>Learning Goal ({selectedLevel})</span>
@@ -326,7 +326,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
             </div>
 
             {/* Grammar Spotlight */}
-            <div className="p-4 rounded-2xl bg-blue-950/70 border border-blue-800/60 space-y-3">
+            <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
               <div className="flex items-center gap-2 text-xs font-bold text-amber-400 uppercase tracking-wider">
                 <Lightbulb className="w-4 h-4" />
                 <span>Grammar Tip: {currentLesson.grammarFocus.ruleName}</span>
@@ -334,11 +334,11 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
               <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
                 {currentLesson.grammarFocus.explanation}
               </p>
-              <div className="pt-2 border-t border-blue-900/60 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div className="pt-2 border-t border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 {currentLesson.grammarFocus.examples.map((ex, i) => {
                   const isExPlaying = currentlyPlayingWord === `ex-${i}`;
                   return (
-                    <div key={i} className="p-3 rounded-xl bg-slate-900/90 border border-blue-800/50 text-xs space-y-1.5">
+                    <div key={i} className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs space-y-1.5">
                       <div className="flex items-center justify-between gap-2 text-indigo-200 font-semibold">
                         <span>{ex.fr}</span>
                         <button
@@ -365,7 +365,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
             {/* Cultural & Idiom Highlights */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
               {currentLesson.culturalNote && (
-                <div className="p-3.5 rounded-2xl bg-blue-950/50 border border-blue-800/50 text-xs space-y-1">
+                <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-xs space-y-1">
                   <div className="font-bold text-indigo-300 flex items-center gap-1.5">
                     <span>🏛️</span> Cultural Note
                   </div>
@@ -376,7 +376,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
               )}
 
               {currentLesson.idiomSpotlight && (
-                <div className="p-3.5 rounded-2xl bg-blue-950/50 border border-rose-800/50 text-xs space-y-1">
+                <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-xs space-y-1">
                   <div className="font-bold text-rose-300 flex items-center gap-1.5">
                     <span>💡</span> French Idiom Spotlight
                   </div>
@@ -391,7 +391,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
 
           {/* Vocabulary Bank */}
           <div className="space-y-4">
-            <div className="flex flex-wrap items-center justify-between gap-2 bg-slate-900 border border-blue-900/60 px-5 py-3.5 rounded-2xl shadow-md">
+            <div className="flex flex-wrap items-center justify-between gap-2 bg-slate-900 border border-slate-800 px-5 py-3.5 rounded-2xl shadow-md">
               <h3 className="text-base font-bold text-white flex items-center gap-2">
                 <span>📖</span> Key Vocabulary &amp; Audio ({currentLesson.vocabulary.length} Expressions)
               </h3>
@@ -408,7 +408,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
                 return (
                   <div
                     key={vocab.id}
-                    className="p-4 rounded-2xl bg-slate-900 border border-blue-900/60 hover:border-indigo-500/60 transition-all duration-200 flex flex-col justify-between group space-y-3 shadow-lg"
+                    className="p-4 rounded-2xl bg-slate-900 border border-slate-800 hover:border-indigo-500/60 transition-all duration-200 flex flex-col justify-between group space-y-3 shadow-lg"
                   >
                     <div>
                       {/* Top Row: Word & Listen Button */}
@@ -452,7 +452,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
                       </div>
 
                       {/* Example sentence */}
-                      <div className="mt-3 p-2.5 rounded-xl bg-blue-950/70 border border-blue-800/50 text-xs space-y-1.5">
+                      <div className="mt-3 p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs space-y-1.5">
                         <div className="text-indigo-200 flex items-center justify-between gap-2">
                           <span className="leading-snug">{vocab.exampleFrench}</span>
                           <button
@@ -461,7 +461,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
                             className={`px-2 py-1 rounded-lg text-[11px] font-semibold flex items-center gap-1 shrink-0 transition-all duration-200 ${
                               isExamplePlaying
                                 ? 'bg-indigo-600 text-white'
-                                : 'bg-slate-800/90 text-slate-200 hover:bg-indigo-600 hover:text-white'
+                                : 'bg-slate-800 text-slate-200 hover:bg-indigo-600 hover:text-white'
                             }`}
                             title="Listen to example sentence"
                           >
@@ -502,7 +502,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
 
           {/* Interactive Dialogue Section */}
           {currentLesson.dialogue && (
-            <div className="p-6 rounded-3xl bg-slate-900 border border-blue-900/60 shadow-xl space-y-4">
+            <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
@@ -552,10 +552,10 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
                       key={idx}
                       className={`p-4 rounded-2xl border transition-all ${
                         isActive || isLinePlaying
-                          ? 'bg-indigo-950/70 border-indigo-500 shadow-md ring-1 ring-indigo-500/40'
+                          ? 'bg-slate-950 border-indigo-500 shadow-md ring-1 ring-indigo-500/40'
                           : isFirstSpeaker
-                          ? 'bg-blue-950/60 border-blue-800/50'
-                          : 'bg-slate-800/80 border-slate-700/80 ml-4 sm:ml-8'
+                          ? 'bg-slate-950 border-slate-800'
+                          : 'bg-slate-800/90 border-slate-700/80 ml-4 sm:ml-8'
                       }`}
                     >
                       <div className="flex items-start justify-between gap-3">

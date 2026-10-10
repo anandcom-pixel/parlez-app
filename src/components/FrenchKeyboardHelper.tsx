@@ -14,7 +14,7 @@ const ACCENT_CHARS = [
 
 export const FrenchKeyboardHelper: React.FC<FrenchKeyboardHelperProps> = ({ onInsertChar, className = '' }) => {
   return (
-    <div className={`flex flex-wrap items-center gap-1.5 p-2 bg-slate-900/80 rounded-xl border border-slate-800 backdrop-blur-sm ${className}`}>
+    <div className={`flex flex-wrap items-center gap-1.5 p-2 bg-slate-950 rounded-xl border border-slate-800 ${className}`}>
       <span className="text-xs font-medium text-slate-400 px-1 select-none flex items-center gap-1">
         <span>🇫🇷</span> Accents:
       </span>

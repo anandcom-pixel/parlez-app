@@ -183,7 +183,7 @@ export const SentenceBuilderView: React.FC<SentenceBuilderViewProps> = ({
   return (
     <div className="space-y-8 animate-in fade-in pb-16 max-w-4xl mx-auto">
       {/* Header Banner */}
-      <div className="relative rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950/60 to-slate-900 border border-indigo-900/40 p-6 sm:p-8 shadow-2xl">
+      <div className="relative rounded-3xl bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 border border-slate-700/80 p-6 sm:p-8 shadow-2xl">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1 max-w-xl">
             <div className="flex items-center gap-2">
@@ -202,7 +202,7 @@ export const SentenceBuilderView: React.FC<SentenceBuilderViewProps> = ({
           </div>
 
           {/* Level Filter */}
-          <div className="flex flex-wrap items-center gap-1.5 bg-blue-950/80 p-1.5 rounded-2xl border border-slate-800 shrink-0">
+          <div className="flex flex-wrap items-center gap-1.5 bg-slate-950 p-1.5 rounded-2xl border border-slate-800 shrink-0">
             {(['ALL', 'A1', 'A2', 'B1', 'B2', 'C1'] as const).map(lvl => (
               <button
                 key={lvl}
@@ -260,7 +260,7 @@ export const SentenceBuilderView: React.FC<SentenceBuilderViewProps> = ({
 
         {/* English Prompt */}
         <div className="text-center space-y-1 py-1">
-          <span className="text-xs uppercase font-bold tracking-wider text-slate-500">
+          <span className="text-xs uppercase font-bold tracking-wider text-slate-400">
             Traduisez et ordonnez cette phrase :
           </span>
           <h2 className="text-xl sm:text-2xl font-black text-white">
@@ -270,7 +270,7 @@ export const SentenceBuilderView: React.FC<SentenceBuilderViewProps> = ({
 
         {/* Grammar Hint Banner */}
         {showHint && (
-          <div className="p-4 rounded-2xl bg-amber-950/20 border border-amber-900/40 text-xs text-amber-300 flex items-start gap-2.5 animate-in fade-in">
+          <div className="p-4 rounded-2xl bg-slate-950 border border-amber-500/40 text-xs text-amber-300 flex items-start gap-2.5 animate-in fade-in">
             <Lightbulb className="w-4 h-4 shrink-0 mt-0.5 text-amber-400" />
             <div>
               <strong className="text-white">Règle de syntaxe :</strong> {currentItem.grammarHint}
@@ -288,18 +288,18 @@ export const SentenceBuilderView: React.FC<SentenceBuilderViewProps> = ({
           <div
             onDragOver={(e) => handleDragOver(e)}
             onDrop={(e) => handleDropOnAssembled(e)}
-            className={`min-h-[100px] p-4 sm:p-6 rounded-2xl border-2 border-dashed transition-all flex flex-wrap gap-2.5 items-center content-center ${
+            className={`min-h-[100px] p-4 sm:p-6 rounded-2xl border-2 border-dashed transition-all flex flex-wrap gap-2.5 items-center content-center bg-slate-950 ${
               assembledWords.length === 0
-                ? 'border-slate-800 bg-blue-950/40 justify-center'
+                ? 'border-slate-800 justify-center'
                 : validationState === 'correct'
-                ? 'border-emerald-500/80 bg-emerald-950/20'
+                ? 'border-emerald-500/80'
                 : validationState === 'incorrect'
-                ? 'border-rose-500/80 bg-rose-950/20'
-                : 'border-indigo-500/40 bg-blue-950/80'
+                ? 'border-rose-500/80'
+                : 'border-indigo-500/50'
             }`}
           >
             {assembledWords.length === 0 ? (
-              <span className="text-xs text-slate-500 select-none">
+              <span className="text-xs text-slate-400 select-none">
                 Glissez des mots ici ou cliquez sur les étiquettes ci-dessous pour construire la phrase...
               </span>
             ) : (
@@ -337,9 +337,9 @@ export const SentenceBuilderView: React.FC<SentenceBuilderViewProps> = ({
             Banque de mots disponibles :
           </span>
 
-          <div className="p-4 sm:p-5 rounded-2xl bg-blue-950/50 border border-slate-800 flex flex-wrap gap-2.5 items-center min-h-[70px]">
+          <div className="p-4 sm:p-5 rounded-2xl bg-slate-950 border border-slate-800 flex flex-wrap gap-2.5 items-center min-h-[70px]">
             {availableWords.length === 0 ? (
-              <span className="text-xs text-slate-500 italic select-none">
+              <span className="text-xs text-slate-400 italic select-none">
                 Tous les blocs ont été placés dans la zone de construction !
               </span>
             ) : (
@@ -362,7 +362,7 @@ export const SentenceBuilderView: React.FC<SentenceBuilderViewProps> = ({
 
         {/* Validation Result Notifications */}
         {validationState === 'correct' && (
-          <div className="p-4 rounded-2xl bg-emerald-950/40 border border-emerald-500/50 text-emerald-200 space-y-1 animate-in zoom-in-95">
+          <div className="p-4 rounded-2xl bg-slate-950 border border-emerald-500/50 text-emerald-200 space-y-1 animate-in zoom-in-95">
             <div className="font-bold text-sm flex items-center gap-2">
               <CheckCircle2 className="w-5 h-5 text-emerald-400" />
               <span>Excellente Syntaxe ! (+20 XP)</span>
@@ -374,7 +374,7 @@ export const SentenceBuilderView: React.FC<SentenceBuilderViewProps> = ({
         )}
 
         {validationState === 'incorrect' && (
-          <div className="p-4 rounded-2xl bg-rose-950/40 border border-rose-500/50 text-rose-200 space-y-2 animate-in zoom-in-95">
+          <div className="p-4 rounded-2xl bg-slate-950 border border-rose-500/50 text-rose-200 space-y-2 animate-in zoom-in-95">
             <div className="font-bold text-sm flex items-center gap-2">
               <XCircle className="w-5 h-5 text-rose-400" />
               <span>Ordre Syntaxique Incorrect</span>

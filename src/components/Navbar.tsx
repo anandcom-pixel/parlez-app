@@ -186,7 +186,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 }}
                 className={`flex items-center justify-center sm:justify-start gap-2 px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 select-none transform hover:-translate-y-0.5 ${
                   isActive
-                    ? 'bg-slate-900 text-amber-300 border border-blue-800 shadow-md font-bold'
+                    ? 'bg-slate-950 text-amber-300 border border-slate-700/80 shadow-md font-bold'
                     : 'bg-amber-100/70 text-slate-800 border border-amber-300/60 hover:text-slate-950 hover:bg-amber-200/90 hover:border-amber-400'
                 }`}
               >
@@ -200,8 +200,8 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Voice Selection Modal */}
       {showVoiceModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/75 backdrop-blur-sm animate-in fade-in">
-          <div className="bg-slate-900 border border-blue-800/60 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/75 backdrop-blur-sm animate-in fade-in">
+          <div className="bg-slate-900 border border-slate-700/80 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-base font-bold text-white flex items-center gap-2">
@@ -220,7 +220,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             <div className="max-h-60 overflow-y-auto space-y-2 pr-1">
               {frenchVoices.length === 0 ? (
-                <div className="p-4 bg-blue-950/60 rounded-xl text-xs text-slate-300 text-center">
+                <div className="p-4 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-300 text-center">
                   Standard browser default French voice will be used automatically.
                 </div>
               ) : (
@@ -235,8 +235,8 @@ export const Navbar: React.FC<NavbarProps> = ({
                     }}
                     className={`w-full text-left p-3 rounded-xl border text-xs transition-all flex items-center justify-between ${
                       selectedVoiceName === v.name
-                        ? 'bg-indigo-600/20 border-indigo-500/50 text-indigo-200'
-                        : 'bg-blue-950/60 border-blue-900/60 text-slate-200 hover:bg-slate-800'
+                        ? 'bg-slate-950 border-indigo-500/60 text-indigo-200'
+                        : 'bg-slate-950 border-slate-800 text-slate-200 hover:bg-slate-800'
                     }`}
                   >
                     <div>

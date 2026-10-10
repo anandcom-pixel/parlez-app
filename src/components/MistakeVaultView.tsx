@@ -123,7 +123,7 @@ export const MistakeVaultView: React.FC<MistakeVaultViewProps> = ({
   return (
     <div className="space-y-8 animate-in fade-in pb-16 max-w-5xl mx-auto">
       {/* Header Hero Banner */}
-      <div className="relative rounded-3xl bg-gradient-to-r from-slate-900 via-rose-950/40 to-slate-900 border border-rose-900/40 p-6 sm:p-8 shadow-2xl">
+      <div className="relative rounded-3xl bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 border border-slate-700/80 p-6 sm:p-8 shadow-2xl">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2 max-w-xl">
             <div className="flex items-center gap-2">
@@ -157,22 +157,22 @@ export const MistakeVaultView: React.FC<MistakeVaultViewProps> = ({
 
       {/* Stats Counter Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-1 text-center">
+        <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1 text-center">
           <div className="text-2xl font-black text-rose-400">{stats.unresolved}</div>
           <div className="text-[11px] text-slate-400 font-medium">Erreurs Actives</div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-1 text-center">
+        <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1 text-center">
           <div className="text-2xl font-black text-emerald-400">{stats.mastered}</div>
           <div className="text-[11px] text-slate-400 font-medium">Erreurs Maîtrisées</div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-1 text-center">
+        <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1 text-center">
           <div className="text-2xl font-black text-indigo-400">{stats.vocabCount}</div>
           <div className="text-[11px] text-slate-400 font-medium">Mots de Vocabulaire</div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-1 text-center">
+        <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1 text-center">
           <div className="text-2xl font-black text-amber-400">{stats.pronunciationCount + stats.grammarCount}</div>
           <div className="text-[11px] text-slate-400 font-medium">Voix & Syntaxe</div>
         </div>
@@ -195,7 +195,7 @@ export const MistakeVaultView: React.FC<MistakeVaultViewProps> = ({
             </button>
           </div>
 
-          <div className="p-6 rounded-2xl bg-blue-950/70 border border-slate-800 space-y-4 text-center">
+          <div className="p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-4 text-center">
             <div className="flex items-center justify-center gap-2">
               <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-slate-800 text-slate-300">
                 {currentCleansingItem.type === 'vocab' ? 'Vocabulaire' : currentCleansingItem.type === 'pronunciation' ? 'Prononciation' : 'Grammaire'}
@@ -210,7 +210,7 @@ export const MistakeVaultView: React.FC<MistakeVaultViewProps> = ({
               </h3>
             </div>
 
-            <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800/80 text-xs text-slate-300 max-w-lg mx-auto">
+            <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300 max-w-lg mx-auto">
               <strong className="text-amber-400">Raison de l’échec précédent :</strong> {currentCleansingItem.contextNote}
             </div>
 
@@ -246,19 +246,19 @@ export const MistakeVaultView: React.FC<MistakeVaultViewProps> = ({
                 }
               }}
               placeholder="Saisissez la réponse correcte..."
-              className="w-full px-4 py-3 bg-blue-950 border border-slate-800 rounded-2xl text-white text-base focus:outline-none focus:border-indigo-500"
+              className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-2xl text-white text-base focus:outline-none focus:border-indigo-500"
               autoFocus
             />
 
             {cleansingFeedback === 'correct' && (
-              <div className="p-4 rounded-2xl bg-emerald-950/40 border border-emerald-500/50 text-emerald-200 text-xs font-bold flex items-center gap-2">
+              <div className="p-4 rounded-2xl bg-slate-950 border border-emerald-500/50 text-emerald-200 text-xs font-bold flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span>Parfaitement Corrigé ! Progrès enregistré dans le Coffre (+15 XP).</span>
               </div>
             )}
 
             {cleansingFeedback === 'incorrect' && (
-              <div className="p-4 rounded-2xl bg-rose-950/40 border border-rose-500/50 text-rose-200 text-xs space-y-1">
+              <div className="p-4 rounded-2xl bg-slate-950 border border-rose-500/50 text-rose-200 text-xs space-y-1">
                 <div className="font-bold flex items-center gap-2">
                   <XCircle className="w-4 h-4 text-rose-400" />
                   <span>Encore inexact :</span>
@@ -321,7 +321,7 @@ export const MistakeVaultView: React.FC<MistakeVaultViewProps> = ({
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
                   filterType === cat
                     ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 shadow-sm'
-                    : 'text-slate-400 hover:text-white bg-blue-950/60 border border-slate-800'
+                    : 'text-slate-400 hover:text-white bg-slate-950 border border-slate-800'
                 }`}
               >
                 {cat === 'ALL' ? 'Toutes' : cat === 'vocab' ? 'Vocabulaire' : cat === 'pronunciation' ? 'Prononciation' : 'Grammaire'}
@@ -337,7 +337,7 @@ export const MistakeVaultView: React.FC<MistakeVaultViewProps> = ({
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
                 filterStatus === 'unresolved'
                   ? 'bg-slate-800 text-white'
-                  : 'text-slate-500 hover:text-slate-300'
+                  : 'text-slate-400 hover:text-slate-200'
               }`}
             >
               À corriger ({stats.unresolved})
@@ -348,7 +348,7 @@ export const MistakeVaultView: React.FC<MistakeVaultViewProps> = ({
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
                 filterStatus === 'mastered'
                   ? 'bg-slate-800 text-emerald-400'
-                  : 'text-slate-500 hover:text-slate-300'
+                  : 'text-slate-400 hover:text-slate-200'
               }`}
             >
               Maîtrisées ({stats.mastered})
@@ -357,7 +357,7 @@ export const MistakeVaultView: React.FC<MistakeVaultViewProps> = ({
               <button
                 type="button"
                 onClick={() => mistakeVaultService.clearMastered()}
-                className="p-1.5 rounded-lg text-slate-500 hover:text-rose-400 transition-colors"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 transition-colors"
                 title="Vider les erreurs maîtrisées"
               >
                 <Trash2 className="w-4 h-4" />
@@ -368,8 +368,8 @@ export const MistakeVaultView: React.FC<MistakeVaultViewProps> = ({
 
         {/* List of Mistake Cards */}
         {filteredMistakes.length === 0 ? (
-          <div className="p-12 text-center space-y-3">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-950/40 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mx-auto">
+          <div className="p-12 text-center space-y-3 rounded-2xl bg-slate-950 border border-slate-800">
+            <div className="w-12 h-12 rounded-2xl bg-slate-900 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mx-auto">
               <ShieldCheck className="w-6 h-6" />
             </div>
             <h3 className="text-base font-bold text-white">Aucune erreur dans cette catégorie !</h3>
@@ -386,8 +386,8 @@ export const MistakeVaultView: React.FC<MistakeVaultViewProps> = ({
                   key={item.id}
                   className={`p-4 rounded-2xl border transition-all space-y-3 flex flex-col justify-between ${
                     isMastered
-                      ? 'bg-emerald-950/10 border-emerald-500/20 opacity-70'
-                      : 'bg-blue-950/70 border-slate-800 hover:border-slate-700'
+                      ? 'bg-slate-950 border-emerald-500/30 opacity-75'
+                      : 'bg-slate-950 border-slate-800 hover:border-slate-700'
                   }`}
                 >
                   <div>
@@ -419,7 +419,7 @@ export const MistakeVaultView: React.FC<MistakeVaultViewProps> = ({
                         <button
                           type="button"
                           onClick={() => mistakeVaultService.removeMistake(item.id)}
-                          className="p-1 text-slate-500 hover:text-rose-400 rounded-md"
+                          className="p-1 text-slate-400 hover:text-rose-400 rounded-md"
                           title="Supprimer"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -464,7 +464,7 @@ export const MistakeVaultView: React.FC<MistakeVaultViewProps> = ({
 
                   {/* Card Action Footer */}
                   <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between">
-                    <span className="text-[10px] text-slate-500 font-mono">
+                    <span className="text-[10px] text-slate-400 font-mono">
                       Noté le {item.failedAt.split('T')[0]}
                     </span>
 
