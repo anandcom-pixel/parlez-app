@@ -74,7 +74,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   ] as const;
 
   return (
-    <header className="sticky top-0 z-40 bg-[#1f1905]/90 backdrop-blur-md border-b border-amber-900/50 transition-all">
+    <header className="sticky top-0 z-40 bg-[#fefce8]/90 backdrop-blur-md border-b border-amber-200/80 shadow-sm transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20 gap-2">
           {/* Logo */}
@@ -91,32 +91,32 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
             <div>
               <div className="flex items-center gap-1.5">
-                <span className="text-lg font-black tracking-tight text-white group-hover:text-indigo-300 transition-colors">
+                <span className="text-lg font-black tracking-tight text-slate-900 group-hover:text-indigo-600 transition-colors">
                   ParlezApp
                 </span>
-                <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300">
                   FRANÇAIS
                 </span>
               </div>
-              <p className="text-[11px] text-slate-400 hidden sm:block">ParlezApp for french learning</p>
+              <p className="text-[11px] text-slate-600 hidden sm:block">ParlezApp for french learning</p>
             </div>
           </div>
 
           {/* Quick Stats Pill */}
-          <div className="hidden md:flex items-center gap-3 bg-slate-900/90 border border-slate-800 px-3 py-1.5 rounded-2xl shadow-inner">
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-amber-400" title="Daily Streak">
+          <div className="hidden md:flex items-center gap-3 bg-white/90 border border-amber-200 px-3 py-1.5 rounded-2xl shadow-sm">
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-amber-800" title="Daily Streak">
               <Flame className="w-4 h-4 fill-amber-500 text-amber-500 animate-pulse" />
               <span>{stats.streak} {stats.streak === 1 ? 'jour' : 'jours'}</span>
             </div>
-            <div className="w-px h-3.5 bg-slate-800" />
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-violet-400" title="XP Points">
+            <div className="w-px h-3.5 bg-amber-200" />
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-violet-800" title="XP Points">
               <Zap className="w-4 h-4 fill-violet-500 text-violet-500" />
               <span>{stats.xp} XP</span>
             </div>
-            <div className="w-px h-3.5 bg-slate-800" />
+            <div className="w-px h-3.5 bg-amber-200" />
             <div
               onClick={() => onSelectTab('profile')}
-              className="text-[11px] font-medium text-slate-300 hover:text-white cursor-pointer px-2 py-0.5 rounded-md hover:bg-slate-800 transition-colors"
+              className="text-[11px] font-medium text-slate-700 hover:text-slate-950 cursor-pointer px-2 py-0.5 rounded-md hover:bg-amber-100 transition-colors"
             >
               {stats.levelRank.split(' ')[0]}
             </div>
@@ -125,7 +125,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Audio & Settings Controls */}
           <div className="flex items-center gap-2">
             {/* Speed Selector */}
-            <div className="flex items-center bg-slate-900 border border-slate-800 rounded-xl p-1 text-xs font-medium">
+            <div className="flex items-center bg-white/90 border border-amber-200 rounded-xl p-1 text-xs font-medium shadow-sm">
               <button
                 type="button"
                 onClick={() => {
@@ -133,10 +133,10 @@ export const Navbar: React.FC<NavbarProps> = ({
                   onSetSpeechRate(nextRate);
                   soundEffects.playTap();
                 }}
-                className="flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-slate-800 text-slate-300 hover:text-white transition-colors"
+                className="flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-amber-100 text-slate-700 hover:text-slate-950 transition-colors"
                 title="Audio playback speed"
               >
-                <Gauge className="w-3.5 h-3.5 text-indigo-400" />
+                <Gauge className="w-3.5 h-3.5 text-indigo-600" />
                 <span>{speechRate}x</span>
               </button>
             </div>
@@ -145,7 +145,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               type="button"
               onClick={() => setShowVoiceModal(true)}
-              className="px-2.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-medium text-slate-300 hover:text-white flex items-center gap-1.5 transition-colors"
+              className="px-2.5 py-1.5 rounded-xl bg-white/90 hover:bg-amber-100 border border-amber-200 text-xs font-medium text-slate-700 hover:text-slate-950 flex items-center gap-1.5 transition-colors shadow-sm"
               title="Select French Native TTS Voice"
             >
               <span className="text-sm">🗣️</span>
@@ -158,10 +158,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               type="button"
               onClick={handleToggleSound}
-              className={`p-2 rounded-xl border transition-all ${
+              className={`p-2 rounded-xl border transition-all shadow-sm ${
                 soundEnabled
-                  ? 'bg-slate-900 border-slate-800 text-slate-300 hover:text-white hover:border-slate-700'
-                  : 'bg-red-500/10 border-red-500/30 text-red-400'
+                  ? 'bg-white/90 border-amber-200 text-slate-700 hover:text-slate-950 hover:bg-amber-100'
+                  : 'bg-red-50 border-red-200 text-red-600'
               }`}
               title={soundEnabled ? 'Mute sound effects' : 'Unmute sound effects'}
             >
@@ -171,7 +171,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Tab Navigation Bar */}
-        <nav className="flex items-center space-x-1 overflow-x-auto py-2 no-scrollbar border-t border-slate-900">
+        <nav className="flex items-center space-x-1 overflow-x-auto py-2 no-scrollbar border-t border-amber-200/60">
           {navItems.map(item => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
@@ -185,11 +185,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                 }}
                 className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all select-none ${
                   isActive
-                    ? 'bg-indigo-600/20 text-indigo-300 border border-indigo-500/40 shadow-sm shadow-indigo-500/10'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+                    ? 'bg-amber-200/90 text-amber-950 border border-amber-400/80 shadow-sm font-bold'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-amber-100/70'
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-indigo-400' : 'text-slate-500'}`} />
+                <Icon className={`w-4 h-4 ${isActive ? 'text-amber-800' : 'text-slate-500'}`} />
                 <span>{item.label}</span>
               </button>
             );

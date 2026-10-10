@@ -70,7 +70,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#2e2608] via-[#1f1905] to-[#141003] text-slate-100 flex flex-col font-sans selection:bg-amber-400 selection:text-slate-950">
+    <div className="min-h-screen bg-[#fefce8] bg-gradient-to-b from-[#fefce8] via-[#fffdf0] to-[#fef9c3]/30 text-slate-900 flex flex-col font-sans selection:bg-amber-300 selection:text-amber-950">
       {/* Top Navbar */}
       <Navbar
         activeTab={activeTab}
@@ -143,15 +143,15 @@ export function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-amber-950/80 bg-[#141003]/95 py-8 px-4 text-center text-xs text-slate-400">
+      <footer className="border-t border-amber-200/80 bg-amber-100/60 py-8 px-4 text-center text-xs text-slate-600">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-300">ParlezApp for french learning</span>
+            <span className="font-bold text-slate-800">ParlezApp for french learning</span>
             <span>•</span>
-            <span className="text-slate-400">Plateforme Autonome d'Apprentissage & Voix</span>
+            <span className="text-slate-600">Plateforme Autonome d'Apprentissage & Voix</span>
           </div>
 
-          <div className="flex items-center gap-4 text-slate-400">
+          <div className="flex items-center gap-4 text-slate-600">
             <span>CEFR A1 – C1</span>
             <span>•</span>
             <span>Web Speech API (TTS & STT fr-FR)</span>

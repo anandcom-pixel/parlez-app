@@ -121,10 +121,10 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
       {/* CEFR Modular Level Selector Tabs */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+          <span className="text-xs font-bold uppercase tracking-wider text-slate-700">
             Niveau de Maîtrise / Skill Level
           </span>
-          <span className="text-xs text-indigo-400 font-semibold">
+          <span className="text-xs text-indigo-700 font-bold">
             {CEFR_METADATA[selectedLevel].name}
           </span>
         </div>
@@ -167,8 +167,8 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Side: Lesson Selection Cards */}
         <div className="lg:col-span-4 space-y-3">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
-            <BookOpen className="w-4 h-4 text-indigo-400" />
+          <h2 className="text-sm font-bold uppercase tracking-wider text-slate-700 flex items-center gap-2">
+            <BookOpen className="w-4 h-4 text-indigo-600" />
             Modules ({selectedLevel})
           </h2>
 

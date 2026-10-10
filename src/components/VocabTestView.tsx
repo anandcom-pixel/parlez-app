@@ -366,86 +366,91 @@ export const VocabTestView: React.FC<VocabTestViewProps> = ({
 
   return (
     <div className="space-y-8 animate-in fade-in pb-16 max-w-5xl mx-auto">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase bg-violet-500/20 text-violet-300 border border-violet-500/30 flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5" />
-              Générateur d'Évaluations
-            </span>
-            <span className="text-xs text-slate-400">Évaluation & Ancrage Mémoriel</span>
+      {/* Header Banner */}
+      <div className="relative rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950/60 to-slate-900 border border-indigo-900/40 p-6 sm:p-8 shadow-2xl">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-1 max-w-xl">
+            <div className="flex items-center gap-2">
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase bg-violet-500/20 text-violet-300 border border-violet-500/30 flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5" />
+                Générateur d'Évaluations
+              </span>
+              <span className="text-xs text-slate-400">Évaluation & Ancrage Mémoriel</span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
+              Laboratoire de Tests & Vocabulaire
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              Évaluez votre rétention avec les tests QCM, association de paires et dictées orthographiques interactives.
+            </p>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white mt-1">
-            Laboratoire de Tests & Vocabulaire
-          </h1>
-        </div>
 
-        {/* Test Type Selectors */}
-        {!isTestActive && !testSummary && (
-          <div className="flex items-center gap-1.5 bg-slate-900 p-1.5 rounded-2xl border border-slate-800 shrink-0">
-            <button
-              type="button"
-              onClick={() => {
-                soundEffects.playTap();
-                setSelectedTestType('multiple-choice');
-              }}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all ${
-                selectedTestType === 'multiple-choice'
-                  ? 'bg-indigo-600 text-white shadow-sm'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              <HelpCircle className="w-3.5 h-3.5" />
-              <span>QCM</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                soundEffects.playTap();
-                setSelectedTestType('matching');
-              }}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all ${
-                selectedTestType === 'matching'
-                  ? 'bg-indigo-600 text-white shadow-sm'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              <Layers className="w-3.5 h-3.5" />
-              <span>Paires</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                soundEffects.playTap();
-                setSelectedTestType('spelling');
-              }}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all ${
-                selectedTestType === 'spelling'
-                  ? 'bg-indigo-600 text-white shadow-sm'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              <Keyboard className="w-3.5 h-3.5" />
-              <span>Dictée</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                soundEffects.playTap();
-                setSelectedTestType('mixed');
-              }}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all ${
-                selectedTestType === 'mixed'
-                  ? 'bg-indigo-600 text-white shadow-sm'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              <Shuffle className="w-3.5 h-3.5" />
-              <span>Mixte</span>
-            </button>
-          </div>
-        )}
+          {/* Test Type Selectors */}
+          {!isTestActive && !testSummary && (
+            <div className="flex items-center gap-1.5 bg-slate-950/80 p-1.5 rounded-2xl border border-slate-800 shrink-0">
+              <button
+                type="button"
+                onClick={() => {
+                  soundEffects.playTap();
+                  setSelectedTestType('multiple-choice');
+                }}
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all ${
+                  selectedTestType === 'multiple-choice'
+                    ? 'bg-indigo-600 text-white shadow-sm'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                <HelpCircle className="w-3.5 h-3.5" />
+                <span>QCM</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  soundEffects.playTap();
+                  setSelectedTestType('matching');
+                }}
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all ${
+                  selectedTestType === 'matching'
+                    ? 'bg-indigo-600 text-white shadow-sm'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                <Layers className="w-3.5 h-3.5" />
+                <span>Paires</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  soundEffects.playTap();
+                  setSelectedTestType('spelling');
+                }}
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all ${
+                  selectedTestType === 'spelling'
+                    ? 'bg-indigo-600 text-white shadow-sm'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                <Keyboard className="w-3.5 h-3.5" />
+                <span>Dictée</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  soundEffects.playTap();
+                  setSelectedTestType('mixed');
+                }}
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all ${
+                  selectedTestType === 'mixed'
+                    ? 'bg-indigo-600 text-white shadow-sm'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                <Shuffle className="w-3.5 h-3.5" />
+                <span>Mixte</span>
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Configuration Screen (when no test is running and no summary) */}
