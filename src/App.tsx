@@ -151,11 +151,11 @@ export function App() {
             <span className="text-slate-700 font-medium">Plateforme Autonome d'Apprentissage & Voix</span>
           </div>
 
-          {/* Professional Creator & Tester Credits */}
-          <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/90 border border-amber-300 shadow-sm text-slate-800 font-semibold tracking-wide text-xs">
-            <span>Created by <strong className="text-slate-950 font-black">ANAND MOHANDAS</strong></span>
-            <span className="text-amber-500 font-bold">|</span>
-            <span>Tester: <strong className="text-slate-950 font-black">Sreegovind</strong></span>
+          {/* Creator & Tester Credits */}
+          <div className="flex items-center gap-2 text-xs font-semibold tracking-wide text-blue-950">
+            <span>Created by <strong className="font-bold text-blue-950">ANAND MOHANDAS</strong></span>
+            <span className="text-blue-800/70 font-semibold">|</span>
+            <span>Tester: <strong className="font-bold text-blue-950">Sreegovind</strong></span>
           </div>
 
           <div className="flex items-center gap-3 text-slate-600 text-xs">
