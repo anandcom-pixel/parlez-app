@@ -16,16 +16,28 @@ class SpeechService {
   private listeners: Set<(isSpeaking: boolean) => void> = new Set();
   private voiceChangeListeners: Set<() => void> = new Set();
 
+  private initialized: boolean = false;
+
   constructor() {
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
       this.synth = window.speechSynthesis;
-      this.loadVoices();
+      // Defer initial voice enumeration so it never blocks the initial render
+      const scheduleInit = window.requestIdleCallback || ((cb: () => void) => window.setTimeout(cb, 50));
+      scheduleInit(() => {
+        this.ensureInitialized();
+      });
+    }
+  }
 
-      if (this.synth.onvoiceschanged !== undefined) {
-        this.synth.onvoiceschanged = () => {
-          this.loadVoices();
-        };
-      }
+  private ensureInitialized() {
+    if (this.initialized || !this.synth) return;
+    this.initialized = true;
+    this.loadVoices();
+
+    if (this.synth.onvoiceschanged !== undefined) {
+      this.synth.onvoiceschanged = () => {
+        this.loadVoices();
+      };
     }
   }
 
@@ -53,6 +65,9 @@ class SpeechService {
 
   public getFrenchVoices(): FrenchVoiceOption[] {
     if (!this.synth) return [];
+    if (!this.initialized) {
+      this.initialized = true;
+    }
 
     const allVoices = this.synth.getVoices();
     const french = allVoices.filter(v => v.lang.toLowerCase().startsWith('fr'));

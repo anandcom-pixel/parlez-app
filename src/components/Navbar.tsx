@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import {
   BookOpen,
   CheckCircle2,
@@ -27,7 +27,7 @@ interface NavbarProps {
   onSetSpeechRate: (rate: number) => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({
+export const Navbar: React.FC<NavbarProps> = memo(({
   activeTab,
   onSelectTab,
   stats,
@@ -74,7 +74,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   ] as const;
 
   return (
-    <header className="sticky top-0 z-40 bg-[#fef08a]/95 backdrop-blur-md border-b border-amber-300 shadow-sm transition-all">
+    <header className="sticky top-0 z-40 bg-[#ffffb3]/95 backdrop-blur-md border-b border-amber-300 shadow-sm transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20 gap-2">
           {/* Logo */}
@@ -265,4 +265,4 @@ export const Navbar: React.FC<NavbarProps> = ({
       )}
     </header>
   );
-};
+});

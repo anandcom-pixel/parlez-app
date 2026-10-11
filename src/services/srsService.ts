@@ -1,5 +1,5 @@
 import type { LeitnerCard, UserStats, Badge, VocabularyItem } from '../types';
-import { CURRICULUM_DATA } from '../data/curriculumData';
+import { A1_CURRICULUM_DATA } from '../data/a1InitialData';
 
 const SRS_CARDS_KEY = 'parlezapp_srs_cards_v1';
 const USER_STATS_KEY = 'parlezapp_user_stats_v1';
@@ -100,7 +100,7 @@ class SRSService {
   }
 
   private seedInitialCards() {
-    const seedVocabs = CURRICULUM_DATA.flatMap(l => l.vocabulary).slice(0, 12);
+    const seedVocabs = A1_CURRICULUM_DATA.flatMap(l => l.vocabulary).slice(0, 12);
     const today = new Date().toISOString();
 
     this.cards = seedVocabs.map((vocab, index) => {
@@ -233,7 +233,7 @@ class SRSService {
 
     if (!card) {
       // Find vocab details
-      const vocab = vocabItem || CURRICULUM_DATA.flatMap(l => l.vocabulary).find(v => v.id === vocabId);
+      const vocab = vocabItem || A1_CURRICULUM_DATA.flatMap(l => l.vocabulary).find(v => v.id === vocabId);
       if (!vocab) return;
 
       card = {

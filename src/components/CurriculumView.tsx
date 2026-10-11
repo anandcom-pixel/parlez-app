@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, memo } from 'react';
 import {
   Volume2,
   Sparkles,
@@ -13,9 +13,11 @@ import {
   Square
 } from 'lucide-react';
 import type { Lesson, CEFRLevel, VocabularyItem } from '../types';
-import { CURRICULUM_DATA, CEFR_METADATA } from '../data/curriculumData';
+import { A1_CURRICULUM_DATA, CEFR_METADATA, loadFullCurriculumData } from '../data/a1InitialData';
 import { speechService } from '../services/speechService';
 import { soundEffects } from '../services/soundEffects';
+
+const LEVELS: CEFRLevel[] = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
 interface CurriculumViewProps {
   speechRate: number;
@@ -23,44 +25,71 @@ interface CurriculumViewProps {
   onStartVoicePractice: (vocab: VocabularyItem) => void;
 }
 
-export const CurriculumView: React.FC<CurriculumViewProps> = ({
+export const CurriculumView: React.FC<CurriculumViewProps> = memo(({
   speechRate,
   onStartTest,
   onStartVoicePractice
 }) => {
+  const [allLessons, setAllLessons] = useState<Lesson[]>(A1_CURRICULUM_DATA);
   const [selectedLevel, setSelectedLevel] = useState<CEFRLevel>('A1');
   const [activeLessonId, setActiveLessonId] = useState<string>(
-    CURRICULUM_DATA.find(l => l.level === 'A1')?.id || CURRICULUM_DATA[0].id
+    A1_CURRICULUM_DATA[0].id
   );
   const [currentlyPlayingWord, setCurrentlyPlayingWord] = useState<string | null>(null);
   const [isPlayingDialogue, setIsPlayingDialogue] = useState<boolean>(false);
   const [activeDialogueIndex, setActiveDialogueIndex] = useState<number>(-1);
 
-  const levels: CEFRLevel[] = ['A1', 'A2', 'B1', 'B2', 'C1'];
+  // Pre-warm A2-C1 lesson dataset during browser idle time after initial A1 paint
+  useEffect(() => {
+    let mounted = true;
+    const scheduleLoad = window.requestIdleCallback || ((cb: () => void) => window.setTimeout(cb, 200));
+    scheduleLoad(() => {
+      loadFullCurriculumData().then(fullData => {
+        if (mounted) {
+          setAllLessons(fullData);
+        }
+      });
+    });
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
-  const lessonsForLevel = CURRICULUM_DATA.filter(l => l.level === selectedLevel);
-  const currentLesson = CURRICULUM_DATA.find(l => l.id === activeLessonId) || lessonsForLevel[0];
+  const lessonsForLevel = useMemo(
+    () => allLessons.filter(l => l.level === selectedLevel),
+    [allLessons, selectedLevel]
+  );
 
-  const handleLevelChange = (lvl: CEFRLevel) => {
+  const currentLesson = useMemo(
+    () => allLessons.find(l => l.id === activeLessonId) || lessonsForLevel[0] || A1_CURRICULUM_DATA[0],
+    [allLessons, activeLessonId, lessonsForLevel]
+  );
+
+  const handleLevelChange = useCallback(async (lvl: CEFRLevel) => {
     setSelectedLevel(lvl);
     soundEffects.playTap();
-    const firstLesson = CURRICULUM_DATA.find(l => l.level === lvl);
+    let pool = allLessons;
+    if (lvl !== 'A1' && pool.length <= A1_CURRICULUM_DATA.length) {
+      pool = await loadFullCurriculumData();
+      setAllLessons(pool);
+    }
+    const firstLesson = pool.find(l => l.level === lvl);
     if (firstLesson) {
       setActiveLessonId(firstLesson.id);
     }
-  };
+  }, [allLessons]);
 
-  const handlePlayAudio = (text: string, id: string) => {
+  const handlePlayAudio = useCallback((text: string, id: string) => {
     soundEffects.playTap();
     setCurrentlyPlayingWord(id);
     speechService.speak(text, {
       rate: speechRate,
       onEnd: () => setCurrentlyPlayingWord(null)
     });
-  };
+  }, [speechRate]);
 
   // Play full dialogue turn by turn
-  const handlePlayDialogue = async () => {
+  const handlePlayDialogue = useCallback(async () => {
     if (!currentLesson?.dialogue) return;
     if (isPlayingDialogue) {
       speechService.stop();
@@ -81,7 +110,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
 
     setIsPlayingDialogue(false);
     setActiveDialogueIndex(-1);
-  };
+  }, [currentLesson, isPlayingDialogue, speechRate]);
 
   const firstVocab = currentLesson?.vocabulary[0];
 
@@ -153,7 +182,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
           </span>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 sm:gap-3">
-          {levels.map(lvl => {
+          {LEVELS.map(lvl => {
             const isSelected = selectedLevel === lvl;
             const meta = CEFR_METADATA[lvl];
             const levelLabel =
@@ -595,4 +624,4 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
       </div>
     </div>
   );
-};
+});
