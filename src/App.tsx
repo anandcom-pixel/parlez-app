@@ -70,7 +70,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fef08a] bg-gradient-to-b from-[#fef08a] via-[#fef9c3] to-[#fef08a] text-slate-900 flex flex-col font-sans selection:bg-amber-400 selection:text-amber-950">
+    <div className="min-h-screen bg-[#fdef81] text-slate-900 flex flex-col font-sans selection:bg-amber-400 selection:text-amber-950">
       {/* Top Navbar */}
       <Navbar
         activeTab={activeTab}
