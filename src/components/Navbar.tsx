@@ -22,6 +22,7 @@ export type NavigationTab = 'curriculum' | 'tests' | 'speed' | 'builder' | 'voic
 interface NavbarProps {
   activeTab: NavigationTab;
   onSelectTab: (tab: NavigationTab) => void;
+  onHoverTab?: (tab: NavigationTab) => void;
   stats: UserStats;
   speechRate: number;
   onSetSpeechRate: (rate: number) => void;
@@ -30,6 +31,7 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = memo(({
   activeTab,
   onSelectTab,
+  onHoverTab,
   stats,
   speechRate,
   onSetSpeechRate
@@ -180,6 +182,8 @@ export const Navbar: React.FC<NavbarProps> = memo(({
               <button
                 key={item.id}
                 type="button"
+                onMouseEnter={() => onHoverTab?.(item.id)}
+                onFocus={() => onHoverTab?.(item.id)}
                 onClick={() => {
                   soundEffects.playTap();
                   onSelectTab(item.id);

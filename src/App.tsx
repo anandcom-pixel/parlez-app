@@ -1,39 +1,59 @@
-import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
+import { useState, useEffect, useCallback, lazy, Suspense, startTransition } from 'react';
 import { Navbar, type NavigationTab } from './components/Navbar';
 import { CurriculumView } from './components/CurriculumView';
 import type { Lesson, VocabularyItem, UserStats } from './types';
 import { srsService } from './services/srsService';
 import { A1_CURRICULUM_DATA, loadFullCurriculumData } from './data/a1InitialData';
 
-// Lazy-load secondary heavy views so only the primary A1 Curriculum view loads in the initial bundle
-const VocabTestView = lazy(() =>
-  import('./components/VocabTestView').then(m => ({ default: m.VocabTestView }))
-);
-const SpeedDrillView = lazy(() =>
-  import('./components/SpeedDrillView').then(m => ({ default: m.SpeedDrillView }))
-);
-const SentenceBuilderView = lazy(() =>
-  import('./components/SentenceBuilderView').then(m => ({ default: m.SentenceBuilderView }))
-);
-const VoiceStudioView = lazy(() =>
-  import('./components/VoiceStudioView').then(m => ({ default: m.VoiceStudioView }))
-);
-const MistakeVaultView = lazy(() =>
-  import('./components/MistakeVaultView').then(m => ({ default: m.MistakeVaultView }))
-);
-const SRSReviewView = lazy(() =>
-  import('./components/SRSReviewView').then(m => ({ default: m.SRSReviewView }))
-);
-const ProfileProgressView = lazy(() =>
-  import('./components/ProfileProgressView').then(m => ({ default: m.ProfileProgressView }))
-);
+// Dynamic chunk loaders for on-demand and hover/idle preloading
+const loadVocabTestView = () => import('./components/VocabTestView').then(m => ({ default: m.VocabTestView }));
+const loadSpeedDrillView = () => import('./components/SpeedDrillView').then(m => ({ default: m.SpeedDrillView }));
+const loadSentenceBuilderView = () => import('./components/SentenceBuilderView').then(m => ({ default: m.SentenceBuilderView }));
+const loadVoiceStudioView = () => import('./components/VoiceStudioView').then(m => ({ default: m.VoiceStudioView }));
+const loadMistakeVaultView = () => import('./components/MistakeVaultView').then(m => ({ default: m.MistakeVaultView }));
+const loadSRSReviewView = () => import('./components/SRSReviewView').then(m => ({ default: m.SRSReviewView }));
+const loadProfileProgressView = () => import('./components/ProfileProgressView').then(m => ({ default: m.ProfileProgressView }));
+
+const VocabTestView = lazy(loadVocabTestView);
+const SpeedDrillView = lazy(loadSpeedDrillView);
+const SentenceBuilderView = lazy(loadSentenceBuilderView);
+const VoiceStudioView = lazy(loadVoiceStudioView);
+const MistakeVaultView = lazy(loadMistakeVaultView);
+const SRSReviewView = lazy(loadSRSReviewView);
+const ProfileProgressView = lazy(loadProfileProgressView);
+
+function preloadTabChunk(tab: NavigationTab) {
+  switch (tab) {
+    case 'tests':
+      loadVocabTestView();
+      break;
+    case 'speed':
+      loadSpeedDrillView();
+      break;
+    case 'builder':
+      loadSentenceBuilderView();
+      break;
+    case 'voice':
+      loadVoiceStudioView();
+      break;
+    case 'vault':
+      loadMistakeVaultView();
+      break;
+    case 'srs':
+      loadSRSReviewView();
+      break;
+    case 'profile':
+      loadProfileProgressView();
+      break;
+    default:
+      break;
+  }
+}
 
 function ViewLoadingFallback() {
   return (
-    <div className="rounded-3xl bg-slate-900 border border-slate-700/80 p-8 sm:p-12 shadow-xl text-center space-y-4 animate-pulse">
-      <div className="w-12 h-12 rounded-2xl bg-slate-800 border border-slate-700 mx-auto" />
-      <div className="h-5 w-48 bg-slate-800 rounded-lg mx-auto" />
-      <div className="h-3 w-72 max-w-full bg-slate-800/70 rounded-lg mx-auto" />
+    <div className="flex items-center justify-center py-6">
+      <div className="w-5 h-5 rounded-full border-2 border-indigo-600 border-t-transparent animate-spin" />
     </div>
   );
 }
@@ -52,34 +72,64 @@ export function App() {
     return () => unsub();
   }, []);
 
+  // Pre-warm secondary view chunks during browser idle time so tab transitions are instantaneous
+  useEffect(() => {
+    const scheduleIdle = window.requestIdleCallback || ((cb: () => void) => window.setTimeout(cb, 300));
+    scheduleIdle(() => {
+      loadVocabTestView();
+      loadVoiceStudioView();
+      loadSRSReviewView();
+      loadSpeedDrillView();
+      loadSentenceBuilderView();
+      loadMistakeVaultView();
+      loadProfileProgressView();
+    });
+  }, []);
+
   const handleSelectTab = useCallback((tab: NavigationTab) => {
-    setActiveTab(tab);
+    preloadTabChunk(tab);
+    startTransition(() => {
+      setActiveTab(tab);
+    });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   const handleStartTest = useCallback((lesson: Lesson) => {
+    loadVocabTestView();
     setTestLesson(lesson);
-    setActiveTab('tests');
+    startTransition(() => {
+      setActiveTab('tests');
+    });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   const handleStartVoicePractice = useCallback((vocab: VocabularyItem) => {
+    loadVoiceStudioView();
     setVoiceVocab(vocab);
-    setActiveTab('voice');
+    startTransition(() => {
+      setActiveTab('voice');
+    });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   const handleNavigateToSRS = useCallback(() => {
-    setActiveTab('srs');
+    loadSRSReviewView();
+    startTransition(() => {
+      setActiveTab('srs');
+    });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   const handleNavigateToVault = useCallback(() => {
-    setActiveTab('vault');
+    loadMistakeVaultView();
+    startTransition(() => {
+      setActiveTab('vault');
+    });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   const handleVoiceFromVault = useCallback(async (frenchText: string) => {
+    loadVoiceStudioView();
     const lowerText = frenchText.toLowerCase();
     let found = A1_CURRICULUM_DATA.flatMap(l => l.vocabulary).find(
       v => v.french.toLowerCase() === lowerText
@@ -104,7 +154,9 @@ export function App() {
         category: 'Vault Error'
       });
     }
-    setActiveTab('voice');
+    startTransition(() => {
+      setActiveTab('voice');
+    });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
@@ -114,6 +166,7 @@ export function App() {
       <Navbar
         activeTab={activeTab}
         onSelectTab={handleSelectTab}
+        onHoverTab={preloadTabChunk}
         stats={stats}
         speechRate={speechRate}
         onSetSpeechRate={setSpeechRate}
