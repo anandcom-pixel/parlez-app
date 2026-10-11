@@ -157,30 +157,30 @@ export const MistakeVaultView: React.FC<MistakeVaultViewProps> = ({
 
       {/* Stats Counter Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1 text-center">
+        <div className="p-4 rounded-2xl bg-slate-900 border border-slate-700/80 shadow-md space-y-1 text-center">
           <div className="text-2xl font-black text-rose-400">{stats.unresolved}</div>
-          <div className="text-[11px] text-slate-400 font-medium">Erreurs Actives</div>
+          <div className="text-[11px] text-slate-300 font-medium">Erreurs Actives</div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1 text-center">
+        <div className="p-4 rounded-2xl bg-slate-900 border border-slate-700/80 shadow-md space-y-1 text-center">
           <div className="text-2xl font-black text-emerald-400">{stats.mastered}</div>
-          <div className="text-[11px] text-slate-400 font-medium">Erreurs Maîtrisées</div>
+          <div className="text-[11px] text-slate-300 font-medium">Erreurs Maîtrisées</div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1 text-center">
+        <div className="p-4 rounded-2xl bg-slate-900 border border-slate-700/80 shadow-md space-y-1 text-center">
           <div className="text-2xl font-black text-indigo-400">{stats.vocabCount}</div>
-          <div className="text-[11px] text-slate-400 font-medium">Mots de Vocabulaire</div>
+          <div className="text-[11px] text-slate-300 font-medium">Mots de Vocabulaire</div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1 text-center">
+        <div className="p-4 rounded-2xl bg-slate-900 border border-slate-700/80 shadow-md space-y-1 text-center">
           <div className="text-2xl font-black text-amber-400">{stats.pronunciationCount + stats.grammarCount}</div>
-          <div className="text-[11px] text-slate-400 font-medium">Voix & Syntaxe</div>
+          <div className="text-[11px] text-slate-300 font-medium">Voix & Syntaxe</div>
         </div>
       </div>
 
       {/* Active Cleansing / Re-testing Session Card */}
       {isCleansingSession && currentCleansingItem && (
-        <div className="p-6 sm:p-10 rounded-3xl bg-slate-900 border border-slate-800 shadow-2xl space-y-6 animate-in zoom-in-95">
+        <div className="p-6 sm:p-10 rounded-3xl bg-slate-900 border border-slate-700/80 shadow-2xl space-y-6 animate-in zoom-in-95">
           <div className="flex items-center justify-between text-xs text-slate-400 font-medium">
             <span className="flex items-center gap-2">
               <span className="text-rose-400 font-bold">Purge du Coffre :</span>
@@ -307,9 +307,9 @@ export const MistakeVaultView: React.FC<MistakeVaultViewProps> = ({
       )}
 
       {/* Vault Browser Card */}
-      <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl space-y-6">
+      <div className="p-6 rounded-3xl bg-slate-900 border border-slate-700/80 shadow-xl space-y-6">
         {/* Filter Controls Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-700/70 pb-4">
           {/* Category Filter */}
           <div className="flex flex-wrap items-center gap-1.5">
             <span className="text-xs font-bold text-slate-400 mr-1">Catégorie :</span>
@@ -321,7 +321,7 @@ export const MistakeVaultView: React.FC<MistakeVaultViewProps> = ({
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
                   filterType === cat
                     ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 shadow-sm'
-                    : 'text-slate-400 hover:text-white bg-slate-950 border border-slate-800'
+                    : 'text-slate-300 hover:text-white bg-slate-950 border border-slate-700/70'
                 }`}
               >
                 {cat === 'ALL' ? 'Toutes' : cat === 'vocab' ? 'Vocabulaire' : cat === 'pronunciation' ? 'Prononciation' : 'Grammaire'}
@@ -368,12 +368,12 @@ export const MistakeVaultView: React.FC<MistakeVaultViewProps> = ({
 
         {/* List of Mistake Cards */}
         {filteredMistakes.length === 0 ? (
-          <div className="p-12 text-center space-y-3 rounded-2xl bg-slate-950 border border-slate-800">
+          <div className="p-12 text-center space-y-3 rounded-2xl bg-slate-950 border border-slate-700/70">
             <div className="w-12 h-12 rounded-2xl bg-slate-900 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mx-auto">
               <ShieldCheck className="w-6 h-6" />
             </div>
             <h3 className="text-base font-bold text-white">Aucune erreur dans cette catégorie !</h3>
-            <p className="text-xs text-slate-400 max-w-sm mx-auto">
+            <p className="text-xs text-slate-300 max-w-sm mx-auto">
               Votre coffre est vide pour ce filtre. Continuez à vous entraîner dans les tests, le Voice Studio ou le Speed Drill.
             </p>
           </div>
@@ -387,7 +387,7 @@ export const MistakeVaultView: React.FC<MistakeVaultViewProps> = ({
                   className={`p-4 rounded-2xl border transition-all space-y-3 flex flex-col justify-between ${
                     isMastered
                       ? 'bg-slate-950 border-emerald-500/30 opacity-75'
-                      : 'bg-slate-950 border-slate-800 hover:border-slate-700'
+                      : 'bg-slate-950 border-slate-700/70 hover:border-slate-600'
                   }`}
                 >
                   <div>
@@ -433,7 +433,7 @@ export const MistakeVaultView: React.FC<MistakeVaultViewProps> = ({
                         <h4 className="text-base font-bold text-white">
                           {item.french}
                         </h4>
-                        <p className="text-xs text-slate-400 mt-0.5">
+                        <p className="text-xs text-slate-300 mt-0.5">
                           {item.english}
                         </p>
                       </div>
@@ -449,7 +449,7 @@ export const MistakeVaultView: React.FC<MistakeVaultViewProps> = ({
                     </div>
 
                     {/* Context Note */}
-                    <div className="mt-2.5 p-2 rounded-xl bg-slate-900 border border-slate-800 text-[11px] text-slate-300">
+                    <div className="mt-2.5 p-2 rounded-xl bg-slate-900 border border-slate-700/70 text-[11px] text-slate-300">
                       <span className="text-amber-400 font-semibold">Diagnostic : </span>
                       <span>{item.contextNote}</span>
                     </div>

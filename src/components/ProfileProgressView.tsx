@@ -94,48 +94,48 @@ export const ProfileProgressView: React.FC<ProfileProgressViewProps> = ({ stats 
 
       {/* Stats Grid Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1 text-center">
+        <div className="p-4 rounded-2xl bg-slate-900 border border-slate-700/80 shadow-md space-y-1 text-center">
           <div className="flex justify-center mb-1">
             <Flame className="w-6 h-6 text-amber-500 fill-amber-500" />
           </div>
           <div className="text-2xl font-black text-white">{stats.streak}</div>
-          <div className="text-[11px] text-slate-400 font-medium">Jours Consécutifs</div>
+          <div className="text-[11px] text-slate-300 font-medium">Jours Consécutifs</div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1 text-center">
+        <div className="p-4 rounded-2xl bg-slate-900 border border-slate-700/80 shadow-md space-y-1 text-center">
           <div className="flex justify-center mb-1">
             <Zap className="w-6 h-6 text-violet-500 fill-violet-500" />
           </div>
           <div className="text-2xl font-black text-violet-300">{stats.xp}</div>
-          <div className="text-[11px] text-slate-400 font-medium">XP Totaux</div>
+          <div className="text-[11px] text-slate-300 font-medium">XP Totaux</div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1 text-center">
+        <div className="p-4 rounded-2xl bg-slate-900 border border-slate-700/80 shadow-md space-y-1 text-center">
           <div className="flex justify-center mb-1">
             <Brain className="w-6 h-6 text-emerald-500" />
           </div>
           <div className="text-2xl font-black text-emerald-300">{stats.wordsMastered}</div>
-          <div className="text-[11px] text-slate-400 font-medium">Mots Maîtrisés (B4/B5)</div>
+          <div className="text-[11px] text-slate-300 font-medium">Mots Maîtrisés (B4/B5)</div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1 text-center">
+        <div className="p-4 rounded-2xl bg-slate-900 border border-slate-700/80 shadow-md space-y-1 text-center">
           <div className="flex justify-center mb-1">
             <Mic className="w-6 h-6 text-rose-500" />
           </div>
           <div className="text-2xl font-black text-rose-300">{stats.voiceDrillsPassed}</div>
-          <div className="text-[11px] text-slate-400 font-medium">Défis Vocaux Réussis</div>
+          <div className="text-[11px] text-slate-300 font-medium">Défis Vocaux Réussis</div>
         </div>
       </div>
 
       {/* Badges & Achievements Section */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl space-y-4">
+      <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-700/80 shadow-xl space-y-4">
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
             <h2 className="text-lg font-bold text-white flex items-center gap-2">
               <Award className="w-5 h-5 text-amber-400" />
               Insignes & Trophées d’Éloquence
             </h2>
-            <p className="text-xs text-slate-400">Accomplissements récompensant votre régularité et précision</p>
+            <p className="text-xs text-slate-300">Accomplissements récompensant votre régularité et précision</p>
           </div>
         </div>
 
@@ -148,7 +148,7 @@ export const ProfileProgressView: React.FC<ProfileProgressViewProps> = ({ stats 
                 className={`p-4 rounded-2xl border transition-all ${
                   isUnlocked
                     ? 'bg-slate-950 border-indigo-500/40 shadow-sm'
-                    : 'bg-slate-950 border-slate-800 opacity-60 grayscale'
+                    : 'bg-slate-950 border-slate-700/70 opacity-65 grayscale'
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -158,7 +158,7 @@ export const ProfileProgressView: React.FC<ProfileProgressViewProps> = ({ stats 
                       <span>{badge.title}</span>
                       {isUnlocked && <Check className="w-3.5 h-3.5 text-emerald-400" />}
                     </div>
-                    <p className="text-xs text-slate-400 mt-0.5">{badge.description}</p>
+                    <p className="text-xs text-slate-300 mt-0.5">{badge.description}</p>
                     {isUnlocked && badge.unlockedAt && (
                       <span className="text-[10px] text-indigo-400 font-mono block mt-1">
                         Débloqué le {badge.unlockedAt.split('T')[0]}
@@ -173,7 +173,7 @@ export const ProfileProgressView: React.FC<ProfileProgressViewProps> = ({ stats 
       </div>
 
       {/* Danger Zone: Reset Data */}
-      <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 space-y-4">
+      <div className="p-6 rounded-3xl bg-slate-900 border border-slate-700/80 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h3 className="text-sm font-bold text-white flex items-center gap-2">

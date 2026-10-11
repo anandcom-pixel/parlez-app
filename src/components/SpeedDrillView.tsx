@@ -207,7 +207,7 @@ export const SpeedDrillView: React.FC<SpeedDrillViewProps> = ({
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
-            <div className="p-3 rounded-2xl bg-slate-950 border border-slate-800 text-right">
+            <div className="p-3 rounded-2xl bg-slate-950 border border-slate-700/80 text-right">
               <div className="text-[10px] uppercase font-bold text-slate-400 flex items-center justify-end gap-1">
                 <Trophy className="w-3.5 h-3.5 text-amber-400" />
                 Record
@@ -220,7 +220,7 @@ export const SpeedDrillView: React.FC<SpeedDrillViewProps> = ({
 
       {/* Start / Configuration Screen */}
       {!isPlaying && !isGameOver && (
-        <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl space-y-6 text-center">
+        <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-700/80 shadow-xl space-y-6 text-center">
           <div className="max-w-md mx-auto space-y-3">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-500 to-rose-600 p-0.5 shadow-xl shadow-amber-500/20">
               <div className="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">
@@ -230,7 +230,7 @@ export const SpeedDrillView: React.FC<SpeedDrillViewProps> = ({
             <h2 className="text-xl sm:text-2xl font-bold text-white">
               Prêt pour un sprint de 30 secondes ?
             </h2>
-            <p className="text-xs sm:text-sm text-slate-400">
+            <p className="text-xs sm:text-sm text-slate-300">
               Choisissez votre niveau de difficulté et battez votre meilleur score !
             </p>
           </div>
@@ -248,7 +248,7 @@ export const SpeedDrillView: React.FC<SpeedDrillViewProps> = ({
                 className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all border ${
                   levelFilter === lvl
                     ? 'bg-amber-500/20 text-amber-300 border-amber-500/60 shadow-md ring-1 ring-amber-500/40'
-                    : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-white'
+                    : 'bg-slate-950 text-slate-300 border-slate-700/70 hover:text-white'
                 }`}
               >
                 {lvl === 'ALL' ? 'Tous Niveaux' : lvl}
@@ -271,7 +271,7 @@ export const SpeedDrillView: React.FC<SpeedDrillViewProps> = ({
 
       {/* Active Game Screen */}
       {isPlaying && currentQuestion && (
-        <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 shadow-2xl space-y-6">
+        <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-700/80 shadow-2xl space-y-6">
           {/* Top Bar: Timer, Score, Combo */}
           <div className="flex items-center justify-between">
             {/* Live Timer */}
@@ -279,7 +279,7 @@ export const SpeedDrillView: React.FC<SpeedDrillViewProps> = ({
               <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-mono text-sm font-black border ${
                 timeLeft <= 5
                   ? 'bg-slate-950 text-rose-300 border-rose-500 animate-pulse'
-                  : 'bg-slate-950 text-amber-400 border-slate-800'
+                  : 'bg-slate-950 text-amber-400 border-slate-700/70'
               }`}>
                 <Timer className="w-4 h-4" />
                 <span>{timeLeft}s</span>
@@ -304,7 +304,7 @@ export const SpeedDrillView: React.FC<SpeedDrillViewProps> = ({
           </div>
 
           {/* Time Progress Bar */}
-          <div className="w-full h-2 rounded-full bg-slate-950 border border-slate-800 overflow-hidden">
+          <div className="w-full h-2 rounded-full bg-slate-950 border border-slate-700/70 overflow-hidden">
             <div
               className={`h-full transition-all duration-1000 ${
                 timeLeft <= 5 ? 'bg-rose-500' : 'bg-gradient-to-r from-amber-500 to-rose-500'
@@ -314,7 +314,7 @@ export const SpeedDrillView: React.FC<SpeedDrillViewProps> = ({
           </div>
 
           {/* Flashcard Word Showcase */}
-          <div className="p-8 rounded-3xl bg-slate-950 border border-slate-800 text-center space-y-3">
+          <div className="p-8 rounded-3xl bg-slate-950 border border-slate-700/70 text-center space-y-3">
             <div className="flex items-center justify-center gap-2 text-xs text-indigo-400 font-bold">
               <span>Niveau {currentQuestion.vocab.level}</span>
               <span>•</span>
@@ -328,7 +328,7 @@ export const SpeedDrillView: React.FC<SpeedDrillViewProps> = ({
               <button
                 type="button"
                 onClick={() => speechService.speak(currentQuestion.vocab.french, { rate: speechRate })}
-                className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white transition-colors"
+                className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700/70 text-slate-300 hover:text-white transition-colors"
                 title="Écouter"
               >
                 <Volume2 className="w-5 h-5 text-indigo-400" />
@@ -346,7 +346,7 @@ export const SpeedDrillView: React.FC<SpeedDrillViewProps> = ({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {currentQuestion.options.map((option, idx) => {
               const isSelected = selectedAnswer === option;
-              let btnClass = 'bg-slate-950 border-slate-800 text-slate-200 hover:bg-slate-800 hover:border-slate-700';
+              let btnClass = 'bg-slate-950 border-slate-700/70 text-slate-200 hover:bg-slate-800 hover:border-slate-600';
 
               if (answeredState !== null) {
                 if (option === currentQuestion.correctAnswer) {
@@ -375,7 +375,7 @@ export const SpeedDrillView: React.FC<SpeedDrillViewProps> = ({
 
       {/* Game Over Summary */}
       {isGameOver && (
-        <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 shadow-2xl space-y-6 animate-in zoom-in-95">
+        <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-700/80 shadow-2xl space-y-6 animate-in zoom-in-95">
           <div className="text-center space-y-2">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-500 to-rose-600 p-0.5 shadow-xl shadow-amber-500/20">
               <div className="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">
@@ -395,12 +395,12 @@ export const SpeedDrillView: React.FC<SpeedDrillViewProps> = ({
           </div>
 
           {/* Stats Breakdown */}
-          <div className="grid grid-cols-3 gap-3 p-4 rounded-2xl bg-slate-950 border border-slate-800 text-center">
+          <div className="grid grid-cols-3 gap-3 p-4 rounded-2xl bg-slate-950 border border-slate-700/70 text-center">
             <div>
               <div className="text-2xl font-black text-amber-400">{score}</div>
               <div className="text-[11px] text-slate-400 font-medium">Points Finaux</div>
             </div>
-            <div className="border-x border-slate-800">
+            <div className="border-x border-slate-700/70">
               <div className="text-2xl font-black text-indigo-400">+{Math.round(score * 2.5)}</div>
               <div className="text-[11px] text-slate-400 font-medium">XP Gagnés</div>
             </div>
@@ -431,7 +431,7 @@ export const SpeedDrillView: React.FC<SpeedDrillViewProps> = ({
                 {failedVocabs.map((v, i) => (
                   <span
                     key={i}
-                    className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-xs font-semibold text-rose-300"
+                    className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700/70 text-xs font-semibold text-rose-300"
                   >
                     {v.french} ({v.english})
                   </span>

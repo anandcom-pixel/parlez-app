@@ -173,13 +173,13 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
                 onClick={() => handleLevelChange(lvl)}
                 className={`p-3.5 sm:p-4 rounded-2xl border text-left transition-all duration-200 relative overflow-hidden transform hover:-translate-y-0.5 ${
                   isSelected
-                    ? 'bg-slate-900 border-indigo-500 shadow-xl shadow-indigo-500/15 ring-2 ring-indigo-500/60'
-                    : 'bg-slate-950 border-slate-800 hover:bg-slate-900 hover:border-slate-700 text-slate-300 hover:shadow-md'
+                    ? 'bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 border-indigo-400 shadow-xl shadow-indigo-500/15 ring-2 ring-indigo-500/60'
+                    : 'bg-slate-900 border-slate-700/80 hover:bg-blue-950 hover:border-slate-600 text-slate-200 hover:shadow-md'
                 }`}
               >
                 <div className="flex items-center justify-between gap-1 mb-1.5">
                   <div className="flex items-center gap-1.5">
-                    <span className={`text-base font-black ${isSelected ? 'text-white' : 'text-slate-200'}`}>
+                    <span className={`text-base font-black ${isSelected ? 'text-white' : 'text-slate-100'}`}>
                       {lvl}
                     </span>
                     {lvl === 'A1' && (
@@ -231,13 +231,13 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
                   }}
                   className={`p-4 rounded-2xl border cursor-pointer transition-all duration-200 transform hover:-translate-y-0.5 ${
                     isSelected
-                      ? 'bg-slate-900 border-indigo-500 shadow-lg ring-2 ring-indigo-500/40'
-                      : 'bg-slate-950 border-slate-800 hover:bg-slate-900 hover:border-slate-700 hover:shadow-md'
+                      ? 'bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 border-indigo-400 shadow-lg ring-2 ring-indigo-500/40'
+                      : 'bg-slate-900 border-slate-700/80 hover:bg-blue-950 hover:border-slate-600 hover:shadow-md'
                   }`}
                 >
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-1.5">
-                      <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-slate-800 text-indigo-300">
+                      <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-slate-950 border border-slate-700/70 text-indigo-300">
                         Module {idx + 1}
                       </span>
                       {isFirstA1 && (
@@ -246,20 +246,20 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
                         </span>
                       )}
                     </div>
-                    <span className="text-xs text-slate-400 font-medium">
+                    <span className="text-xs text-slate-300 font-medium">
                       {lesson.vocabulary.length} phrases
                     </span>
                   </div>
-                  <h3 className={`mt-2 font-bold text-sm sm:text-base leading-snug ${isSelected ? 'text-white' : 'text-slate-200'}`}>
+                  <h3 className={`mt-2 font-bold text-sm sm:text-base leading-snug ${isSelected ? 'text-white' : 'text-slate-100'}`}>
                     {lesson.title}
                   </h3>
-                  <p className="text-xs text-slate-400 mt-1 line-clamp-2">
+                  <p className="text-xs text-slate-300 mt-1 line-clamp-2">
                     {lesson.description}
                   </p>
-                  <div className="mt-3 pt-2.5 border-t border-slate-800/80 flex items-center justify-between">
+                  <div className="mt-3 pt-2.5 border-t border-slate-700/70 flex items-center justify-between">
                     <span
                       className={`text-xs font-bold flex items-center gap-1 ${
-                        isSelected ? 'text-emerald-400' : 'text-indigo-400 group-hover:text-indigo-300'
+                        isSelected ? 'text-emerald-400' : 'text-indigo-300 group-hover:text-indigo-200'
                       }`}
                     >
                       {isSelected ? '● Currently Open' : 'Click to Open Module →'}
@@ -270,7 +270,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
                         e.stopPropagation();
                         onStartTest(lesson);
                       }}
-                      className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-indigo-600 text-slate-200 hover:text-white text-[11px] font-semibold transition-colors duration-200"
+                      className="px-2.5 py-1 rounded-lg bg-slate-950 hover:bg-indigo-600 border border-slate-700/70 text-slate-200 hover:text-white text-[11px] font-semibold transition-colors duration-200"
                     >
                       Take Quiz
                     </button>
@@ -281,12 +281,12 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
           </div>
 
           {/* Quick Level Summary Box */}
-          <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-xs text-indigo-200 space-y-2 shadow-md">
+          <div className="p-4 rounded-2xl bg-slate-900 border border-slate-700/80 text-xs text-indigo-200 space-y-2 shadow-md">
             <div className="flex items-center gap-2 font-bold text-white">
               <Info className="w-4 h-4 text-indigo-400 shrink-0" />
               <span>Learning Goal ({selectedLevel})</span>
             </div>
-            <p className="text-slate-300 leading-relaxed">
+            <p className="text-slate-200 leading-relaxed">
               {CEFR_METADATA[selectedLevel].subtitle}. Listen to each phrase below, practice your pronunciation in the Voice Studio, and take the Practice Test to lock vocabulary into long-term memory.
             </p>
           </div>
@@ -295,7 +295,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
         {/* Right Side: Active Lesson Comprehensive Content */}
         <div className="lg:col-span-8 space-y-6">
           {/* Lesson Header Card */}
-          <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl space-y-4">
+          <div className="p-6 rounded-3xl bg-slate-900 border border-slate-700/80 shadow-xl space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
@@ -320,13 +320,13 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
               <h2 className="text-xl sm:text-2xl font-black text-white">
                 {currentLesson.title}
               </h2>
-              <p className="text-sm text-slate-300 mt-1">
+              <p className="text-sm text-slate-200 mt-1">
                 {currentLesson.description}
               </p>
             </div>
 
             {/* Grammar Spotlight */}
-            <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+            <div className="p-4 rounded-2xl bg-slate-950 border border-slate-700/80 space-y-3">
               <div className="flex items-center gap-2 text-xs font-bold text-amber-400 uppercase tracking-wider">
                 <Lightbulb className="w-4 h-4" />
                 <span>Grammar Tip: {currentLesson.grammarFocus.ruleName}</span>
@@ -334,11 +334,11 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
               <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
                 {currentLesson.grammarFocus.explanation}
               </p>
-              <div className="pt-2 border-t border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div className="pt-2 border-t border-slate-700/70 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 {currentLesson.grammarFocus.examples.map((ex, i) => {
                   const isExPlaying = currentlyPlayingWord === `ex-${i}`;
                   return (
-                    <div key={i} className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs space-y-1.5">
+                    <div key={i} className="p-3 rounded-xl bg-slate-900 border border-slate-700/70 text-xs space-y-1.5">
                       <div className="flex items-center justify-between gap-2 text-indigo-200 font-semibold">
                         <span>{ex.fr}</span>
                         <button
@@ -365,7 +365,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
             {/* Cultural & Idiom Highlights */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
               {currentLesson.culturalNote && (
-                <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-xs space-y-1">
+                <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-700/80 text-xs space-y-1">
                   <div className="font-bold text-indigo-300 flex items-center gap-1.5">
                     <span>🏛️</span> Cultural Note
                   </div>
@@ -376,7 +376,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
               )}
 
               {currentLesson.idiomSpotlight && (
-                <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-xs space-y-1">
+                <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-700/80 text-xs space-y-1">
                   <div className="font-bold text-rose-300 flex items-center gap-1.5">
                     <span>💡</span> French Idiom Spotlight
                   </div>
@@ -391,7 +391,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
 
           {/* Vocabulary Bank */}
           <div className="space-y-4">
-            <div className="flex flex-wrap items-center justify-between gap-2 bg-slate-900 border border-slate-800 px-5 py-3.5 rounded-2xl shadow-md">
+            <div className="flex flex-wrap items-center justify-between gap-2 bg-slate-900 border border-slate-700/80 px-5 py-3.5 rounded-2xl shadow-md">
               <h3 className="text-base font-bold text-white flex items-center gap-2">
                 <span>📖</span> Key Vocabulary &amp; Audio ({currentLesson.vocabulary.length} Expressions)
               </h3>
@@ -408,7 +408,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
                 return (
                   <div
                     key={vocab.id}
-                    className="p-4 rounded-2xl bg-slate-900 border border-slate-800 hover:border-indigo-500/60 transition-all duration-200 flex flex-col justify-between group space-y-3 shadow-lg"
+                    className="p-4 rounded-2xl bg-slate-900 border border-slate-700/80 hover:border-indigo-400/70 transition-all duration-200 flex flex-col justify-between group space-y-3 shadow-lg"
                   >
                     <div>
                       {/* Top Row: Word & Listen Button */}
@@ -452,7 +452,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
                       </div>
 
                       {/* Example sentence */}
-                      <div className="mt-3 p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs space-y-1.5">
+                      <div className="mt-3 p-2.5 rounded-xl bg-slate-950 border border-slate-700/70 text-xs space-y-1.5">
                         <div className="text-indigo-200 flex items-center justify-between gap-2">
                           <span className="leading-snug">{vocab.exampleFrench}</span>
                           <button
@@ -476,7 +476,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
                     </div>
 
                     {/* Bottom Action: Practice in Voice Studio */}
-                    <div className="pt-2.5 border-t border-slate-800/80 flex items-center justify-between gap-2">
+                    <div className="pt-2.5 border-t border-slate-700/70 flex items-center justify-between gap-2">
                       {vocab.pronunciationTip ? (
                         <span className="text-[11px] text-amber-300/90 line-clamp-1 flex items-center gap-1" title={vocab.pronunciationTip}>
                           <span>💡</span> {vocab.pronunciationTip}
@@ -502,7 +502,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
 
           {/* Interactive Dialogue Section */}
           {currentLesson.dialogue && (
-            <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl space-y-4">
+            <div className="p-6 rounded-3xl bg-slate-900 border border-slate-700/80 shadow-xl space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
@@ -552,9 +552,9 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
                       key={idx}
                       className={`p-4 rounded-2xl border transition-all ${
                         isActive || isLinePlaying
-                          ? 'bg-slate-950 border-indigo-500 shadow-md ring-1 ring-indigo-500/40'
+                          ? 'bg-slate-950 border-indigo-400 shadow-md ring-1 ring-indigo-500/40'
                           : isFirstSpeaker
-                          ? 'bg-slate-950 border-slate-800'
+                          ? 'bg-slate-950 border-slate-700/70'
                           : 'bg-slate-800/90 border-slate-700/80 ml-4 sm:ml-8'
                       }`}
                     >

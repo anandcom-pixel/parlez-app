@@ -165,13 +165,13 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
       </div>
 
       {/* Target Phrase Display Card */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl space-y-6">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-4">
+      <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-700/80 shadow-xl space-y-6">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-700/70 pb-4">
           <div className="flex items-center gap-2">
             <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
               Niveau {selectedVocab.level}
             </span>
-            <span className="text-xs text-slate-400 font-medium">
+            <span className="text-xs text-slate-300 font-medium">
               {selectedVocab.category}
             </span>
           </div>
@@ -181,7 +181,7 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
             <button
               type="button"
               onClick={() => handlePlayTargetAudio(speechRate)}
-              className="px-3 py-1.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-200 text-xs font-medium flex items-center gap-1.5 transition-colors"
+              className="px-3 py-1.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-700/80 text-slate-200 text-xs font-medium flex items-center gap-1.5 transition-colors"
               title="Écouter à vitesse normale"
             >
               <Volume2 className="w-3.5 h-3.5 text-indigo-400" />
@@ -190,7 +190,7 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
             <button
               type="button"
               onClick={() => handlePlayTargetAudio(0.7)}
-              className="px-3 py-1.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-200 text-xs font-medium flex items-center gap-1.5 transition-colors"
+              className="px-3 py-1.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-700/80 text-slate-200 text-xs font-medium flex items-center gap-1.5 transition-colors"
               title="Écouter au ralenti pour bien décomposer chaque syllabe"
             >
               <Sliders className="w-3.5 h-3.5 text-amber-400" />
@@ -205,11 +205,11 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
             « {selectedVocab.french} »
           </div>
           {selectedVocab.ipa && (
-            <div className="text-sm font-mono text-indigo-400">
+            <div className="text-sm font-mono text-indigo-300">
               {selectedVocab.ipa}
             </div>
           )}
-          <div className="text-sm font-medium text-slate-400">
+          <div className="text-sm font-medium text-slate-300">
             Traduction : {selectedVocab.english}
           </div>
 
@@ -262,15 +262,15 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
               </span>
             </div>
           ) : (
-            <span className="text-xs text-slate-400 font-medium">
+            <span className="text-xs text-slate-300 font-medium">
               Cliquez sur le micro et prononcez l'expression à voix haute
             </span>
           )}
 
           {/* Live speech transcription display */}
           {(liveTranscript || micState === 'listening') && (
-            <div className="w-full max-w-lg p-3 rounded-2xl bg-slate-950 border border-slate-800 text-center text-sm font-medium text-slate-200">
-              <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
+            <div className="w-full max-w-lg p-3 rounded-2xl bg-slate-950 border border-slate-700/80 text-center text-sm font-medium text-slate-200">
+              <span className="text-[10px] uppercase font-bold text-slate-300 block mb-1">
                 Transcription vocale en direct
               </span>
               <span>« {liveTranscript || '...'} »</span>
@@ -299,23 +299,23 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
         )}
 
         {/* Simulation / Manual Input Mode Accordion */}
-        <div className="pt-2 border-t border-slate-800/80">
+        <div className="pt-2 border-t border-slate-700/70">
           <div className="flex items-center justify-between">
             <button
               type="button"
               onClick={() => setIsSimulateMode(!isSimulateMode)}
-              className="text-xs text-slate-400 hover:text-indigo-300 flex items-center gap-1.5 transition-colors"
+              className="text-xs text-slate-300 hover:text-indigo-300 flex items-center gap-1.5 transition-colors"
             >
               <span>⌨️ Mode Saisie / Test sans microphone</span>
             </button>
-            <span className="text-[11px] text-slate-400">
+            <span className="text-[11px] text-slate-300">
               {voiceRecognitionService.checkSupport() ? 'SpeechRecognition Détecté' : 'SpeechRecognition non disponible (Firefox/Edge sans flag)'}
             </span>
           </div>
 
           {isSimulateMode && (
-            <div className="mt-3 p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
-              <div className="text-xs text-slate-300">
+            <div className="mt-3 p-4 rounded-2xl bg-slate-950 border border-slate-700/80 space-y-3">
+              <div className="text-xs text-slate-200">
                 Tapez ce que vous souhaitez simuler comme prononciation (ex: testez des fautes d'accents ou des oublis de mots pour observer le diagnostic) :
               </div>
               <div className="flex gap-2">
@@ -324,7 +324,7 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
                   value={simulatedInput}
                   onChange={(e) => setSimulatedInput(e.target.value)}
                   placeholder={`Ex: ${selectedVocab.french}`}
-                  className="flex-1 px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white text-xs focus:outline-none focus:border-indigo-500"
+                  className="flex-1 px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700/80 text-white text-xs focus:outline-none focus:border-indigo-500"
                 />
                 <button
                   type="button"
@@ -342,8 +342,8 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
 
       {/* Visual Pronunciation & Acoustic Feedback Card */}
       {comparisonResult && (
-        <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 shadow-2xl space-y-6 animate-in slide-in-from-bottom-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+        <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-700/80 shadow-2xl space-y-6 animate-in slide-in-from-bottom-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-700/70 pb-4">
             <div>
               <div className="flex items-center gap-2">
                 <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${
@@ -353,7 +353,7 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
                 }`}>
                   {comparisonResult.passed ? 'Prononciation Validée ✓' : 'À perfectionner ✗'}
                 </span>
-                <span className="text-xs text-slate-400">Score de Précision Phonétique</span>
+                <span className="text-xs text-slate-300">Score de Précision Phonétique</span>
               </div>
               <h3 className="text-xl font-bold text-white mt-1">Diagnostic de votre élocution</h3>
             </div>
@@ -370,7 +370,7 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
                 }`}>
                   {comparisonResult.accuracyScore}%
                 </div>
-                <div className="text-[11px] text-slate-400 font-medium">Précision Globale</div>
+                <div className="text-[11px] text-slate-300 font-medium">Précision Globale</div>
               </div>
             </div>
           </div>
@@ -378,7 +378,7 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
           {/* Word-by-Word Color-Coded Alignment Breakdown */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-300">
                 Analyse Mot à Mot :
               </span>
               <div className="flex items-center gap-3 text-[11px]">
@@ -394,7 +394,7 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
               </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 flex flex-wrap gap-2 items-center">
+            <div className="p-4 rounded-2xl bg-slate-950 border border-slate-700/80 flex flex-wrap gap-2 items-center">
               {comparisonResult.wordAnalysis.map((item, idx) => {
                 let badgeClass = '';
                 if (item.status === 'correct') {
@@ -412,7 +412,7 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
                   >
                     <span>{item.word}</span>
                     {item.expectedWord && item.expectedWord !== item.word && (
-                      <span className="text-[10px] text-slate-400 font-normal">
+                      <span className="text-[10px] text-slate-300 font-normal">
                         ({item.expectedWord})
                       </span>
                     )}
@@ -424,7 +424,7 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
 
           {/* Feedback Notes & Pronunciation Guidance Tips */}
           {comparisonResult.feedbackNotes.length > 0 && (
-            <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
+            <div className="p-4 rounded-2xl bg-slate-950 border border-slate-700/80 space-y-2">
               <span className="text-xs font-bold uppercase tracking-wider text-indigo-300 flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
                 Conseils du Maître Linguiste :

@@ -88,11 +88,11 @@ export const SRSReviewView: React.FC<SRSReviewViewProps> = ({ speechRate }) => {
   });
 
   const BOX_INFO = [
-    { box: 1, title: 'Boîte 1', interval: 'Quotidien (1j)', cardStyle: 'bg-slate-950 border-rose-500/50 text-rose-300', badgeColor: 'border-rose-500/40 bg-rose-950/60 text-rose-300' },
-    { box: 2, title: 'Boîte 2', interval: 'Tous les 2j', cardStyle: 'bg-slate-950 border-amber-500/50 text-amber-300', badgeColor: 'border-amber-500/40 bg-amber-950/60 text-amber-300' },
-    { box: 3, title: 'Boîte 3', interval: 'Tous les 4j', cardStyle: 'bg-slate-950 border-blue-500/50 text-blue-300', badgeColor: 'border-blue-500/40 bg-blue-950/60 text-blue-300' },
-    { box: 4, title: 'Boîte 4', interval: 'Tous les 7j', cardStyle: 'bg-slate-950 border-indigo-500/50 text-indigo-300', badgeColor: 'border-indigo-500/40 bg-indigo-950/60 text-indigo-300' },
-    { box: 5, title: 'Boîte 5', interval: 'Tous les 14j', cardStyle: 'bg-slate-950 border-emerald-500/50 text-emerald-300', badgeColor: 'border-emerald-500/40 bg-emerald-950/60 text-emerald-300' }
+    { box: 1, title: 'Boîte 1', interval: 'Quotidien (1j)', cardStyle: 'bg-slate-900 border-rose-500/50 text-rose-300', badgeColor: 'border-rose-500/40 bg-slate-950 text-rose-300' },
+    { box: 2, title: 'Boîte 2', interval: 'Tous les 2j', cardStyle: 'bg-slate-900 border-amber-500/50 text-amber-300', badgeColor: 'border-amber-500/40 bg-slate-950 text-amber-300' },
+    { box: 3, title: 'Boîte 3', interval: 'Tous les 4j', cardStyle: 'bg-slate-900 border-blue-500/50 text-blue-300', badgeColor: 'border-blue-500/40 bg-slate-950 text-blue-300' },
+    { box: 4, title: 'Boîte 4', interval: 'Tous les 7j', cardStyle: 'bg-slate-900 border-indigo-500/50 text-indigo-300', badgeColor: 'border-indigo-500/40 bg-slate-950 text-indigo-300' },
+    { box: 5, title: 'Boîte 5', interval: 'Tous les 14j', cardStyle: 'bg-slate-900 border-emerald-500/50 text-emerald-300', badgeColor: 'border-emerald-500/40 bg-slate-950 text-emerald-300' }
   ] as const;
 
   return (
@@ -150,7 +150,7 @@ export const SRSReviewView: React.FC<SRSReviewViewProps> = ({ speechRate }) => {
                 <span className="text-lg font-black">{count}</span>
               </div>
               <div className="text-[11px] text-slate-300">{b.interval}</div>
-              <div className="mt-3 w-full h-1.5 rounded-full bg-slate-900 border border-slate-800 overflow-hidden">
+              <div className="mt-3 w-full h-1.5 rounded-full bg-slate-950 border border-slate-700/70 overflow-hidden">
                 <div
                   className="h-full bg-current transition-all"
                   style={{ width: `${cards.length > 0 ? Math.min((count / cards.length) * 100, 100) : 0}%` }}

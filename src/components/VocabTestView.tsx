@@ -455,9 +455,9 @@ export const VocabTestView: React.FC<VocabTestViewProps> = ({
 
       {/* Configuration Screen (when no test is running and no summary) */}
       {!isTestActive && !testSummary && (
-        <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl space-y-6">
+        <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-700/80 shadow-xl space-y-6">
           <div className="space-y-2">
-            <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-300">
               Sélectionnez le Module à Évaluer :
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
@@ -472,27 +472,27 @@ export const VocabTestView: React.FC<VocabTestViewProps> = ({
                     }}
                     className={`p-4 rounded-2xl border cursor-pointer transition-all ${
                       isSelected
-                        ? 'bg-slate-950 border-indigo-500 shadow-lg ring-1 ring-indigo-500/50'
-                        : 'bg-slate-950 border-slate-800 hover:bg-slate-800/80'
+                        ? 'bg-slate-950 border-indigo-400 shadow-lg ring-1 ring-indigo-500/50'
+                        : 'bg-slate-950 border-slate-700/70 hover:bg-slate-800/80'
                     }`}
                   >
                     <div className="flex items-center justify-between text-[11px] font-bold">
                       <span className="px-2 py-0.5 rounded bg-slate-800 text-indigo-300">
                         {lesson.level}
                       </span>
-                      <span className="text-slate-400">{lesson.vocabulary.length} mots</span>
+                      <span className="text-slate-300">{lesson.vocabulary.length} mots</span>
                     </div>
                     <div className="mt-2 font-bold text-sm text-white">{lesson.title}</div>
-                    <div className="text-xs text-slate-400 mt-0.5 line-clamp-1">{lesson.theme}</div>
+                    <div className="text-xs text-slate-300 mt-0.5 line-clamp-1">{lesson.theme}</div>
                   </div>
                 );
               })}
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 flex items-start gap-3">
+          <div className="p-4 rounded-2xl bg-slate-950 border border-slate-700/70 flex items-start gap-3">
             <Brain className="w-5 h-5 text-indigo-400 shrink-0 mt-0.5" />
-            <div className="text-xs text-slate-300 leading-relaxed">
+            <div className="text-xs text-slate-200 leading-relaxed">
               <strong className="text-white">Boucle de Répétition Espacée Intelligente (SRS) :</strong> Tout mot manqué ou hésité lors de cette évaluation sera automatiquement réinjecté dans la boîte de révision Leitner n°1 pour consolidation immédiate.
             </div>
           </div>
@@ -512,7 +512,7 @@ export const VocabTestView: React.FC<VocabTestViewProps> = ({
 
       {/* Active Matching Pairs Test Mode */}
       {isTestActive && selectedTestType === 'matching' && (
-        <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 shadow-2xl space-y-6">
+        <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-700/80 shadow-2xl space-y-6">
           <div className="flex items-center justify-between">
             <div>
               <span className="text-xs font-bold uppercase tracking-wider text-indigo-400">
@@ -548,8 +548,8 @@ export const VocabTestView: React.FC<VocabTestViewProps> = ({
                     isSelected
                       ? 'bg-indigo-600 text-white border-indigo-400 shadow-lg shadow-indigo-600/40 ring-2 ring-indigo-400'
                       : card.type === 'french'
-                      ? 'bg-slate-950 border-slate-800 text-white hover:border-indigo-500/60'
-                      : 'bg-slate-950 border-slate-800 text-slate-300 hover:border-indigo-500/60'
+                      ? 'bg-slate-950 border-slate-700/70 text-white hover:border-indigo-500/60'
+                      : 'bg-slate-950 border-slate-700/70 text-slate-200 hover:border-indigo-500/60'
                   }`}
                 >
                   <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 mb-1">
@@ -576,7 +576,7 @@ export const VocabTestView: React.FC<VocabTestViewProps> = ({
 
       {/* Active QCM or Spelling Test Question */}
       {isTestActive && selectedTestType !== 'matching' && currentQ && (
-        <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 shadow-2xl space-y-6">
+        <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-700/80 shadow-2xl space-y-6">
           {/* Progress Bar & Header */}
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs font-semibold text-slate-400">
@@ -587,7 +587,7 @@ export const VocabTestView: React.FC<VocabTestViewProps> = ({
               </span>
               <span>Score : {score} / {questions.length}</span>
             </div>
-            <div className="w-full h-2 rounded-full bg-slate-950 border border-slate-800 overflow-hidden">
+            <div className="w-full h-2 rounded-full bg-slate-950 border border-slate-700/70 overflow-hidden">
               <div
                 className="h-full bg-gradient-to-r from-indigo-500 to-violet-500 transition-all duration-300"
                 style={{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }}
@@ -596,7 +596,7 @@ export const VocabTestView: React.FC<VocabTestViewProps> = ({
           </div>
 
           {/* Question Prompt */}
-          <div className="p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+          <div className="p-6 rounded-2xl bg-slate-950 border border-slate-700/70 space-y-3">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <span className="text-xs uppercase font-bold tracking-wider text-slate-400">
@@ -630,7 +630,7 @@ export const VocabTestView: React.FC<VocabTestViewProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {currentQ.options.map((option, idx) => {
                 const isSelected = selectedAnswer === option;
-                let optionStyle = 'bg-slate-950 border-slate-800 text-slate-200 hover:bg-slate-800/80 hover:border-slate-700';
+                let optionStyle = 'bg-slate-950 border-slate-700/70 text-slate-200 hover:bg-slate-800/80 hover:border-slate-600';
 
                 if (isAnswerSubmitted) {
                   if (option === currentQ.correctAnswer) {
@@ -638,7 +638,7 @@ export const VocabTestView: React.FC<VocabTestViewProps> = ({
                   } else if (isSelected && option !== currentQ.correctAnswer) {
                     optionStyle = 'bg-slate-950 border-rose-500 text-rose-200 ring-1 ring-rose-500/40';
                   } else {
-                    optionStyle = 'bg-slate-950 border-slate-800 text-slate-500 opacity-50';
+                    optionStyle = 'bg-slate-950 border-slate-700/70 text-slate-400 opacity-50';
                   }
                 } else if (isSelected) {
                   optionStyle = 'bg-indigo-600/30 border-indigo-500 text-white ring-1 ring-indigo-500/50 font-bold';
@@ -684,7 +684,7 @@ export const VocabTestView: React.FC<VocabTestViewProps> = ({
                     }
                   }}
                   placeholder="Tapez le mot ou l'expression en français..."
-                  className="w-full px-4 py-3.5 bg-slate-950 border border-slate-800 rounded-2xl text-white text-base focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                  className="w-full px-4 py-3.5 bg-slate-950 border border-slate-700/80 rounded-2xl text-white text-base focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
                   autoFocus
                 />
               </div>
@@ -718,7 +718,7 @@ export const VocabTestView: React.FC<VocabTestViewProps> = ({
           )}
 
           {/* Action Footer */}
-          <div className="pt-4 border-t border-slate-800 flex items-center justify-between">
+          <div className="pt-4 border-t border-slate-700/70 flex items-center justify-between">
             <button
               type="button"
               onClick={() => setIsTestActive(false)}
@@ -752,7 +752,7 @@ export const VocabTestView: React.FC<VocabTestViewProps> = ({
 
       {/* Test Summary Modal / Screen */}
       {testSummary && (
-        <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 shadow-2xl space-y-6 animate-in zoom-in-95">
+        <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-700/80 shadow-2xl space-y-6 animate-in zoom-in-95">
           <div className="text-center space-y-3">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-500 to-indigo-600 p-0.5 shadow-xl shadow-amber-500/20">
               <div className="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">
@@ -772,12 +772,12 @@ export const VocabTestView: React.FC<VocabTestViewProps> = ({
           </div>
 
           {/* Stats Bar */}
-          <div className="grid grid-cols-3 gap-3 p-4 rounded-2xl bg-slate-950 border border-slate-800 text-center">
+          <div className="grid grid-cols-3 gap-3 p-4 rounded-2xl bg-slate-950 border border-slate-700/70 text-center">
             <div>
               <div className="text-xl sm:text-2xl font-black text-white">{testSummary.percentage}%</div>
               <div className="text-[11px] text-slate-400 font-medium">Précision</div>
             </div>
-            <div className="border-x border-slate-800">
+            <div className="border-x border-slate-700/70">
               <div className="text-xl sm:text-2xl font-black text-indigo-400">+{testSummary.xpEarned}</div>
               <div className="text-[11px] text-slate-400 font-medium">XP Gagnés</div>
             </div>
@@ -798,7 +798,7 @@ export const VocabTestView: React.FC<VocabTestViewProps> = ({
                 {testSummary.failedItems.map(item => (
                   <span
                     key={item.id}
-                    className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-xs font-semibold text-rose-300"
+                    className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700/70 text-xs font-semibold text-rose-300"
                   >
                     {item.french} ({item.english})
                   </span>

@@ -202,7 +202,7 @@ export const SentenceBuilderView: React.FC<SentenceBuilderViewProps> = ({
           </div>
 
           {/* Level Filter */}
-          <div className="flex flex-wrap items-center gap-1.5 bg-slate-950 p-1.5 rounded-2xl border border-slate-800 shrink-0">
+          <div className="flex flex-wrap items-center gap-1.5 bg-slate-950 p-1.5 rounded-2xl border border-slate-700/80 shrink-0">
             {(['ALL', 'A1', 'A2', 'B1', 'B2', 'C1'] as const).map(lvl => (
               <button
                 key={lvl}
@@ -215,7 +215,7 @@ export const SentenceBuilderView: React.FC<SentenceBuilderViewProps> = ({
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
                   selectedLevel === lvl
                     ? 'bg-indigo-600 text-white shadow-sm'
-                    : 'text-slate-400 hover:text-white'
+                    : 'text-slate-300 hover:text-white'
                 }`}
               >
                 {lvl}
@@ -226,9 +226,9 @@ export const SentenceBuilderView: React.FC<SentenceBuilderViewProps> = ({
       </div>
 
       {/* Main Sentence Card */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl space-y-6">
+      <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-700/80 shadow-xl space-y-6">
         {/* Top Info Bar */}
-        <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div className="flex items-center justify-between border-b border-slate-700/70 pb-4">
           <div className="flex items-center gap-2">
             <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
               Niveau {currentItem.level}
@@ -290,7 +290,7 @@ export const SentenceBuilderView: React.FC<SentenceBuilderViewProps> = ({
             onDrop={(e) => handleDropOnAssembled(e)}
             className={`min-h-[100px] p-4 sm:p-6 rounded-2xl border-2 border-dashed transition-all flex flex-wrap gap-2.5 items-center content-center bg-slate-950 ${
               assembledWords.length === 0
-                ? 'border-slate-800 justify-center'
+                ? 'border-slate-700/70 justify-center'
                 : validationState === 'correct'
                 ? 'border-emerald-500/80'
                 : validationState === 'incorrect'
@@ -337,7 +337,7 @@ export const SentenceBuilderView: React.FC<SentenceBuilderViewProps> = ({
             Banque de mots disponibles :
           </span>
 
-          <div className="p-4 sm:p-5 rounded-2xl bg-slate-950 border border-slate-800 flex flex-wrap gap-2.5 items-center min-h-[70px]">
+          <div className="p-4 sm:p-5 rounded-2xl bg-slate-950 border border-slate-700/70 flex flex-wrap gap-2.5 items-center min-h-[70px]">
             {availableWords.length === 0 ? (
               <span className="text-xs text-slate-400 italic select-none">
                 Tous les blocs ont été placés dans la zone de construction !
@@ -400,7 +400,7 @@ export const SentenceBuilderView: React.FC<SentenceBuilderViewProps> = ({
         )}
 
         {/* Bottom Actions Bar */}
-        <div className="pt-4 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
+        <div className="pt-4 border-t border-slate-700/70 flex flex-wrap items-center justify-between gap-3">
           <button
             type="button"
             onClick={handleReset}
