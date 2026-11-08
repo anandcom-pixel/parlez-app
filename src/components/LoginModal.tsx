@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Lock, UserCheck, ShieldCheck, X, Eye, EyeOff, Sparkles, CheckCircle2 } from 'lucide-react';
-import { authService, SHARED_PASSWORD, VALID_USERS } from '../services/authService';
+import { authService, VALID_USERS } from '../services/authService';
 import { soundEffects } from '../services/soundEffects';
 
 interface LoginModalProps {
@@ -40,7 +40,6 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onSucce
   const handleSelectQuickUser = (userKey: string) => {
     soundEffects.playTap();
     setUsername(userKey);
-    setPassword(SHARED_PASSWORD); // Pre-fill with the shared password for convenience
     setError(null);
   };
 
@@ -78,8 +77,8 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onSucce
         {/* Quick User Selector */}
         <div className="space-y-2">
           <label className="text-[11px] font-bold uppercase tracking-wider text-slate-400 flex items-center justify-between">
-            <span>Comptes Autorisés (1-Clic)</span>
-            <span className="text-amber-300 lowercase font-mono font-normal">mdp: {SHARED_PASSWORD}</span>
+            <span>Comptes Autorisés</span>
+            <span className="text-slate-400 text-[10px] font-medium">Sélectionnez un profil</span>
           </label>
           <div className="grid grid-cols-3 gap-2">
             {Object.entries(VALID_USERS).map(([key, u]) => {
@@ -116,7 +115,10 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onSucce
             <input
               type="text"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => {
+                setUsername(e.target.value);
+                if (error) setError(null);
+              }}
               placeholder="admin, sreegovind ou gayathri"
               className="w-full px-4 py-3 bg-slate-950 border border-slate-700/80 rounded-2xl text-white text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 placeholder:text-slate-500"
               required
@@ -127,23 +129,27 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onSucce
             <label className="text-xs font-bold text-slate-300 flex items-center justify-between">
               <span className="flex items-center gap-1.5">
                 <Lock className="w-3.5 h-3.5 text-indigo-400" />
-                <span>Mot de passe partagé</span>
+                <span>Mot de passe</span>
               </span>
-              <span className="text-[11px] text-amber-300 font-mono">parlez123</span>
             </label>
             <div className="relative">
               <input
                 type={showPassword ? 'text' : 'password'}
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Entrez parlez123..."
-                className="w-full px-4 py-3 bg-slate-950 border border-slate-700/80 rounded-2xl text-white text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 placeholder:text-slate-500 pr-11"
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  if (error) setError(null);
+                }}
+                placeholder="••••••••"
+                autoComplete="current-password"
+                className="w-full px-4 py-3 bg-slate-950 border border-slate-700/80 rounded-2xl text-white text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 placeholder:text-slate-500 pr-11 font-mono tracking-wider"
                 required
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 transition-colors p-1 rounded-lg"
+                title={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>

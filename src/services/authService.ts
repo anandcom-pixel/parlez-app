@@ -82,7 +82,7 @@ class AuthService {
     if (cleanPassword !== SHARED_PASSWORD) {
       return {
         success: false,
-        error: 'Mot de passe incorrect. Le mot de passe partagé est parlez123.'
+        error: 'Mot de passe incorrect. Veuillez vérifier vos identifiants.'
       };
     }
 
