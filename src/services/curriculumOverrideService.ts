@@ -27,6 +27,14 @@ export interface FrenchQuote {
   createdBy?: string;
 }
 
+export const isPessimisticQuote = (q: FrenchQuote | any): boolean => {
+  if (!q) return false;
+  if (q.id === 'quote-6') return true;
+  const fr = (q.french || '').toLowerCase();
+  const en = (q.english || '').toLowerCase();
+  return fr.includes('qui vivra verra') || en.includes('time will tell');
+};
+
 export const DEFAULT_FRENCH_QUOTES: FrenchQuote[] = [
   {
     id: 'quote-1',
@@ -67,14 +75,6 @@ export const DEFAULT_FRENCH_QUOTES: FrenchQuote[] = [
     author: "Victor Hugo",
     category: "Poésie",
     createdAt: 1700000004000
-  },
-  {
-    id: 'quote-6',
-    french: "Qui vivra verra.",
-    english: "Time will tell (He who lives shall see).",
-    author: "Proverbe Français",
-    category: "Sagesse",
-    createdAt: 1700000005000
   },
   {
     id: 'quote-7',
@@ -130,15 +130,20 @@ class CurriculumOverrideService {
       const stored = localStorage.getItem(CURRICULUM_OVERRIDES_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
+        const storedQuotes: any[] = Array.isArray(parsed.customQuotes) ? parsed.customQuotes : [];
+        const cleanQuotes: FrenchQuote[] = storedQuotes.filter((q: any) => !isPessimisticQuote(q));
         this.overrides = {
           lessons: parsed.lessons || {},
           vocabulary: parsed.vocabulary || {},
           newVocabulary: parsed.newVocabulary || {},
           customLessons: Array.isArray(parsed.customLessons) ? parsed.customLessons : [],
           customQuizItems: Array.isArray(parsed.customQuizItems) ? parsed.customQuizItems : [],
-          customQuotes: Array.isArray(parsed.customQuotes) ? parsed.customQuotes : [],
+          customQuotes: cleanQuotes,
           lastSyncedAt: parsed.lastSyncedAt || Date.now()
         };
+        if (cleanQuotes.length !== storedQuotes.length) {
+          localStorage.setItem(CURRICULUM_OVERRIDES_KEY, JSON.stringify(this.overrides));
+        }
       }
     } catch (e) {
       console.warn('Failed to parse curriculum overrides:', e);
@@ -218,10 +223,16 @@ class CurriculumOverrideService {
             localQuizItemMap.set(q.id, q);
           });
 
-          const localQuoteMap = new Map((this.overrides.customQuotes || []).map(q => [q.id, q]));
-          (cloudData.customQuotes || []).forEach((cq: FrenchQuote) => {
-            localQuoteMap.set(cq.id, cq);
-          });
+          const localQuoteMap = new Map(
+            (this.overrides.customQuotes || [])
+              .filter(q => !isPessimisticQuote(q))
+              .map(q => [q.id, q])
+          );
+          (cloudData.customQuotes || [])
+            .filter((cq: FrenchQuote) => !isPessimisticQuote(cq))
+            .forEach((cq: FrenchQuote) => {
+              localQuoteMap.set(cq.id, cq);
+            });
 
           // Merge new vocabulary records
           const mergedNewVocab: Record<string, VocabularyItem[]> = { ...this.overrides.newVocabulary };
@@ -397,11 +408,11 @@ class CurriculumOverrideService {
   }
 
   public getQuotes(): FrenchQuote[] {
-    const customQuotes = this.overrides.customQuotes || [];
+    const customQuotes = (this.overrides.customQuotes || []).filter(q => !isPessimisticQuote(q));
     const customMap = new Map(customQuotes.map(q => [q.id, q]));
 
     const result: FrenchQuote[] = [];
-    DEFAULT_FRENCH_QUOTES.forEach(base => {
+    DEFAULT_FRENCH_QUOTES.filter(q => !isPessimisticQuote(q)).forEach(base => {
       if (customMap.has(base.id)) {
         result.push(customMap.get(base.id)!);
         customMap.delete(base.id);
@@ -414,7 +425,7 @@ class CurriculumOverrideService {
       result.push(newQuote);
     });
 
-    return result;
+    return result.filter(q => !isPessimisticQuote(q));
   }
 
   public saveQuote(quote: FrenchQuote) {

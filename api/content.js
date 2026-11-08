@@ -10,6 +10,18 @@ let inMemoryCloudStore = {
   lastSyncedAt: Date.now()
 };
 
+// Helper to filter out negative/pessimistic quotes (e.g., 'Qui vivra verra')
+function sanitizeQuotes(quotes) {
+  if (!Array.isArray(quotes)) return [];
+  return quotes.filter(q => {
+    if (!q) return false;
+    if (q.id === 'quote-6') return false;
+    const fr = (q.french || '').toLowerCase();
+    const en = (q.english || '').toLowerCase();
+    return !fr.includes('qui vivra verra') && !en.includes('time will tell');
+  });
+}
+
 export default async function handler(req, res) {
   // CORS configuration for cross-origin or preview deployments
   res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -38,6 +50,9 @@ export default async function handler(req, res) {
           const kvData = await kvRes.json();
           if (kvData && kvData.result) {
             const parsed = typeof kvData.result === 'string' ? JSON.parse(kvData.result) : kvData.result;
+            if (parsed && parsed.customQuotes) {
+              parsed.customQuotes = sanitizeQuotes(parsed.customQuotes);
+            }
             inMemoryCloudStore = parsed;
             return res.status(200).json({
               success: true,
@@ -49,6 +64,10 @@ export default async function handler(req, res) {
       }
     } catch (e) {
       console.warn('Vercel KV read error, falling back to serverless memory:', e);
+    }
+
+    if (inMemoryCloudStore && inMemoryCloudStore.customQuotes) {
+      inMemoryCloudStore.customQuotes = sanitizeQuotes(inMemoryCloudStore.customQuotes);
     }
 
     return res.status(200).json({
@@ -70,7 +89,7 @@ export default async function handler(req, res) {
         newVocabulary: { ...(inMemoryCloudStore.newVocabulary || {}), ...(payload.newVocabulary || {}) },
         customLessons: payload.customLessons || inMemoryCloudStore.customLessons || [],
         customQuizItems: payload.customQuizItems || inMemoryCloudStore.customQuizItems || [],
-        customQuotes: payload.customQuotes || inMemoryCloudStore.customQuotes || [],
+        customQuotes: sanitizeQuotes(payload.customQuotes || inMemoryCloudStore.customQuotes || []),
         lastSyncedAt: Date.now()
       };
 
