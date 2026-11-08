@@ -11,9 +11,15 @@ import {
   Zap,
   Gauge,
   Puzzle,
-  ShieldAlert
+  ShieldAlert,
+  LogIn,
+  LogOut,
+  ClipboardList,
+  ShieldCheck,
+  UserCheck
 } from 'lucide-react';
 import type { UserStats } from '../types';
+import type { AuthUser } from '../types/auth';
 import { speechService, type FrenchVoiceOption } from '../services/speechService';
 import { soundEffects } from '../services/soundEffects';
 
@@ -26,6 +32,10 @@ interface NavbarProps {
   stats: UserStats;
   speechRate: number;
   onSetSpeechRate: (rate: number) => void;
+  currentUser: AuthUser | null;
+  onOpenLogin: () => void;
+  onOpenReport: () => void;
+  onLogout: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = memo(({
@@ -34,7 +44,11 @@ export const Navbar: React.FC<NavbarProps> = memo(({
   onHoverTab,
   stats,
   speechRate,
-  onSetSpeechRate
+  onSetSpeechRate,
+  currentUser,
+  onOpenLogin,
+  onOpenReport,
+  onLogout
 }) => {
   const [frenchVoices, setFrenchVoices] = useState<FrenchVoiceOption[]>([]);
   const [selectedVoiceName, setSelectedVoiceName] = useState<string>('');
@@ -170,6 +184,61 @@ export const Navbar: React.FC<NavbarProps> = memo(({
               {soundEnabled ? <Volume2 className="w-4 h-4 text-indigo-600" /> : <VolumeX className="w-4 h-4" />}
               <span className="hidden sm:inline">{soundEnabled ? 'SFX On' : 'Muted'}</span>
             </button>
+
+            {/* Auth Controls & Status */}
+            <div className="h-5 w-px bg-amber-300 hidden sm:block" />
+
+            {currentUser ? (
+              <div className="flex items-center gap-1.5">
+                {/* User Status Badge */}
+                <div
+                  className={`px-2.5 py-1 rounded-xl text-xs font-bold flex items-center gap-1.5 border shadow-sm ${
+                    currentUser.role === 'admin'
+                      ? 'bg-slate-950 text-amber-300 border-amber-400/60'
+                      : 'bg-slate-950 text-emerald-300 border-emerald-400/60'
+                  }`}
+                  title={`Connecté en tant que ${currentUser.displayName} (${currentUser.role})`}
+                >
+                  {currentUser.role === 'admin' ? (
+                    <ShieldCheck className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                  ) : (
+                    <UserCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  )}
+                  <span className="hidden sm:inline max-w-[90px] truncate">{currentUser.displayName}</span>
+                </div>
+
+                {/* Evaluation Report Trigger Button */}
+                <button
+                  type="button"
+                  onClick={onOpenReport}
+                  className="px-2.5 py-1.5 rounded-xl bg-slate-950 hover:bg-slate-900 border border-slate-700 hover:border-amber-400/70 text-xs font-bold text-amber-300 flex items-center gap-1.5 transition-all duration-200 shadow-sm transform hover:-translate-y-0.5"
+                  title="Soumettre un rapport d'évaluation à anand.com@gmail.com"
+                >
+                  <ClipboardList className="w-3.5 h-3.5 text-amber-400" />
+                  <span className="hidden md:inline">Rapport</span>
+                </button>
+
+                {/* Logout Button */}
+                <button
+                  type="button"
+                  onClick={onLogout}
+                  className="p-1.5 rounded-xl bg-white/90 hover:bg-rose-50 text-slate-700 hover:text-rose-600 border border-amber-300 hover:border-rose-300 transition-all text-xs"
+                  title="Se déconnecter"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={onOpenLogin}
+                className="px-3 py-1.5 rounded-xl bg-slate-950 hover:bg-slate-900 border border-slate-700 hover:border-amber-400 text-xs font-bold text-amber-300 flex items-center gap-1.5 transition-all duration-200 shadow-sm transform hover:-translate-y-0.5 active:scale-95"
+                title="Se connecter (Admin ou Testeur)"
+              >
+                <LogIn className="w-3.5 h-3.5 text-amber-400" />
+                <span>Connexion</span>
+              </button>
+            )}
           </div>
         </div>
 

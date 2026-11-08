@@ -2,7 +2,11 @@ import { useState, useEffect, useCallback, lazy, Suspense, startTransition } fro
 import { Navbar, type NavigationTab } from './components/Navbar';
 import { CurriculumView } from './components/CurriculumView';
 import type { Lesson, VocabularyItem, UserStats } from './types';
+import type { AuthUser } from './types/auth';
 import { srsService } from './services/srsService';
+import { authService } from './services/authService';
+import { LoginModal } from './components/LoginModal';
+import { EvaluationReportModal } from './components/EvaluationReportModal';
 import { A1_CURRICULUM_DATA, loadFullCurriculumData } from './data/a1InitialData';
 
 // Dynamic chunk loaders for on-demand and hover/idle preloading
@@ -64,6 +68,18 @@ export function App() {
   const [speechRate, setSpeechRate] = useState<number>(1.0);
   const [testLesson, setTestLesson] = useState<Lesson | null>(null);
   const [voiceVocab, setVoiceVocab] = useState<VocabularyItem | null>(null);
+
+  // Authentication & Testing/Evaluation state
+  const [currentUser, setCurrentUser] = useState<AuthUser | null>(() => authService.getCurrentUser());
+  const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
+  const [showReportModal, setShowReportModal] = useState<boolean>(false);
+
+  useEffect(() => {
+    const unsubAuth = authService.subscribe((user) => {
+      setCurrentUser(user);
+    });
+    return () => unsubAuth();
+  }, []);
 
   useEffect(() => {
     const unsub = srsService.subscribe(() => {
@@ -160,6 +176,18 @@ export function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
+  const handleOpenReport = useCallback(() => {
+    if (!authService.getCurrentUser()) {
+      setShowLoginModal(true);
+    } else {
+      setShowReportModal(true);
+    }
+  }, []);
+
+  const handleLogout = useCallback(() => {
+    authService.logout();
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#ffffb3] text-slate-900 flex flex-col font-sans selection:bg-amber-400 selection:text-amber-950">
       {/* Top Navbar */}
@@ -170,6 +198,10 @@ export function App() {
         stats={stats}
         speechRate={speechRate}
         onSetSpeechRate={setSpeechRate}
+        currentUser={currentUser}
+        onOpenLogin={() => setShowLoginModal(true)}
+        onOpenReport={handleOpenReport}
+        onLogout={handleLogout}
       />
 
       {/* Main Content Area */}
@@ -179,6 +211,7 @@ export function App() {
             speechRate={speechRate}
             onStartTest={handleStartTest}
             onStartVoicePractice={handleStartVoicePractice}
+            currentUser={currentUser}
           />
         )}
 
@@ -246,7 +279,7 @@ export function App() {
 
           {/* Creator & Tester Credits */}
           <div className="flex items-center gap-2 text-xs font-semibold tracking-wide text-blue-950">
-            <span>Created by <strong className="font-bold text-blue-950">ANAND MOHANDAS</strong></span>
+            <span>Created by <strong className="font-bold text-blue-950">Anandovsky</strong></span>
             <span className="text-blue-800/70 font-semibold">|</span>
             <span>Tester: <strong className="font-bold text-blue-950">Sreegovind</strong></span>
           </div>
@@ -260,6 +293,38 @@ export function App() {
           </div>
         </div>
       </footer>
+      {/* Login Modal */}
+      <LoginModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onSuccess={() => setShowLoginModal(false)}
+      />
+
+      {/* Evaluation Report Modal for Logged-In Testers & Admin */}
+      {currentUser && (
+        <EvaluationReportModal
+          isOpen={showReportModal}
+          onClose={() => setShowReportModal(false)}
+          currentUser={currentUser}
+          activeModuleTitle={
+            activeTab === 'curriculum'
+              ? 'Curriculum & Lessons'
+              : activeTab === 'tests'
+              ? 'Vocab Test Lab'
+              : activeTab === 'speed'
+              ? 'Speed Drill'
+              : activeTab === 'builder'
+              ? 'Sentence Builder'
+              : activeTab === 'voice'
+              ? 'Voice Studio'
+              : activeTab === 'vault'
+              ? 'Mistake Vault'
+              : activeTab === 'srs'
+              ? 'Leitner SRS Deck'
+              : 'Progress & Badges'
+          }
+        />
+      )}
     </div>
   );
 }

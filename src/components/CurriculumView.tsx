@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback, memo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef, memo } from 'react';
 import {
   Volume2,
   Sparkles,
@@ -10,12 +10,16 @@ import {
   Info,
   Lightbulb,
   Play,
-  Square
+  Square,
+  Edit3
 } from 'lucide-react';
 import type { Lesson, CEFRLevel, VocabularyItem } from '../types';
+import type { AuthUser } from '../types/auth';
 import { A1_CURRICULUM_DATA, CEFR_METADATA, loadFullCurriculumData } from '../data/a1InitialData';
 import { speechService } from '../services/speechService';
 import { soundEffects } from '../services/soundEffects';
+import { curriculumOverrideService } from '../services/curriculumOverrideService';
+import { EditContentModal } from './EditContentModal';
 
 const LEVELS: CEFRLevel[] = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
@@ -23,14 +27,19 @@ interface CurriculumViewProps {
   speechRate: number;
   onStartTest: (lesson: Lesson) => void;
   onStartVoicePractice: (vocab: VocabularyItem) => void;
+  currentUser?: AuthUser | null;
 }
 
 export const CurriculumView: React.FC<CurriculumViewProps> = memo(({
   speechRate,
   onStartTest,
-  onStartVoicePractice
+  onStartVoicePractice,
+  currentUser
 }) => {
-  const [allLessons, setAllLessons] = useState<Lesson[]>(A1_CURRICULUM_DATA);
+  const rawLessonsRef = useRef<Lesson[]>(A1_CURRICULUM_DATA);
+  const [allLessons, setAllLessons] = useState<Lesson[]>(() =>
+    curriculumOverrideService.applyOverrides(A1_CURRICULUM_DATA)
+  );
   const [selectedLevel, setSelectedLevel] = useState<CEFRLevel>('A1');
   const [activeLessonId, setActiveLessonId] = useState<string>(
     A1_CURRICULUM_DATA[0].id
@@ -38,6 +47,16 @@ export const CurriculumView: React.FC<CurriculumViewProps> = memo(({
   const [currentlyPlayingWord, setCurrentlyPlayingWord] = useState<string | null>(null);
   const [isPlayingDialogue, setIsPlayingDialogue] = useState<boolean>(false);
   const [activeDialogueIndex, setActiveDialogueIndex] = useState<number>(-1);
+  const [editingLesson, setEditingLesson] = useState<Lesson | null>(null);
+  const [editingVocab, setEditingVocab] = useState<VocabularyItem | null>(null);
+
+  // Subscribe to admin content overrides
+  useEffect(() => {
+    const unsub = curriculumOverrideService.subscribe(() => {
+      setAllLessons(curriculumOverrideService.applyOverrides(rawLessonsRef.current));
+    });
+    return () => unsub();
+  }, []);
 
   // Pre-warm A2-C1 lesson dataset during browser idle time after initial A1 paint
   useEffect(() => {
@@ -46,7 +65,8 @@ export const CurriculumView: React.FC<CurriculumViewProps> = memo(({
     scheduleLoad(() => {
       loadFullCurriculumData().then(fullData => {
         if (mounted) {
-          setAllLessons(fullData);
+          rawLessonsRef.current = fullData;
+          setAllLessons(curriculumOverrideService.applyOverrides(fullData));
         }
       });
     });
@@ -68,16 +88,17 @@ export const CurriculumView: React.FC<CurriculumViewProps> = memo(({
   const handleLevelChange = useCallback(async (lvl: CEFRLevel) => {
     setSelectedLevel(lvl);
     soundEffects.playTap();
-    let pool = allLessons;
+    let pool = rawLessonsRef.current;
     if (lvl !== 'A1' && pool.length <= A1_CURRICULUM_DATA.length) {
       pool = await loadFullCurriculumData();
-      setAllLessons(pool);
+      rawLessonsRef.current = pool;
+      setAllLessons(curriculumOverrideService.applyOverrides(pool));
     }
     const firstLesson = pool.find(l => l.level === lvl);
     if (firstLesson) {
       setActiveLessonId(firstLesson.id);
     }
-  }, [allLessons]);
+  }, []);
 
   const handlePlayAudio = useCallback((text: string, id: string) => {
     soundEffects.playTap();
@@ -334,15 +355,31 @@ export const CurriculumView: React.FC<CurriculumViewProps> = memo(({
                   {currentLesson.subtitle}
                 </span>
               </div>
-              <button
-                type="button"
-                onClick={() => onStartTest(currentLesson)}
-                className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-indigo-600/25 hover:shadow-indigo-500/40 transform hover:-translate-y-0.5 transition-all duration-200"
-              >
-                <CheckCircle className="w-3.5 h-3.5" />
-                <span>Start Practice Test</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
+              <div className="flex items-center gap-2">
+                {currentUser?.role === 'admin' && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      soundEffects.playTap();
+                      setEditingLesson(currentLesson);
+                    }}
+                    className="px-3 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-bold flex items-center gap-1.5 shadow-md border border-amber-500 transition-all transform hover:-translate-y-0.5 active:scale-95"
+                    title="Modifier les détails de la leçon (Admin)"
+                  >
+                    <Edit3 className="w-3.5 h-3.5 text-slate-950" />
+                    <span>Modifier la leçon</span>
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => onStartTest(currentLesson)}
+                  className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-indigo-600/25 hover:shadow-indigo-500/40 transform hover:-translate-y-0.5 transition-all duration-200"
+                >
+                  <CheckCircle className="w-3.5 h-3.5" />
+                  <span>Start Practice Test</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
             </div>
 
             <div>
@@ -460,20 +497,36 @@ export const CurriculumView: React.FC<CurriculumViewProps> = memo(({
                           )}
                         </div>
 
-                        {/* Speaker Button with Clear Label */}
-                        <button
-                          type="button"
-                          onClick={() => handlePlayAudio(vocab.french, vocab.id)}
-                          className={`px-3 py-1.5 rounded-xl border text-xs font-bold flex items-center gap-1.5 shrink-0 transition-all duration-200 ${
-                            isPlaying
-                              ? 'bg-indigo-600 text-white border-indigo-500 scale-105 shadow-md shadow-indigo-600/30'
-                              : 'bg-slate-800 text-slate-200 hover:text-white hover:bg-indigo-600 border-slate-700 hover:border-indigo-500 hover:shadow-md'
-                          }`}
-                          title="Listen to French pronunciation"
-                        >
-                          <Volume2 className={`w-3.5 h-3.5 ${isPlaying ? 'animate-bounce' : ''}`} />
-                          <span>{isPlaying ? 'Playing...' : 'Listen'}</span>
-                        </button>
+                        {/* Action Buttons: Edit (Admin) & Speaker */}
+                        <div className="flex items-center gap-1.5 shrink-0">
+                          {currentUser?.role === 'admin' && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                soundEffects.playTap();
+                                setEditingVocab(vocab);
+                              }}
+                              className="px-2 py-1.5 rounded-xl border border-amber-400/50 bg-amber-400/20 hover:bg-amber-400 text-amber-300 hover:text-slate-950 text-xs font-bold flex items-center gap-1 transition-all duration-200"
+                              title="Modifier cette expression (Admin)"
+                            >
+                              <Edit3 className="w-3.5 h-3.5" />
+                              <span className="hidden sm:inline">Éditer</span>
+                            </button>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => handlePlayAudio(vocab.french, vocab.id)}
+                            className={`px-3 py-1.5 rounded-xl border text-xs font-bold flex items-center gap-1.5 shrink-0 transition-all duration-200 ${
+                              isPlaying
+                                ? 'bg-indigo-600 text-white border-indigo-500 scale-105 shadow-md shadow-indigo-600/30'
+                                : 'bg-slate-800 text-slate-200 hover:text-white hover:bg-indigo-600 border-slate-700 hover:border-indigo-500 hover:shadow-md'
+                            }`}
+                            title="Listen to French pronunciation"
+                          >
+                            <Volume2 className={`w-3.5 h-3.5 ${isPlaying ? 'animate-bounce' : ''}`} />
+                            <span>{isPlaying ? 'Playing...' : 'Listen'}</span>
+                          </button>
+                        </div>
                       </div>
 
                       <div className="mt-2 text-xs font-semibold text-emerald-300">
@@ -622,6 +675,22 @@ export const CurriculumView: React.FC<CurriculumViewProps> = memo(({
           )}
         </div>
       </div>
+
+      {/* Admin Content Editing Modal */}
+      {currentUser?.role === 'admin' && (
+        <EditContentModal
+          isOpen={!!editingLesson || !!editingVocab}
+          onClose={() => {
+            setEditingLesson(null);
+            setEditingVocab(null);
+          }}
+          targetLesson={editingLesson || undefined}
+          targetVocab={editingVocab || undefined}
+          onSaved={() => {
+            setAllLessons(curriculumOverrideService.applyOverrides(rawLessonsRef.current));
+          }}
+        />
+      )}
     </div>
   );
 });
