@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import type { Lesson, VocabularyItem, TestType, TestQuestion } from '../types';
 import { CURRICULUM_DATA } from '../data/curriculumData';
+import { curriculumOverrideService } from '../services/curriculumOverrideService';
 import { speechService } from '../services/speechService';
 import { soundEffects } from '../services/soundEffects';
 import { srsService } from '../services/srsService';
@@ -33,8 +34,19 @@ export const VocabTestView: React.FC<VocabTestViewProps> = ({
   speechRate,
   onNavigateToSRS
 }) => {
+  const [allLessons, setAllLessons] = useState<Lesson[]>(() =>
+    curriculumOverrideService.applyOverrides(CURRICULUM_DATA)
+  );
+
+  useEffect(() => {
+    const unsub = curriculumOverrideService.subscribe(() => {
+      setAllLessons(curriculumOverrideService.applyOverrides(CURRICULUM_DATA));
+    });
+    return () => unsub();
+  }, []);
+
   const [selectedLessonId, setSelectedLessonId] = useState<string>(
-    initialLesson?.id || CURRICULUM_DATA[0].id
+    initialLesson?.id || allLessons[0]?.id || CURRICULUM_DATA[0].id
   );
   const [selectedTestType, setSelectedTestType] = useState<TestType | 'mixed'>('multiple-choice');
   const [isTestActive, setIsTestActive] = useState<boolean>(false);
@@ -67,7 +79,7 @@ export const VocabTestView: React.FC<VocabTestViewProps> = ({
   } | null>(null);
   const [matchingPairsLeft, setMatchingPairsLeft] = useState<number>(0);
 
-  const currentLesson = CURRICULUM_DATA.find(l => l.id === selectedLessonId) || CURRICULUM_DATA[0];
+  const currentLesson = allLessons.find(l => l.id === selectedLessonId) || allLessons[0] || CURRICULUM_DATA[0];
 
   useEffect(() => {
     if (initialLesson) {
@@ -133,7 +145,7 @@ export const VocabTestView: React.FC<VocabTestViewProps> = ({
 
       if (qType === 'multiple-choice') {
         // Distractors from other vocabulary items
-        const allOtherVocabs = CURRICULUM_DATA.flatMap(l => l.vocabulary).filter(v => v.id !== item.id);
+        const allOtherVocabs = allLessons.flatMap(l => l.vocabulary).filter(v => v.id !== item.id);
         const distractors = allOtherVocabs
           .sort(() => 0.5 - Math.random())
           .slice(0, 3)
@@ -461,7 +473,7 @@ export const VocabTestView: React.FC<VocabTestViewProps> = ({
               Sélectionnez le Module à Évaluer :
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-              {CURRICULUM_DATA.map(lesson => {
+              {allLessons.map(lesson => {
                 const isSelected = lesson.id === selectedLessonId;
                 return (
                   <div

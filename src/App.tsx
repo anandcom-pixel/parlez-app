@@ -1,12 +1,14 @@
-import { useState, useEffect, useCallback, lazy, Suspense, startTransition } from 'react';
+import { useState, useEffect, useCallback, useRef, lazy, Suspense, startTransition } from 'react';
 import { Navbar, type NavigationTab } from './components/Navbar';
 import { CurriculumView } from './components/CurriculumView';
-import type { Lesson, VocabularyItem, UserStats } from './types';
+import type { Lesson, VocabularyItem, UserStats, CEFRLevel } from './types';
 import type { AuthUser } from './types/auth';
 import { srsService } from './services/srsService';
 import { authService } from './services/authService';
+import { curriculumOverrideService } from './services/curriculumOverrideService';
 import { LoginModal } from './components/LoginModal';
 import { EvaluationReportModal } from './components/EvaluationReportModal';
+import { AddContentModal } from './components/AddContentModal';
 import { A1_CURRICULUM_DATA, loadFullCurriculumData } from './data/a1InitialData';
 
 // Dynamic chunk loaders for on-demand and hover/idle preloading
@@ -74,11 +76,37 @@ export function App() {
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const [showReportModal, setShowReportModal] = useState<boolean>(false);
 
+  // Admin Dynamic Content Creation state & Cloud Sync
+  const allLessonsRef = useRef<Lesson[]>(A1_CURRICULUM_DATA);
+  const [allLessons, setAllLessons] = useState<Lesson[]>(() =>
+    curriculumOverrideService.applyOverrides(A1_CURRICULUM_DATA)
+  );
+  const [showAddContentModal, setShowAddContentModal] = useState<boolean>(false);
+  const [addContentLevel, setAddContentLevel] = useState<CEFRLevel>('A1');
+  const [addContentLessonId, setAddContentLessonId] = useState<string | undefined>(undefined);
+
   useEffect(() => {
     const unsubAuth = authService.subscribe((user) => {
       setCurrentUser(user);
     });
     return () => unsubAuth();
+  }, []);
+
+  useEffect(() => {
+    let mounted = true;
+    const unsubOverrides = curriculumOverrideService.subscribe(() => {
+      setAllLessons(curriculumOverrideService.applyOverrides(allLessonsRef.current));
+    });
+    loadFullCurriculumData().then(fullData => {
+      if (mounted) {
+        allLessonsRef.current = fullData;
+        setAllLessons(curriculumOverrideService.applyOverrides(fullData));
+      }
+    });
+    return () => {
+      mounted = false;
+      unsubOverrides();
+    };
   }, []);
 
   useEffect(() => {
@@ -184,6 +212,12 @@ export function App() {
     }
   }, []);
 
+  const handleOpenAddContent = useCallback((level?: CEFRLevel, lessonId?: string) => {
+    setAddContentLevel(level || 'A1');
+    setAddContentLessonId(lessonId);
+    setShowAddContentModal(true);
+  }, []);
+
   const handleLogout = useCallback(() => {
     authService.logout();
   }, []);
@@ -202,6 +236,7 @@ export function App() {
         onOpenLogin={() => setShowLoginModal(true)}
         onOpenReport={handleOpenReport}
         onLogout={handleLogout}
+        onOpenAddContent={() => handleOpenAddContent()}
       />
 
       {/* Main Content Area */}
@@ -212,6 +247,7 @@ export function App() {
             onStartTest={handleStartTest}
             onStartVoicePractice={handleStartVoicePractice}
             currentUser={currentUser}
+            onOpenAddContent={handleOpenAddContent}
           />
         )}
 
@@ -323,6 +359,19 @@ export function App() {
               ? 'Leitner SRS Deck'
               : 'Progress & Badges'
           }
+        />
+      )}
+      {/* Admin Content Creation Modal */}
+      {currentUser?.role === 'admin' && (
+        <AddContentModal
+          isOpen={showAddContentModal}
+          onClose={() => setShowAddContentModal(false)}
+          availableLessons={allLessons}
+          defaultLessonId={addContentLessonId}
+          defaultLevel={addContentLevel}
+          onSuccess={() => {
+            setAllLessons(curriculumOverrideService.applyOverrides(allLessonsRef.current));
+          }}
         />
       )}
     </div>

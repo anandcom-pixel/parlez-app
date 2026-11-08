@@ -16,7 +16,8 @@ import {
   LogOut,
   ClipboardList,
   ShieldCheck,
-  UserCheck
+  UserCheck,
+  PlusCircle
 } from 'lucide-react';
 import type { UserStats } from '../types';
 import type { AuthUser } from '../types/auth';
@@ -36,6 +37,7 @@ interface NavbarProps {
   onOpenLogin: () => void;
   onOpenReport: () => void;
   onLogout: () => void;
+  onOpenAddContent?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = memo(({
@@ -48,7 +50,8 @@ export const Navbar: React.FC<NavbarProps> = memo(({
   currentUser,
   onOpenLogin,
   onOpenReport,
-  onLogout
+  onLogout,
+  onOpenAddContent
 }) => {
   const [frenchVoices, setFrenchVoices] = useState<FrenchVoiceOption[]>([]);
   const [selectedVoiceName, setSelectedVoiceName] = useState<string>('');
@@ -206,6 +209,20 @@ export const Navbar: React.FC<NavbarProps> = memo(({
                   )}
                   <span className="hidden sm:inline max-w-[90px] truncate">{currentUser.displayName}</span>
                 </div>
+
+                {/* Admin Add Content Button */}
+                {currentUser.role === 'admin' && (
+                  <button
+                    type="button"
+                    onClick={onOpenAddContent}
+                    className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs flex items-center gap-1.5 shadow-md border border-amber-500 transition-all transform hover:-translate-y-0.5 active:scale-95"
+                    title="Ajouter du nouveau contenu (Leçon, Vocabulaire, Quiz)"
+                  >
+                    <PlusCircle className="w-3.5 h-3.5 text-slate-950" />
+                    <span className="hidden sm:inline">+ Nouveau Contenu</span>
+                    <span className="sm:hidden">+ Contenu</span>
+                  </button>
+                )}
 
                 {/* Evaluation Report Trigger Button */}
                 <button

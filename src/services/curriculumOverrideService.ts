@@ -1,23 +1,47 @@
-import type { Lesson, VocabularyItem } from '../types';
+import type { Lesson, VocabularyItem, CEFRLevel } from '../types';
 
 const CURRICULUM_OVERRIDES_KEY = 'parlez_curriculum_overrides_v1';
+const CLOUD_SYNC_CHANNEL = 'parlez_cloud_sync_v1';
+
+export interface CustomQuizItem {
+  id: string;
+  lessonId: string;
+  level: CEFRLevel;
+  type: 'quiz' | 'sentence';
+  questionFr: string;
+  answerEn: string;
+  options?: string[]; // for multiple choice
+  frenchTokens?: string[]; // for sentence builder
+  explanation?: string;
+  createdAt: number;
+}
 
 export interface CurriculumOverrides {
   lessons: Record<string, Partial<Lesson>>;
   vocabulary: Record<string, Partial<VocabularyItem>>;
   newVocabulary: Record<string, VocabularyItem[]>; // lessonId -> new items
+  customLessons: Lesson[]; // dynamically created full lessons
+  customQuizItems: CustomQuizItem[]; // dynamically created quiz items
+  lastSyncedAt?: number;
 }
 
 class CurriculumOverrideService {
   private overrides: CurriculumOverrides = {
     lessons: {},
     vocabulary: {},
-    newVocabulary: {}
+    newVocabulary: {},
+    customLessons: [],
+    customQuizItems: [],
+    lastSyncedAt: Date.now()
   };
   private listeners: Set<() => void> = new Set();
+  private broadcastChannel: BroadcastChannel | null = null;
+  private isSyncing: boolean = false;
 
   constructor() {
     this.loadOverrides();
+    this.initBroadcastChannel();
+    this.initCloudSync();
   }
 
   private loadOverrides() {
@@ -25,17 +49,142 @@ class CurriculumOverrideService {
     try {
       const stored = localStorage.getItem(CURRICULUM_OVERRIDES_KEY);
       if (stored) {
-        this.overrides = JSON.parse(stored);
+        const parsed = JSON.parse(stored);
+        this.overrides = {
+          lessons: parsed.lessons || {},
+          vocabulary: parsed.vocabulary || {},
+          newVocabulary: parsed.newVocabulary || {},
+          customLessons: Array.isArray(parsed.customLessons) ? parsed.customLessons : [],
+          customQuizItems: Array.isArray(parsed.customQuizItems) ? parsed.customQuizItems : [],
+          lastSyncedAt: parsed.lastSyncedAt || Date.now()
+        };
       }
     } catch (e) {
       console.warn('Failed to parse curriculum overrides:', e);
     }
   }
 
-  private saveOverrides() {
+  private initBroadcastChannel() {
+    if (typeof window === 'undefined' || !('BroadcastChannel' in window)) return;
+    try {
+      this.broadcastChannel = new BroadcastChannel(CLOUD_SYNC_CHANNEL);
+      this.broadcastChannel.onmessage = (event) => {
+        if (event.data?.type === 'SYNC_OVERWRITE') {
+          this.loadOverrides();
+          this.notify();
+        }
+      };
+    } catch (e) {
+      console.warn('BroadcastChannel initialization error:', e);
+    }
+  }
+
+  private initCloudSync() {
     if (typeof window === 'undefined') return;
+
+    // Initial cloud sync after short delay
+    setTimeout(() => {
+      this.syncWithCloud();
+    }, 400);
+
+    // Re-sync on window focus to ensure instant multi-user synchronization
+    window.addEventListener('focus', () => {
+      this.syncWithCloud();
+    });
+  }
+
+  private async saveOverrides(syncToCloud: boolean = true) {
+    if (typeof window === 'undefined') return;
+    this.overrides.lastSyncedAt = Date.now();
     localStorage.setItem(CURRICULUM_OVERRIDES_KEY, JSON.stringify(this.overrides));
     this.notify();
+
+    // Broadcast update across local browser tabs
+    if (this.broadcastChannel) {
+      try {
+        this.broadcastChannel.postMessage({ type: 'SYNC_OVERWRITE', timestamp: Date.now() });
+      } catch (e) {
+        console.warn('BroadcastChannel postMessage error:', e);
+      }
+    }
+
+    if (syncToCloud) {
+      this.pushToCloud();
+    }
+  }
+
+  public async syncWithCloud(): Promise<boolean> {
+    if (typeof window === 'undefined' || this.isSyncing) return false;
+    this.isSyncing = true;
+    try {
+      const res = await fetch('/api/content', {
+        method: 'GET',
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        const result = await res.json();
+        if (result && result.data) {
+          const cloudData = result.data;
+
+          // Merge cloud data with local store (union of custom lessons and new vocabulary)
+          const localCustomLessonMap = new Map(this.overrides.customLessons.map(l => [l.id, l]));
+          (cloudData.customLessons || []).forEach((cl: Lesson) => {
+            localCustomLessonMap.set(cl.id, cl);
+          });
+
+          const localQuizItemMap = new Map(this.overrides.customQuizItems.map(q => [q.id, q]));
+          (cloudData.customQuizItems || []).forEach((q: CustomQuizItem) => {
+            localQuizItemMap.set(q.id, q);
+          });
+
+          // Merge new vocabulary records
+          const mergedNewVocab: Record<string, VocabularyItem[]> = { ...this.overrides.newVocabulary };
+          if (cloudData.newVocabulary) {
+            Object.entries(cloudData.newVocabulary).forEach(([lessonId, list]) => {
+              const existing = mergedNewVocab[lessonId] || [];
+              const existingIds = new Set(existing.map(v => v.id));
+              const additions = (list as VocabularyItem[]).filter(v => !existingIds.has(v.id));
+              mergedNewVocab[lessonId] = [...existing, ...additions];
+            });
+          }
+
+          this.overrides = {
+            lessons: { ...(cloudData.lessons || {}), ...this.overrides.lessons },
+            vocabulary: { ...(cloudData.vocabulary || {}), ...this.overrides.vocabulary },
+            newVocabulary: mergedNewVocab,
+            customLessons: Array.from(localCustomLessonMap.values()),
+            customQuizItems: Array.from(localQuizItemMap.values()),
+            lastSyncedAt: Date.now()
+          };
+
+          localStorage.setItem(CURRICULUM_OVERRIDES_KEY, JSON.stringify(this.overrides));
+          this.notify();
+          this.isSyncing = false;
+          return true;
+        }
+      }
+    } catch (e) {
+      console.warn('Cloud sync error, running in local-first mode:', e);
+    }
+    this.isSyncing = false;
+    return false;
+  }
+
+  public async pushToCloud(): Promise<boolean> {
+    if (typeof window === 'undefined') return false;
+    try {
+      const res = await fetch('/api/content', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.overrides)
+      });
+      return res.ok;
+    } catch (e) {
+      console.warn('Failed to push curriculum overrides to Vercel cloud:', e);
+      return false;
+    }
   }
 
   public subscribe(callback: () => void): () => void {
@@ -55,11 +204,16 @@ class CurriculumOverrideService {
     const hasLessonOverrides = Object.keys(this.overrides.lessons).length > 0;
     const hasVocabOverrides = Object.keys(this.overrides.vocabulary).length > 0;
     const hasNewVocab = Object.values(this.overrides.newVocabulary).some(list => list.length > 0);
-    return hasLessonOverrides || hasVocabOverrides || hasNewVocab;
+    const hasCustomLessons = this.overrides.customLessons.length > 0;
+    const hasCustomQuiz = this.overrides.customQuizItems.length > 0;
+    return hasLessonOverrides || hasVocabOverrides || hasNewVocab || hasCustomLessons || hasCustomQuiz;
   }
 
   public applyOverrides(lessons: Lesson[]): Lesson[] {
-    return lessons.map(lesson => {
+    const existingIds = new Set(lessons.map(l => l.id));
+
+    // 1. Apply overrides to existing lessons and inject newly added vocabulary
+    const updatedLessons = lessons.map(lesson => {
       const lessonOverride = this.overrides.lessons[lesson.id] || {};
       const newItems = this.overrides.newVocabulary[lesson.id] || [];
 
@@ -78,6 +232,25 @@ class CurriculumOverrideService {
         vocabulary: [...updatedVocabulary, ...newItems]
       };
     });
+
+    // 2. Append dynamically created custom lessons
+    const customLessonsToAdd = (this.overrides.customLessons || []).filter(
+      cl => !existingIds.has(cl.id)
+    ).map(cl => {
+      const newItems = this.overrides.newVocabulary[cl.id] || [];
+      const lessonOverride = this.overrides.lessons[cl.id] || {};
+      return {
+        ...cl,
+        ...lessonOverride,
+        grammarFocus: {
+          ...cl.grammarFocus,
+          ...(lessonOverride.grammarFocus || {})
+        },
+        vocabulary: [...cl.vocabulary, ...newItems]
+      };
+    });
+
+    return [...updatedLessons, ...customLessonsToAdd];
   }
 
   public saveLessonOverride(lessonId: string, partial: Partial<Lesson>) {
@@ -85,7 +258,7 @@ class CurriculumOverrideService {
       ...(this.overrides.lessons[lessonId] || {}),
       ...partial
     };
-    this.saveOverrides();
+    this.saveOverrides(true);
   }
 
   public saveVocabOverride(vocabId: string, partial: Partial<VocabularyItem>) {
@@ -93,27 +266,62 @@ class CurriculumOverrideService {
       ...(this.overrides.vocabulary[vocabId] || {}),
       ...partial
     };
-    this.saveOverrides();
+    this.saveOverrides(true);
   }
 
   public addVocabularyItem(lessonId: string, item: VocabularyItem) {
     if (!this.overrides.newVocabulary[lessonId]) {
       this.overrides.newVocabulary[lessonId] = [];
     }
-    this.overrides.newVocabulary[lessonId].push(item);
-    this.saveOverrides();
+    // Prevent duplicate entries by id
+    const existing = this.overrides.newVocabulary[lessonId];
+    if (!existing.some(v => v.id === item.id)) {
+      this.overrides.newVocabulary[lessonId].push(item);
+    }
+    this.saveOverrides(true);
+  }
+
+  public addCustomLesson(lesson: Lesson) {
+    const existingIdx = this.overrides.customLessons.findIndex(l => l.id === lesson.id);
+    if (existingIdx >= 0) {
+      this.overrides.customLessons[existingIdx] = lesson;
+    } else {
+      this.overrides.customLessons.push(lesson);
+    }
+    this.saveOverrides(true);
+  }
+
+  public addCustomQuizItem(item: CustomQuizItem) {
+    const existingIdx = this.overrides.customQuizItems.findIndex(q => q.id === item.id);
+    if (existingIdx >= 0) {
+      this.overrides.customQuizItems[existingIdx] = item;
+    } else {
+      this.overrides.customQuizItems.push(item);
+    }
+    this.saveOverrides(true);
+  }
+
+  public getCustomLessons(): Lesson[] {
+    return this.overrides.customLessons || [];
+  }
+
+  public getCustomQuizItems(): CustomQuizItem[] {
+    return this.overrides.customQuizItems || [];
   }
 
   public resetAllOverrides() {
     this.overrides = {
       lessons: {},
       vocabulary: {},
-      newVocabulary: {}
+      newVocabulary: {},
+      customLessons: [],
+      customQuizItems: [],
+      lastSyncedAt: Date.now()
     };
     if (typeof window !== 'undefined') {
       localStorage.removeItem(CURRICULUM_OVERRIDES_KEY);
     }
-    this.notify();
+    this.saveOverrides(true);
   }
 }
 
