@@ -16,12 +16,91 @@ export interface CustomQuizItem {
   createdAt: number;
 }
 
+export interface FrenchQuote {
+  id: string;
+  french: string;
+  english: string;
+  author: string;
+  category?: string;
+  createdAt: number;
+  updatedAt?: number;
+  createdBy?: string;
+}
+
+export const DEFAULT_FRENCH_QUOTES: FrenchQuote[] = [
+  {
+    id: 'quote-1',
+    french: "Petit à petit, l'oiseau fait son nid.",
+    english: "Little by little, the bird builds its nest.",
+    author: "Proverbe Français",
+    category: "Proverbe & Sagesse",
+    createdAt: 1700000000000
+  },
+  {
+    id: 'quote-2',
+    french: "Vouloir, c'est pouvoir.",
+    english: "Where there is a will, there is a way.",
+    author: "Proverbe Français",
+    category: "Motivation",
+    createdAt: 1700000001000
+  },
+  {
+    id: 'quote-3',
+    french: "On ne voit bien qu'avec le cœur. L'essentiel est invisible pour les yeux.",
+    english: "One sees clearly only with the heart. What is essential is invisible to the eyes.",
+    author: "Antoine de Saint-Exupéry",
+    category: "Littérature",
+    createdAt: 1700000002000
+  },
+  {
+    id: 'quote-4',
+    french: "Il n'y a pas de réussite facile ni d'échecs définitifs.",
+    english: "There are no easy successes nor definitive failures.",
+    author: "Marcel Proust",
+    category: "Philosophie",
+    createdAt: 1700000003000
+  },
+  {
+    id: 'quote-5',
+    french: "La vie est une fleur dont l'amour est le miel.",
+    english: "Life is a flower of which love is the honey.",
+    author: "Victor Hugo",
+    category: "Poésie",
+    createdAt: 1700000004000
+  },
+  {
+    id: 'quote-6',
+    french: "Qui vivra verra.",
+    english: "Time will tell (He who lives shall see).",
+    author: "Proverbe Français",
+    category: "Sagesse",
+    createdAt: 1700000005000
+  },
+  {
+    id: 'quote-7',
+    french: "Mieux vaut tard que jamais.",
+    english: "Better late than never.",
+    author: "Proverbe Français",
+    category: "Proverbe",
+    createdAt: 1700000006000
+  },
+  {
+    id: 'quote-8',
+    french: "Le temps est un grand maître, il règle bien des choses.",
+    english: "Time is a great teacher, it resolves many things.",
+    author: "Pierre Corneille",
+    category: "Littérature Classique",
+    createdAt: 1700000007000
+  }
+];
+
 export interface CurriculumOverrides {
   lessons: Record<string, Partial<Lesson>>;
   vocabulary: Record<string, Partial<VocabularyItem>>;
   newVocabulary: Record<string, VocabularyItem[]>; // lessonId -> new items
   customLessons: Lesson[]; // dynamically created full lessons
   customQuizItems: CustomQuizItem[]; // dynamically created quiz items
+  customQuotes: FrenchQuote[]; // dynamically created or edited quotes
   lastSyncedAt?: number;
 }
 
@@ -32,6 +111,7 @@ class CurriculumOverrideService {
     newVocabulary: {},
     customLessons: [],
     customQuizItems: [],
+    customQuotes: [],
     lastSyncedAt: Date.now()
   };
   private listeners: Set<() => void> = new Set();
@@ -56,6 +136,7 @@ class CurriculumOverrideService {
           newVocabulary: parsed.newVocabulary || {},
           customLessons: Array.isArray(parsed.customLessons) ? parsed.customLessons : [],
           customQuizItems: Array.isArray(parsed.customQuizItems) ? parsed.customQuizItems : [],
+          customQuotes: Array.isArray(parsed.customQuotes) ? parsed.customQuotes : [],
           lastSyncedAt: parsed.lastSyncedAt || Date.now()
         };
       }
@@ -137,6 +218,11 @@ class CurriculumOverrideService {
             localQuizItemMap.set(q.id, q);
           });
 
+          const localQuoteMap = new Map((this.overrides.customQuotes || []).map(q => [q.id, q]));
+          (cloudData.customQuotes || []).forEach((cq: FrenchQuote) => {
+            localQuoteMap.set(cq.id, cq);
+          });
+
           // Merge new vocabulary records
           const mergedNewVocab: Record<string, VocabularyItem[]> = { ...this.overrides.newVocabulary };
           if (cloudData.newVocabulary) {
@@ -154,6 +240,7 @@ class CurriculumOverrideService {
             newVocabulary: mergedNewVocab,
             customLessons: Array.from(localCustomLessonMap.values()),
             customQuizItems: Array.from(localQuizItemMap.values()),
+            customQuotes: Array.from(localQuoteMap.values()),
             lastSyncedAt: Date.now()
           };
 
@@ -309,6 +396,58 @@ class CurriculumOverrideService {
     return this.overrides.customQuizItems || [];
   }
 
+  public getQuotes(): FrenchQuote[] {
+    const customQuotes = this.overrides.customQuotes || [];
+    const customMap = new Map(customQuotes.map(q => [q.id, q]));
+
+    const result: FrenchQuote[] = [];
+    DEFAULT_FRENCH_QUOTES.forEach(base => {
+      if (customMap.has(base.id)) {
+        result.push(customMap.get(base.id)!);
+        customMap.delete(base.id);
+      } else {
+        result.push(base);
+      }
+    });
+
+    customMap.forEach(newQuote => {
+      result.push(newQuote);
+    });
+
+    return result;
+  }
+
+  public saveQuote(quote: FrenchQuote) {
+    if (!this.overrides.customQuotes) {
+      this.overrides.customQuotes = [];
+    }
+    const existingIndex = this.overrides.customQuotes.findIndex(q => q.id === quote.id);
+    if (existingIndex >= 0) {
+      this.overrides.customQuotes[existingIndex] = { ...quote, updatedAt: Date.now() };
+    } else {
+      this.overrides.customQuotes.push({ ...quote, updatedAt: Date.now() });
+    }
+    this.saveOverrides(true);
+  }
+
+  public addQuote(french: string, english: string, author?: string, category?: string, createdBy?: string): FrenchQuote {
+    if (!this.overrides.customQuotes) {
+      this.overrides.customQuotes = [];
+    }
+    const newQuote: FrenchQuote = {
+      id: `quote-${Date.now()}`,
+      french: french.trim(),
+      english: english.trim(),
+      author: (author && author.trim()) || 'Proverbe Français',
+      category: (category && category.trim()) || 'Inspiration',
+      createdAt: Date.now(),
+      createdBy: createdBy || 'utilisateur'
+    };
+    this.overrides.customQuotes.push(newQuote);
+    this.saveOverrides(true);
+    return newQuote;
+  }
+
   public resetAllOverrides() {
     this.overrides = {
       lessons: {},
@@ -316,6 +455,7 @@ class CurriculumOverrideService {
       newVocabulary: {},
       customLessons: [],
       customQuizItems: [],
+      customQuotes: [],
       lastSyncedAt: Date.now()
     };
     if (typeof window !== 'undefined') {

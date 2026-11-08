@@ -9,14 +9,15 @@ import {
   Cloud,
   Puzzle,
   Lightbulb,
-  MessageSquare
+  MessageSquare,
+  Quote
 } from 'lucide-react';
 import type { Lesson, VocabularyItem, CEFRLevel } from '../types';
 import { curriculumOverrideService } from '../services/curriculumOverrideService';
 import { speechService } from '../services/speechService';
 import { soundEffects } from '../services/soundEffects';
 
-type ContentCreationTab = 'vocab' | 'lesson' | 'quiz';
+type ContentCreationTab = 'vocab' | 'lesson' | 'quiz' | 'quote';
 
 interface AddContentModalProps {
   isOpen: boolean;
@@ -82,6 +83,12 @@ export const AddContentModal: React.FC<AddContentModalProps> = ({
   const [quizAnswerEn, setQuizAnswerEn] = useState<string>('');
   const [quizDistractors, setQuizDistractors] = useState<string>('');
   const [quizExplanation, setQuizExplanation] = useState<string>('');
+
+  // Tab 4: Daily French Quote State
+  const [quoteFrench, setQuoteFrench] = useState<string>('');
+  const [quoteEnglish, setQuoteEnglish] = useState<string>('');
+  const [quoteAuthor, setQuoteAuthor] = useState<string>('');
+  const [quoteCategory, setQuoteCategory] = useState<string>('Proverbe & Sagesse');
 
   if (!isOpen) return null;
 
@@ -228,6 +235,27 @@ export const AddContentModal: React.FC<AddContentModalProps> = ({
     }, 700);
   };
 
+  const handleCreateQuote = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!quoteFrench.trim() || !quoteEnglish.trim()) return;
+
+    setIsSubmitting(true);
+    const newQuote = curriculumOverrideService.addQuote(
+      quoteFrench.trim(),
+      quoteEnglish.trim(),
+      quoteAuthor.trim() || 'Proverbe Français',
+      quoteCategory.trim() || 'Proverbe & Sagesse'
+    );
+    soundEffects.playCorrect();
+    setSuccessMessage(`Citation "${newQuote.french.substring(0, 30)}..." ajoutée et synchronisée sur le Cloud !`);
+    setIsSubmitting(false);
+
+    setTimeout(() => {
+      onSuccess?.('quote', newQuote.id);
+      onClose();
+    }, 700);
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-200">
       <div className="relative w-full max-w-2xl max-h-[92vh] flex flex-col bg-slate-900 border border-slate-700/80 rounded-3xl shadow-2xl overflow-hidden text-slate-100">
@@ -311,6 +339,22 @@ export const AddContentModal: React.FC<AddContentModalProps> = ({
           >
             <Puzzle className="w-3.5 h-3.5" />
             <span>Phrase & Quiz</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              soundEffects.playTap();
+              setActiveTab('quote');
+            }}
+            className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-2 transition-all ${
+              activeTab === 'quote'
+                ? 'bg-amber-400 text-slate-950 shadow-md font-black'
+                : 'bg-slate-950 text-slate-300 hover:bg-slate-800 border border-slate-800'
+            }`}
+          >
+            <Quote className="w-3.5 h-3.5" />
+            <span>Citation du Jour</span>
           </button>
         </div>
 
@@ -823,6 +867,106 @@ export const AddContentModal: React.FC<AddContentModalProps> = ({
                 >
                   <Cloud className="w-4 h-4" />
                   <span>Enregistrer l'Exercice sur le Cloud</span>
+                </button>
+              </div>
+            </form>
+          )}
+
+          {/* TAB 4: ADD DAILY FRENCH QUOTE */}
+          {activeTab === 'quote' && (
+            <form onSubmit={handleCreateQuote} className="space-y-4">
+              <div className="p-3.5 rounded-2xl bg-amber-400/10 border border-amber-400/30 flex items-start gap-3">
+                <Quote className="w-5 h-5 text-amber-300 shrink-0 mt-0.5" />
+                <div className="text-xs text-amber-200/90 leading-relaxed">
+                  Ajoutez une citation ou maxime française inspirante. Elle sera instantanément synchronisée sur le Cloud et affichée dans le widget <strong className="text-amber-300 font-bold">Citation du Jour</strong> pour tous les utilisateurs.
+                </div>
+              </div>
+
+              {/* French Quote */}
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-slate-300 flex items-center justify-between">
+                  <span>Citation en Français *</span>
+                  {quoteFrench.trim() && (
+                    <button
+                      type="button"
+                      onClick={() => handlePreviewAudio(quoteFrench)}
+                      className="text-amber-400 hover:text-amber-300 text-[11px] font-bold flex items-center gap-1"
+                    >
+                      <Volume2 className="w-3.5 h-3.5" />
+                      <span>Écouter la prononciation</span>
+                    </button>
+                  )}
+                </label>
+                <textarea
+                  value={quoteFrench}
+                  onChange={(e) => setQuoteFrench(e.target.value)}
+                  placeholder="ex : Petit à petit, l'oiseau fait son nid."
+                  rows={2}
+                  className="w-full px-4 py-2.5 bg-slate-950 border border-slate-700/80 rounded-xl text-white text-sm focus:outline-none focus:border-amber-400 font-serif italic"
+                  required
+                />
+              </div>
+
+              {/* English Translation */}
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-slate-300">
+                  Sens &amp; Traduction en Anglais *
+                </label>
+                <textarea
+                  value={quoteEnglish}
+                  onChange={(e) => setQuoteEnglish(e.target.value)}
+                  placeholder="ex : Little by little, the bird builds its nest. (Patience and steady effort bring success.)"
+                  rows={2}
+                  className="w-full px-4 py-2.5 bg-slate-950 border border-slate-700/80 rounded-xl text-white text-sm focus:outline-none focus:border-amber-400"
+                  required
+                />
+              </div>
+
+              {/* Author & Category */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-300">Auteur / Origine</label>
+                  <input
+                    type="text"
+                    value={quoteAuthor}
+                    onChange={(e) => setQuoteAuthor(e.target.value)}
+                    placeholder="ex : Proverbe Populaire, Antoine de Saint-Exupéry..."
+                    className="w-full px-4 py-2.5 bg-slate-950 border border-slate-700/80 rounded-xl text-white text-xs focus:outline-none focus:border-amber-400"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-300">Catégorie Thématique</label>
+                  <select
+                    value={quoteCategory}
+                    onChange={(e) => setQuoteCategory(e.target.value)}
+                    className="w-full px-4 py-2.5 bg-slate-950 border border-slate-700/80 rounded-xl text-white text-xs focus:outline-none focus:border-amber-400"
+                  >
+                    <option value="Proverbe & Sagesse">Proverbe &amp; Sagesse</option>
+                    <option value="Littérature">Littérature</option>
+                    <option value="Philosophie">Philosophie</option>
+                    <option value="Motivation">Motivation &amp; Persévérance</option>
+                    <option value="Art & Culture">Art &amp; Culture</option>
+                    <option value="Amour & Vie">Amour &amp; Vie</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="pt-2 flex justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold"
+                >
+                  Annuler
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-black text-xs shadow-lg shadow-amber-500/20 flex items-center gap-1.5"
+                >
+                  <Cloud className="w-4 h-4 text-slate-950" />
+                  <span>Enregistrer la Citation sur le Cloud</span>
                 </button>
               </div>
             </form>

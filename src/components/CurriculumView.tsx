@@ -21,6 +21,7 @@ import { speechService } from '../services/speechService';
 import { soundEffects } from '../services/soundEffects';
 import { curriculumOverrideService } from '../services/curriculumOverrideService';
 import { EditContentModal } from './EditContentModal';
+import { DailyFrenchQuoteWidget } from './DailyFrenchQuoteWidget';
 
 const LEVELS: CEFRLevel[] = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
@@ -194,6 +195,12 @@ export const CurriculumView: React.FC<CurriculumViewProps> = memo(({
           </div>
         </div>
       </div>
+
+      {/* Daily French Quote Widget */}
+      <DailyFrenchQuoteWidget
+        speechRate={speechRate}
+        currentUser={currentUser}
+      />
 
       {/* CEFR Modular Level Selector Tabs */}
       <div className="space-y-3">
