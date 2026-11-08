@@ -210,8 +210,8 @@ export const Navbar: React.FC<NavbarProps> = memo(({
                   <span className="hidden sm:inline max-w-[90px] truncate">{currentUser.displayName}</span>
                 </div>
 
-                {/* Admin Add Content Button */}
-                {currentUser.role === 'admin' && (
+                {/* Add Content Button for Authorized Users (Universal Access) */}
+                {currentUser && (
                   <button
                     type="button"
                     onClick={onOpenAddContent}

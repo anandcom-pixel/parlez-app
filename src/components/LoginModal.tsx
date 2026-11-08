@@ -97,7 +97,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onSucce
                   <span className="text-base">{u.avatar}</span>
                   <span className="text-xs font-bold capitalize">{key}</span>
                   <span className="text-[9px] font-semibold text-slate-400 uppercase tracking-tight">
-                    {u.role === 'admin' ? 'Admin' : 'Testeur'}
+                    {u.role === 'admin' ? 'Admin / Éditeur' : 'Testeur / Éditeur'}
                   </span>
                 </button>
               );
@@ -156,16 +156,14 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onSucce
             </div>
           </div>
 
-          {/* Account Privileges Info Box */}
+          {/* Universal Permissions Notice */}
           <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-xs space-y-1">
             <div className="flex items-center gap-1.5 font-bold text-amber-300">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Privilèges du rôle sélectionné :</span>
+              <span>Permissions universelles (Admin &amp; Testeurs) :</span>
             </div>
-            <p className="text-[11px] text-slate-300">
-              {username.toLowerCase() === 'admin'
-                ? '⚡ Administrateur : Débloque l’édition intégrale des cours, vocabulaire, règles de grammaire et exemples.'
-                : '🧪 Testeur : Accès au formulaire d’évaluation et signalement direct de bugs vers anand.com@gmail.com.'}
+            <p className="text-[11px] text-slate-300 leading-relaxed">
+              Tous les trois utilisateurs autorisés (<strong>admin</strong>, <strong>sreegovind</strong> et <strong>gayathri</strong>) disposent d’un accès complet pour ajouter du nouveau contenu et modifier le contenu existant, synchronisés en temps réel avec la base de données cloud Vercel.
             </p>
           </div>
 

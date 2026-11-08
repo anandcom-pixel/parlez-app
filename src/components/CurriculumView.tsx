@@ -270,7 +270,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = memo(({
               <span className="text-xs font-semibold text-slate-700">
                 {lessonsForLevel.length} Modules
               </span>
-              {currentUser?.role === 'admin' && (
+              {currentUser && (
                 <button
                   type="button"
                   onClick={() => onOpenAddContent?.(selectedLevel)}
@@ -372,7 +372,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = memo(({
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                {currentUser?.role === 'admin' && (
+                {currentUser && (
                   <>
                     <button
                       type="button"
@@ -390,7 +390,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = memo(({
                         setEditingLesson(currentLesson);
                       }}
                       className="px-3 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-bold flex items-center gap-1.5 shadow-md border border-amber-500 transition-all transform hover:-translate-y-0.5 active:scale-95"
-                      title="Modifier les détails de la leçon (Admin)"
+                      title="Modifier les détails de la leçon"
                     >
                       <Edit3 className="w-3.5 h-3.5 text-slate-950" />
                       <span>Modifier</span>
@@ -489,7 +489,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = memo(({
                 <h3 className="text-base font-bold text-white flex items-center gap-2">
                   <span>📖</span> Key Vocabulary &amp; Audio ({currentLesson.vocabulary.length} Expressions)
                 </h3>
-                {currentUser?.role === 'admin' && (
+                {currentUser && (
                   <button
                     type="button"
                     onClick={() => onOpenAddContent?.(selectedLevel, currentLesson.id)}
@@ -537,9 +537,9 @@ export const CurriculumView: React.FC<CurriculumViewProps> = memo(({
                           )}
                         </div>
 
-                        {/* Action Buttons: Edit (Admin) & Speaker */}
+                        {/* Action Buttons: Edit & Speaker */}
                         <div className="flex items-center gap-1.5 shrink-0">
-                          {currentUser?.role === 'admin' && (
+                          {currentUser && (
                             <button
                               type="button"
                               onClick={() => {
@@ -547,7 +547,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = memo(({
                                 setEditingVocab(vocab);
                               }}
                               className="px-2 py-1.5 rounded-xl border border-amber-400/50 bg-amber-400/20 hover:bg-amber-400 text-amber-300 hover:text-slate-950 text-xs font-bold flex items-center gap-1 transition-all duration-200"
-                              title="Modifier cette expression (Admin)"
+                              title="Modifier cette expression"
                             >
                               <Edit3 className="w-3.5 h-3.5" />
                               <span className="hidden sm:inline">Éditer</span>
@@ -716,8 +716,8 @@ export const CurriculumView: React.FC<CurriculumViewProps> = memo(({
         </div>
       </div>
 
-      {/* Admin Content Editing Modal */}
-      {currentUser?.role === 'admin' && (
+      {/* Content Editing Modal for Authorized Users */}
+      {currentUser && (
         <EditContentModal
           isOpen={!!editingLesson || !!editingVocab}
           onClose={() => {

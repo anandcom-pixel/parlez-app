@@ -361,8 +361,8 @@ export function App() {
           }
         />
       )}
-      {/* Admin Content Creation Modal */}
-      {currentUser?.role === 'admin' && (
+      {/* Content Creation Modal for Authorized Users */}
+      {currentUser && (
         <AddContentModal
           isOpen={showAddContentModal}
           onClose={() => setShowAddContentModal(false)}

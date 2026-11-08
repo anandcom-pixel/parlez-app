@@ -133,7 +133,7 @@ export const AddContentModal: React.FC<AddContentModalProps> = ({
       title: lessonTitle.trim(),
       subtitle: lessonSubtitle.trim() || `Module Thématique ${lessonLevel}`,
       theme: lessonTheme.trim() || 'Pratique & Communication',
-      description: lessonDesc.trim() || 'Module d’apprentissage créé par l’administrateur.',
+      description: lessonDesc.trim() || 'Module d’apprentissage créé par l’équipe pédagogique.',
       grammarFocus: {
         ruleName: grammarRule.trim() || 'Structure et Syntaxe',
         explanation: grammarExp.trim() || 'Observation et application des règles en contexte.',

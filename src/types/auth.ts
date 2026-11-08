@@ -5,6 +5,8 @@ export interface AuthUser {
   displayName: string;
   role: UserRole;
   avatar: string;
+  canEdit: boolean;
+  canCreate: boolean;
 }
 
 export type EvaluationCategory =

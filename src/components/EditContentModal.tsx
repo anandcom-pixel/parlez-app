@@ -94,11 +94,11 @@ export const EditContentModal: React.FC<EditContentModalProps> = ({
           <div className="flex items-center gap-2">
             <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center gap-1.5">
               <Edit3 className="w-3.5 h-3.5" />
-              Édition Administrateur
+              Édition du Contenu
             </span>
           </div>
           <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
-            {targetVocab ? `Modifier l'expression : ${targetVocab.french}` : `Modifier la Lektion : ${targetLesson?.title}`}
+            {targetVocab ? `Modifier l'expression : ${targetVocab.french}` : `Modifier le module : ${targetLesson?.title}`}
           </h2>
           <p className="text-xs text-slate-300">
             Les modifications sont immédiatement sauvegardées et appliquées à travers l'application.

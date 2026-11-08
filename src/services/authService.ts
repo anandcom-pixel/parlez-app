@@ -6,21 +6,27 @@ export const SHARED_PASSWORD = 'parlez123';
 export const VALID_USERS: Record<string, AuthUser> = {
   admin: {
     username: 'admin',
-    displayName: 'Admin (Content Editor)',
+    displayName: 'Admin',
     role: 'admin',
-    avatar: '⚡'
+    avatar: '⚡',
+    canEdit: true,
+    canCreate: true
   },
   sreegovind: {
     username: 'sreegovind',
-    displayName: 'Sreegovind (Tester)',
+    displayName: 'Sreegovind',
     role: 'tester',
-    avatar: '🧪'
+    avatar: '🧪',
+    canEdit: true,
+    canCreate: true
   },
   gayathri: {
     username: 'gayathri',
-    displayName: 'Gayathri (Tester)',
+    displayName: 'Gayathri',
     role: 'tester',
-    avatar: '🔬'
+    avatar: '🔬',
+    canEdit: true,
+    canCreate: true
   }
 };
 
@@ -61,6 +67,14 @@ class AuthService {
 
   public isTester(): boolean {
     return this.currentUser?.role === 'tester';
+  }
+
+  public canEditContent(): boolean {
+    return this.currentUser !== null;
+  }
+
+  public canCreateContent(): boolean {
+    return this.currentUser !== null;
   }
 
   public login(usernameInput: string, passwordInput: string): { success: boolean; error?: string; user?: AuthUser } {
