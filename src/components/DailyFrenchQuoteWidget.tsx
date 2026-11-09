@@ -85,11 +85,11 @@ export const DailyFrenchQuoteWidget: React.FC<DailyFrenchQuoteWidgetProps> = ({
 
   return (
     <>
-      <div className="rounded-3xl bg-slate-900 border border-slate-700/80 p-5 sm:p-6 shadow-xl transition-all relative overflow-hidden">
+      <div className="rounded-3xl bg-slate-900 border border-slate-700/80 p-4 sm:p-6 shadow-xl transition-all relative overflow-hidden">
         {/* Subtle decorative glow */}
         <div className="absolute top-0 right-0 -mt-10 -mr-10 w-48 h-48 rounded-full bg-amber-400/10 blur-3xl pointer-events-none" />
 
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 relative z-10">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-5 relative z-10">
           {/* Left Column: Header Tags, French Quote, English Meaning & Author */}
           <div className="space-y-2.5 flex-1">
             <div className="flex items-center gap-2 flex-wrap">
@@ -113,12 +113,12 @@ export const DailyFrenchQuoteWidget: React.FC<DailyFrenchQuoteWidgetProps> = ({
             <div className="pt-0.5 space-y-1">
               <div className="flex items-start gap-2">
                 <Quote className="w-5 h-5 text-amber-400 shrink-0 mt-1 opacity-80 rotate-180" />
-                <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-snug">
+                <h2 className="text-lg sm:text-2xl font-black text-white tracking-tight leading-snug">
                   {activeQuote.french}
                 </h2>
               </div>
 
-              <div className="pl-7">
+              <div className="pl-6 sm:pl-7">
                 <p className="text-sm sm:text-base font-semibold text-emerald-300">
                   — {activeQuote.english}
                 </p>
@@ -133,12 +133,12 @@ export const DailyFrenchQuoteWidget: React.FC<DailyFrenchQuoteWidgetProps> = ({
           </div>
 
           {/* Right Column: Audio & Controls */}
-          <div className="flex flex-wrap items-center gap-2.5 shrink-0 pl-7 lg:pl-0">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 shrink-0 pl-0 sm:pl-7 lg:pl-0">
             {/* Audio Pronunciation Button */}
             <button
               type="button"
               onClick={handlePlayAudio}
-              className={`px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all duration-200 border ${
+              className={`px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all duration-200 border ${
                 isPlayingAudio
                   ? 'bg-amber-400 text-slate-950 border-amber-500 shadow-lg shadow-amber-400/30 scale-105 animate-pulse font-black'
                   : 'bg-slate-950 hover:bg-slate-800 text-amber-300 border-slate-700/80 hover:border-amber-400/50 shadow-md'
@@ -153,7 +153,7 @@ export const DailyFrenchQuoteWidget: React.FC<DailyFrenchQuoteWidgetProps> = ({
             <button
               type="button"
               onClick={handleNextQuote}
-              className="px-3.5 py-2.5 rounded-2xl bg-slate-950 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700/80 text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-all duration-200 shadow-md"
+              className="px-3 sm:px-3.5 py-2 sm:py-2.5 rounded-2xl bg-slate-950 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700/80 text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 transition-all duration-200 shadow-md"
               title="Afficher une autre citation française"
             >
               <RefreshCw className="w-3.5 h-3.5 text-slate-400" />
@@ -166,7 +166,7 @@ export const DailyFrenchQuoteWidget: React.FC<DailyFrenchQuoteWidgetProps> = ({
                 <button
                   type="button"
                   onClick={handleOpenEdit}
-                  className="px-3 py-2.5 rounded-2xl bg-slate-800 hover:bg-amber-400 hover:text-slate-950 text-slate-200 border border-slate-700 hover:border-amber-400 text-xs font-bold flex items-center gap-1.5 transition-all duration-200 shadow-md"
+                  className="px-3 py-2 sm:py-2.5 rounded-2xl bg-slate-800 hover:bg-amber-400 hover:text-slate-950 text-slate-200 border border-slate-700 hover:border-amber-400 text-xs font-bold flex items-center justify-center gap-1.5 transition-all duration-200 shadow-md"
                   title="Modifier cette citation"
                 >
                   <Edit3 className="w-3.5 h-3.5" />

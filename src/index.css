@@ -18,6 +18,9 @@
   * {
     box-sizing: border-box;
   }
+  html {
+    overflow-x: hidden;
+  }
   body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -25,7 +28,17 @@
     -moz-osx-font-smoothing: grayscale;
     background-color: #ffffb3;
     color: #0f172a;
+    overflow-x: hidden;
   }
+}
+
+/* Hide scrollbars for clean mobile swiping */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* Custom sound wave & mic pulse animations */

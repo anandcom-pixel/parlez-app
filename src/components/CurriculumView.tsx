@@ -142,7 +142,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = memo(({
   return (
     <div className="space-y-8 animate-in fade-in pb-16">
       {/* Hero Intro Section */}
-      <div className="relative rounded-3xl bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 border border-slate-700/80 p-6 sm:p-8 overflow-hidden shadow-2xl">
+      <div className="relative rounded-3xl bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 border border-slate-700/80 p-4 sm:p-8 overflow-hidden shadow-2xl">
         <div className="absolute top-0 right-0 -mt-8 -mr-8 w-64 h-64 rounded-full bg-indigo-500/15 blur-3xl pointer-events-none" />
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-3 max-w-2xl">
@@ -155,16 +155,16 @@ export const CurriculumView: React.FC<CurriculumViewProps> = memo(({
                 ★ A1 Débutant Pre-Opened Below
               </span>
             </div>
-            <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
+            <h1 className="text-xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight">
               Interactive French Lessons &amp; Pronunciation Practice from A1 to C1
             </h1>
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+            <p className="text-xs sm:text-base text-slate-300 leading-relaxed">
               Explore everyday conversational French, clear grammar guides, and real-world dialogues.
               We&apos;ve automatically opened <strong className="text-amber-300 font-semibold">A1 Débutant — Module 1</strong> so you can start listening and practicing right away.
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 shrink-0">
+          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 shrink-0">
             {firstVocab && (
               <button
                 type="button"
@@ -231,7 +231,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = memo(({
                 key={lvl}
                 type="button"
                 onClick={() => handleLevelChange(lvl)}
-                className={`p-3.5 sm:p-4 rounded-2xl border text-left transition-all duration-200 relative overflow-hidden transform hover:-translate-y-0.5 ${
+                className={`p-3.5 sm:p-4 rounded-2xl border text-left transition-all duration-200 relative overflow-hidden transform hover:-translate-y-0.5 last:col-span-2 sm:last:col-span-1 ${
                   isSelected
                     ? 'bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 border-indigo-400 shadow-xl shadow-indigo-500/15 ring-2 ring-indigo-500/60'
                     : 'bg-slate-900 border-slate-700/80 hover:bg-blue-950 hover:border-slate-600 text-slate-200 hover:shadow-md'
@@ -368,7 +368,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = memo(({
         {/* Right Side: Active Lesson Comprehensive Content */}
         <div className="lg:col-span-8 space-y-6">
           {/* Lesson Header Card */}
-          <div className="p-6 rounded-3xl bg-slate-900 border border-slate-700/80 shadow-xl space-y-4">
+          <div className="p-4 sm:p-6 rounded-3xl bg-slate-900 border border-slate-700/80 shadow-xl space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
@@ -378,7 +378,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = memo(({
                   {currentLesson.subtitle}
                 </span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 {currentUser && (
                   <>
                     <button
@@ -631,7 +631,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = memo(({
 
           {/* Interactive Dialogue Section */}
           {currentLesson.dialogue && (
-            <div className="p-6 rounded-3xl bg-slate-900 border border-slate-700/80 shadow-xl space-y-4">
+            <div className="p-4 sm:p-6 rounded-3xl bg-slate-900 border border-slate-700/80 shadow-xl space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
@@ -679,12 +679,12 @@ export const CurriculumView: React.FC<CurriculumViewProps> = memo(({
                   return (
                     <div
                       key={idx}
-                      className={`p-4 rounded-2xl border transition-all ${
+                      className={`p-3.5 sm:p-4 rounded-2xl border transition-all ${
                         isActive || isLinePlaying
                           ? 'bg-slate-950 border-indigo-400 shadow-md ring-1 ring-indigo-500/40'
                           : isFirstSpeaker
                           ? 'bg-slate-950 border-slate-700/70'
-                          : 'bg-slate-800/90 border-slate-700/80 ml-4 sm:ml-8'
+                          : 'bg-slate-800/90 border-slate-700/80 ml-2 sm:ml-8'
                       }`}
                     >
                       <div className="flex items-start justify-between gap-3">
