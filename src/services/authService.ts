@@ -12,9 +12,9 @@ export const VALID_USERS: Record<string, AuthUser> = {
     canEdit: true,
     canCreate: true
   },
-  sreegovind: {
-    username: 'sreegovind',
-    displayName: 'Sreegovind',
+  johnny: {
+    username: 'johnny',
+    displayName: 'Johnny hotbody (nick)',
     role: 'tester',
     avatar: '🧪',
     canEdit: true,
@@ -44,8 +44,14 @@ class AuthService {
       const stored = localStorage.getItem(AUTH_STORAGE_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
-        if (parsed && parsed.username && VALID_USERS[parsed.username.toLowerCase()]) {
-          this.currentUser = VALID_USERS[parsed.username.toLowerCase()];
+        if (parsed && parsed.username) {
+          let u = parsed.username.toLowerCase();
+          if (u === 'sreegovind' || u === 'sree' || u === 'nick' || u === 'johnny hotbody') {
+            u = 'johnny';
+          }
+          if (VALID_USERS[u]) {
+            this.currentUser = VALID_USERS[u];
+          }
         }
       }
     } catch (e) {
@@ -85,11 +91,16 @@ class AuthService {
       return { success: false, error: 'Veuillez saisir votre nom d’utilisateur (Please enter username).' };
     }
 
-    const matchedUser = VALID_USERS[cleanUsername];
+    let lookupKey = cleanUsername;
+    if (lookupKey === 'sreegovind' || lookupKey === 'sree' || lookupKey === 'nick' || lookupKey === 'johnny hotbody') {
+      lookupKey = 'johnny';
+    }
+
+    const matchedUser = VALID_USERS[lookupKey];
     if (!matchedUser) {
       return {
         success: false,
-        error: 'Utilisateur non reconnu. Comptes autorisés : admin, sreegovind ou gayathri.'
+        error: 'Utilisateur non reconnu. Comptes autorisés : admin, johnny hotbody (nick) ou gayathri.'
       };
     }
 

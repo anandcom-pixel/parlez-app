@@ -1,7 +1,7 @@
 export type UserRole = 'admin' | 'tester';
 
 export interface AuthUser {
-  username: 'admin' | 'sreegovind' | 'gayathri';
+  username: 'admin' | 'sreegovind' | 'johnny' | 'gayathri';
   displayName: string;
   role: UserRole;
   avatar: string;

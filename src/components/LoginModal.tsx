@@ -95,7 +95,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onSucce
                   }`}
                 >
                   <span className="text-base">{u.avatar}</span>
-                  <span className="text-xs font-bold capitalize">{key}</span>
+                  <span className="text-xs font-bold capitalize">{key === 'johnny' ? 'Johnny' : key}</span>
                   <span className="text-[9px] font-semibold text-slate-400 uppercase tracking-tight">
                     {u.role === 'admin' ? 'Admin / Éditeur' : 'Testeur / Éditeur'}
                   </span>
@@ -119,7 +119,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onSucce
                 setUsername(e.target.value);
                 if (error) setError(null);
               }}
-              placeholder="admin, sreegovind ou gayathri"
+              placeholder="admin, johnny ou gayathri"
               className="w-full px-4 py-3 bg-slate-950 border border-slate-700/80 rounded-2xl text-white text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 placeholder:text-slate-500"
               required
             />
@@ -163,7 +163,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onSucce
               <span>Permissions universelles (Admin &amp; Testeurs) :</span>
             </div>
             <p className="text-[11px] text-slate-300 leading-relaxed">
-              Tous les trois utilisateurs autorisés (<strong>admin</strong>, <strong>sreegovind</strong> et <strong>gayathri</strong>) disposent d’un accès complet pour ajouter du nouveau contenu et modifier le contenu existant, synchronisés en temps réel avec la base de données cloud Vercel.
+              Tous les trois utilisateurs autorisés (<strong>admin</strong>, <strong>Johnny hotbody (nick)</strong> et <strong>gayathri</strong>) disposent d’un accès complet pour ajouter du nouveau contenu et modifier le contenu existant, synchronisés en temps réel avec la base de données cloud Vercel.
             </p>
           </div>
 

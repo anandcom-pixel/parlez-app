@@ -160,7 +160,7 @@ export const DailyFrenchQuoteWidget: React.FC<DailyFrenchQuoteWidgetProps> = ({
               <span>Suivante</span>
             </button>
 
-            {/* Universal Add & Edit Controls for Authorized Users (admin, sreegovind, gayathri) */}
+            {/* Universal Add & Edit Controls for Authorized Users (admin, Johnny hotbody (nick), gayathri) */}
             {currentUser && (
               <>
                 <button

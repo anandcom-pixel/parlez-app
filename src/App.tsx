@@ -317,7 +317,7 @@ export function App() {
           <div className="flex items-center gap-2 text-xs font-semibold tracking-wide text-blue-950">
             <span>Created by <strong className="font-bold text-blue-950">Anandovsky</strong></span>
             <span className="text-blue-800/70 font-semibold">|</span>
-            <span>Tester: <strong className="font-bold text-blue-950">Sreegovind</strong></span>
+            <span>Tester: <strong className="font-bold text-blue-950">Johnny hotbody (nick)</strong></span>
           </div>
 
           <div className="flex items-center gap-3 text-slate-600 text-xs">

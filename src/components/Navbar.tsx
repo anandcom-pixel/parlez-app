@@ -476,7 +476,7 @@ export const Navbar: React.FC<NavbarProps> = memo(({
                     <LogIn className="w-3.5 h-3.5 text-amber-400" />
                     <span>Accès Autorisé</span>
                   </div>
-                  <p className="text-[11px] text-slate-300">Admin ou Testeurs (Sreegovind, Gayathri)</p>
+                  <p className="text-[11px] text-slate-300">Admin ou Testeurs (Johnny hotbody (nick), Gayathri)</p>
                 </div>
                 <button
                   type="button"
